@@ -164,7 +164,7 @@ const getAuthServerUrl = (customUrl?: string, envMode?: EnvironmentMode): string
   if (typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_180_AUTH_URL) {
     return process.env.NEXT_PUBLIC_180_AUTH_URL;
   }
-  return 'https://profile.180workspace.com';
+  return 'https://profile.180core.cloud';
 };
 
 const getPayServerUrl = (customUrl?: string, envMode?: EnvironmentMode): string => {
@@ -182,7 +182,7 @@ const getPayServerUrl = (customUrl?: string, envMode?: EnvironmentMode): string 
   if (typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_180_PAY_URL) {
     return process.env.NEXT_PUBLIC_180_PAY_URL;
   }
-  return 'https://pay.180workspace.com';
+  return 'https://profile.180core.cloud';
 };
 
 /**
@@ -1874,7 +1874,7 @@ export async function init180Sdk(options?: {
   if (existing) return existing;
 
   const cdnUrl =
-    options?.cdnUrl || 'https://auth.180workspace.com/sdk/v1/180-core-sdk.js';
+    options?.cdnUrl || 'https://cdn.180workspace.com/sdk/v1/180-core-sdk.js';
 
   if (!document.querySelector('script[src*="180-core-sdk.js"]')) {
     const s = document.createElement('script');

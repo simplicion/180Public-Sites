@@ -65,24 +65,24 @@ Never expose your `CLIENT_SECRET` or `WEBHOOK_SECRET` in frontend client code, g
 
 ---
 
-## Developer Ecosystem Ports & Endpoints
-
-| Service | Environment | URL |
-| :--- | :--- | :--- |
-| **Developer Console** | Production | `https://developers.180workspace.com` |
-| **Developer Console** | Local Dev | `http://localhost:3008` |
-| **180 Core Backend API** | Production | `https://services.180workspace.com` |
-| **180 Core Backend API** | Local Dev | `http://localhost:4003` |
-| **Universal Identity UI** | Production | `https://auth.180workspace.com` |
-| **Universal Identity UI** | Local Dev | `http://localhost:3009` |
-| **Documentation Portal** | Production | `https://docs.180workspace.com` |
-| **Documentation Portal** | Local Dev | `http://localhost:3005` |
+| Service | Environment | URL | Key Role |
+| :--- | :--- | :--- | :--- |
+| **Developer Console** | Production | `https://developer.180core.cloud` | App Registration, OAuth Credentials, Allowed Origins |
+| **Developer Console** | Local Dev | `http://localhost:3008` | Local developer dashboard |
+| **180 Core Backend API** | Production | `https://api.180core.cloud` | OIDC Tokens, JWKS Keyring, UserInfo, 180 Pay APIs |
+| **180 Core Backend API** | Local Dev | `http://localhost:4003` | Local OIDC and payment service |
+| **Universal Identity UI / Profile** | Production | `https://profile.180core.cloud` | In-DOM Bottom Sheet, WhatsApp OTP, Profile modal |
+| **Universal Identity UI / Profile** | Local Dev | `http://localhost:3009` | Local auth and profile UI |
+| **Public JWKS Keyring** | Production | `https://api.180core.cloud/certs/jwks.json` | Stateless RS256 token validation |
+| **Documentation Portal** | Production | `https://docs.180workspace.com` | Developer documentation & guides |
+| **Documentation Portal** | Local Dev | `http://localhost:3005` | Local Docusaurus portal |
 
 ---
 
 ## Next Steps
 
-- **[Master AI Integration Prompt](/docs/products/180-core/ai-master-prompt)**: Copy a ready-to-paste AI prompt for ChatGPT/Claude/Cursor to integrate 180 Identity and 180 Pay in 2 minutes.
-- **[180 Identity Integration](/docs/products/180-core/180-identity/getting-started)**: Step-by-step setup for Universal Login & WhatsApp 1-Tap.
+- **[Master AI Integration Prompt](/docs/products/180-core/ai-master-prompt)**: Copy a ready-to-paste AI prompt for ChatGPT/Claude/Cursor to integrate 180 Identity and 180 Pay into any independent app in 2 minutes.
+- **[180 Identity Integration](/docs/products/180-core/180-identity/getting-started)**: Step-by-step setup for Universal In-DOM Login & WhatsApp 1-Tap.
 - **[180 Pay Integration](/docs/products/180-core/180-pay/getting-started)**: Step-by-step setup for 1-Click Payments & Recurring Subscriptions.
+- **[Backend Token Verification](/docs/products/180-core/180-identity/backend-token-verification)**: Stateless RS256 JWKS validation & RFC 6749 code exchange.
 - **[Webhook Verification Guide](/docs/products/180-core/180-pay/webhook-integration)**: Production code examples for verifying HMAC signatures in Node.js, Next.js, and Python.

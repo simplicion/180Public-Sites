@@ -1,4 +1,4 @@
-﻿import {themes as prismThemes} from 'prism-react-renderer';
+import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
@@ -86,8 +86,8 @@ const config: Config = {
           position: 'left',
         },
         {
-          href: 'https://developers.180workspace.com',
-          label: 'Developer Portal â†—',
+          href: 'https://developer.180core.cloud',
+          label: 'Developer Portal ↗',
           position: 'left',
         },
         {
@@ -97,7 +97,7 @@ const config: Config = {
         },
         {
           href: 'https://app.180workspace.com',
-          label: '180 Platform â†—',
+          label: '180 Platform ↗',
           position: 'right',
         },
       ],
@@ -164,7 +164,7 @@ const config: Config = {
             },
             {
               label: 'Developer Portal Console',
-              href: 'https://developers.180workspace.com',
+              href: 'https://developer.180core.cloud',
             },
           ],
         },
@@ -177,7 +177,7 @@ const config: Config = {
             },
             {
               label: 'Developer Portal',
-              href: 'https://developers.180workspace.com',
+              href: 'https://developer.180core.cloud',
             },
             {
               label: 'Changelog & Updates',
@@ -186,7 +186,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright Â© ${new Date().getFullYear()} 180workspace. All rights reserved. Enterprise Work Graph Platform.`,
+      copyright: `Copyright © ${new Date().getFullYear()} 180workspace. All rights reserved. Enterprise Work Graph Platform.`,
     },
     prism: {
       theme: prismThemes.github,

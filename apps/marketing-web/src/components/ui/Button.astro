@@ -12,7 +12,8 @@ const {
   variant = 'primary',
   icon = false,
   external = false,
-  class: className = ""
+  class: className = "",
+  ...rest
 } = Astro.props;
 
 const variantClasses: Record<string, string> = {
@@ -32,6 +33,7 @@ const isExternal = external || href.startsWith('http');
   target={isExternal ? '_blank' : undefined}
   rel={isExternal ? 'noopener noreferrer' : undefined}
   class={`${btnStyle} group ${className}`}
+  {...rest}
 >
   <slot />
   {icon && (

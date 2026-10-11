@@ -28,7 +28,7 @@ Generate a secure, single-use portal session link from your backend:
 ### Request:
 ```http
 POST /api/v1/portal/sessions
-Host: services.180workspace.com
+Host: api.180core.cloud
 Authorization: Bearer <client_secret>
 Content-Type: application/json
 
@@ -43,7 +43,7 @@ Content-Type: application/json
 ```json
 {
   "success": true,
-  "portalUrl": "https://auth.180workspace.com/portal/pts_8a9b7c6d5e4f",
+  "portalUrl": "https://profile.180core.cloud/portal/pts_8a9b7c6d5e4f",
   "expiresAt": "2026-10-05T14:30:00.000Z"
 }
 ```

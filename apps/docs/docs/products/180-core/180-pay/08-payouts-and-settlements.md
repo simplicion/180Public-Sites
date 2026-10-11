@@ -34,7 +34,7 @@ In the **180 Developer Console -> Payouts -> Settlement Bank Details** or via AP
 
 ```http
 PUT /api/v1/developer/apps/:appId/bank-details
-Host: services.180workspace.com
+Host: api.180core.cloud
 Authorization: Bearer <client_secret>
 Content-Type: application/json
 
@@ -53,7 +53,7 @@ Content-Type: application/json
 
 ```http
 POST /api/v1/identity/developer/apps/:appId/payouts/request
-Host: services.180workspace.com
+Host: api.180core.cloud
 Authorization: Bearer <client_secret>
 Content-Type: application/json
 

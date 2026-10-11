@@ -39,7 +39,7 @@ stateDiagram-v2
 When your application receives a `401 Unauthorized` or detects that the 15-minute access token has expired, exchange the refresh token:
 
 ```ts
-const refreshResponse = await fetch('https://services.180workspace.com/api/oauth/token', {
+const refreshResponse = await fetch('https://api.180core.cloud/api/oauth/token', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
@@ -67,7 +67,7 @@ Developers can instantly terminate a compromised user session directly from thei
 ### Endpoint:
 ```http
 POST /api/v1/identity/developer/apps/:appId/revoke-user
-Host: services.180workspace.com
+Host: api.180core.cloud
 Authorization: Bearer <developer_token_or_client_secret_auth>
 Content-Type: application/json
 

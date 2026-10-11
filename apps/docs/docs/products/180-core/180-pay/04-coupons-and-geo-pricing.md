@@ -23,7 +23,7 @@ Create promotional discount codes in the **180 Developer Console -> Coupons** ta
 ### Creating a Coupon via API:
 ```http
 POST /api/v1/coupons
-Host: services.180workspace.com
+Host: api.180core.cloud
 Authorization: Bearer <client_secret>
 Content-Type: application/json
 
@@ -59,7 +59,7 @@ graph TD
 ### Configuring Geo-Pricing Overrides:
 ```http
 POST /api/v1/geo-pricing
-Host: services.180workspace.com
+Host: api.180core.cloud
 Authorization: Bearer <client_secret>
 Content-Type: application/json
 

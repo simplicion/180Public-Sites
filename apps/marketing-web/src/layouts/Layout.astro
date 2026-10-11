@@ -80,5 +80,33 @@ const {
       <slot />
     </div>
     <Footer />
+
+    {/* 180 Core Universal Client SDK: Automatically provides built-in adaptive bottom sheet modal */}
+    <script>
+      import '@workspace/identity-sdk/core';
+
+      document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('click', (e) => {
+          const trigger = (e.target as HTMLElement)?.closest?.('[data-180-identity-login]');
+          if (!trigger) return;
+          e.preventDefault();
+
+          const redirectUrl = trigger.getAttribute('data-redirect-url') || 'https://app.180workspace.com';
+          const clientId = trigger.getAttribute('data-client-id') || '180-workspace';
+          
+          const oneEighty = (window as any).OneEighty || (window as any).OneEightyIdentity;
+          if (oneEighty) {
+            const authClient = oneEighty.auth || oneEighty;
+            authClient.signIn({
+              clientId: clientId,
+              uxMode: 'bottom_sheet',
+              onSuccess: () => {
+                window.location.href = redirectUrl;
+              }
+            });
+          }
+        });
+      });
+    </script>
   </body>
 </html>

@@ -64,7 +64,7 @@ function UserProfile() {
 
 ## 2. Developer Credentials & Authentication
 
-Every application created in the **[180 Developer Console](https://developers.180workspace.com)** is issued three cryptographic credentials:
+Every application created in the **[180 Developer Console](https://developer.180core.cloud)** is issued three cryptographic credentials:
 
 | Credential Name | Format / Prefix | Security Scope | Usage |
 | :--- | :--- | :--- | :--- |
@@ -126,6 +126,7 @@ export function verify180Webhook(
 
 ## 5. Developer Portals & Useful Links
 
-- **Developer Dashboard**: `https://developers.180workspace.com` (Local: `http://localhost:3008`)
+- **Developer Dashboard**: `https://developer.180core.cloud` (Local: `http://localhost:3008`)
 - **Interactive Documentation**: `https://docs.180workspace.com` (Local: `http://localhost:3005`)
-- **Core API Endpoint**: `https://services.180workspace.com` (Local: `http://localhost:4003`)
+- **Core API Endpoint**: `https://api.180core.cloud` (Local: `http://localhost:4003`)
+- **Universal Identity & Profile**: `https://profile.180core.cloud` (Local: `http://localhost:3009`)

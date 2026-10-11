@@ -23,14 +23,14 @@ sequenceDiagram
     participant Cloud as 180 Sovereign Cloud
 
     User->>App: Clicks "Sign in with 180"
-    App->>Cloud: Presents Adaptive Bottom Sheet (profile.180workspace.com)
+    App->>Cloud: Presents In-DOM Bottom Sheet (profile.180core.cloud)
     User->>Cloud: Authenticates (WhatsApp 1-Tap / Google / Passkey)
     Cloud-->>App: postMessage({ code: "auth_code_..." })
     App->>Server: POST /auth/180/exchange { code }
-    Server->>Cloud: POST https://services.180workspace.com/api/oauth/token
+    Server->>Cloud: POST https://api.180core.cloud/api/oauth/token
     Note over Server,Cloud: grant_type=authorization_code + client_id + client_secret
     Cloud-->>Server: 200 OK { access_token, id_token, user }
-    Server->>Cloud: GET https://services.180workspace.com/api/oauth/userinfo (Bearer token)
+    Server->>Cloud: GET https://api.180core.cloud/api/oauth/userinfo (Bearer token)
     Cloud-->>Server: 200 OK { sub, email, phone, name, username }
     Server-->>App: Set Secure HTTP-Only Session Cookie / JWT
 ```
@@ -43,7 +43,7 @@ Exchange the one-time `code` received from the frontend for an `access_token` an
 
 ### HTTP Request:
 ```http
-POST https://services.180workspace.com/api/oauth/token
+POST https://api.180core.cloud/api/oauth/token
 Content-Type: application/json
 
 {
@@ -83,7 +83,7 @@ Retrieve the canonical, cryptographically verified user identity:
 
 ### HTTP Request:
 ```http
-GET https://services.180workspace.com/api/oauth/userinfo
+GET https://api.180core.cloud/api/oauth/userinfo
 Authorization: Bearer eyJhbGciOiJSUzI1NiIs...
 ```
 
@@ -97,7 +97,7 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiIs...
   "phone_verified": true,
   "name": "Sovereign Developer",
   "username": "developer",
-  "picture": "https://cdn.180workspace.com/avatars/user.png"
+  "picture": "https://profile.180core.cloud/avatars/user.png"
 }
 ```
 
@@ -107,8 +107,8 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiIs...
 
 Verify RS256 JWT signatures statelessly in your microservices without querying 180 services on every request:
 
-- **JWKS Endpoint**: `https://profile.180workspace.com/.well-known/jwks.json`
-- **OIDC Configuration**: `https://profile.180workspace.com/.well-known/openid-configuration`
+- **JWKS Endpoint**: `https://api.180core.cloud/certs/jwks.json`
+- **OIDC Discovery**: `https://profile.180core.cloud/.well-known/openid-configuration`
 
 ### Node.js Example (with `jose`):
 
@@ -116,13 +116,13 @@ Verify RS256 JWT signatures statelessly in your microservices without querying 1
 import { createRemoteJWKSet, jwtVerify } from 'jose';
 
 const JWKS = createRemoteJWKSet(
-  new URL('https://profile.180workspace.com/.well-known/jwks.json')
+  new URL('https://api.180core.cloud/certs/jwks.json')
 );
 
 export async function verify180Token(bearerToken: string) {
   try {
     const { payload } = await jwtVerify(bearerToken, JWKS, {
-      issuer: 'https://profile.180workspace.com',
+      issuer: 'https://profile.180core.cloud',
       audience: process.env.ONE_EIGHTY_CLIENT_ID,
     });
     return payload; // { sub, email, username, scopes, ... }
@@ -140,7 +140,7 @@ To actively check if a token was revoked by the user before its expiration:
 
 ### HTTP Request:
 ```http
-POST https://services.180workspace.com/api/oauth/introspect
+POST https://api.180core.cloud/api/oauth/introspect
 Content-Type: application/x-www-form-urlencoded
 Authorization: Basic <base64(client_id:client_secret)>
 

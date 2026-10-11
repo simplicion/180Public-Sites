@@ -12,17 +12,17 @@ description: In-depth guide on popup vs bottom sheet vs redirect UX modes, PKCE 
 
 | Display Mode | Recommended Device | Behavior |
 | :--- | :--- | :--- |
-| **`popup`** | Desktop / Laptop | Launches a centered `450x680` authentication window. When the user finishes logging in, the window sends the authorization code back via `postMessage` and closes automatically. The user never leaves your page. |
-| **`bottom_sheet`** | Mobile Browsers / PWA | Slides up a smooth, mobile-optimized bottom sheet with WhatsApp 1-tap OTP and biometrics. Eliminates the disorientation of opening new browser tabs on mobile. |
-| **`redirect`** | Standard Web Apps / Server-Rendered | Navigates the full browser to `https://auth.180workspace.com/authorize` and redirects back to your registered `redirect_uri` upon completion. |
+| **`bottom_sheet`** | **All Devices (Default & Recommended)** | Slides up an in-DOM, mobile touch-friendly modal with WhatsApp 1-tap OTP and credential login. Zero popup blocker failure on Safari iOS, Chrome Android, and privacy-shielded browsers. |
+| **`popup`** | Desktop Windows / Web Apps | Launches a centered `450x680` authentication window communicating via `postMessage`. Closes automatically upon authentication. |
+| **`redirect`** | Server-Rendered / Multi-Page Apps | Navigates the full browser to `https://profile.180core.cloud/auth/login` and redirects back to your registered `redirect_uri` upon completion. |
 
 ---
 
 ## 1. Configuring Display Modes in the Developer Console
 
-In the **180 Developer Console** under **App Settings -> Auth Display Preferences**, you can:
+In the **[180 Developer Console](https://developer.180core.cloud)** under **App Settings -> Auth Display Preferences**, you can:
 - Enable or disable specific UX modes for your application.
-- Set device-specific defaults (e.g. `popup` on desktop, `bottom_sheet` on mobile).
+- Set device-specific defaults (e.g. `bottom_sheet` everywhere).
 
 ---
 
@@ -51,14 +51,15 @@ async function generateCodeChallenge(verifier: string): Promise<string> {
 
 ### Passing PKCE to Authorization URL:
 ```text
-https://auth.180workspace.com/authorize?
+https://profile.180core.cloud/auth/login?
   client_id=180_client_...&
   redirect_uri=https://yourapp.com/callback&
   response_type=code&
   scope=openid identity:read&
   code_challenge=E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM&
   code_challenge_method=S256&
-  state=secure_random_state_string
+  state=secure_random_state_string&
+  ux_mode=bottom_sheet
 ```
 
 ---

@@ -61,6 +61,9 @@ const displayCtaText = ctaText || (isCoreWorkspace
         <a 
           href={ctaLink} 
           class="btn-primary w-full sm:w-auto shadow-xl shadow-indigo-600/25"
+          data-180-identity-login="true"
+          data-redirect-url={ctaLink}
+          data-target-app={appName}
         >
           <span>{displayCtaText}</span>
           <svg class="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">

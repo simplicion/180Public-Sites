@@ -42,8 +42,9 @@ sequenceDiagram
 To request verified phone numbers during login, include `identity:phone` in your scope string:
 
 ```ts
-OneEightyAuth.openLoginPopup({
+OneEightyAuth.openBottomSheet({
   clientId: 'YOUR_CLIENT_ID',
+  uxMode: 'bottom_sheet',
   redirectUri: 'https://yourapp.com/callback',
   scope: 'openid identity:read identity:email identity:phone',
   onSuccess: async ({ code }) => {

@@ -43,7 +43,7 @@ Plans are created in your **180 Developer Console -> Pricing Tables** or program
 
 ```http
 POST /api/v1/subscriptions/plans
-Host: services.180workspace.com
+Host: api.180core.cloud
 Authorization: Bearer <client_secret>
 Content-Type: application/json
 

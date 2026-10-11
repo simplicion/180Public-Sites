@@ -89,9 +89,9 @@ export const OneEightyPricingTable: React.FC<PricingTableProps> = ({
         return 'http://localhost:4003';
       }
 
-      return 'https://services.180workspace.com';
+      return 'https://api.180core.cloud';
     }
-    return process.env.CORE_BACKEND_URL || 'http://localhost:4003';
+    return process.env.CORE_BACKEND_URL || 'https://api.180core.cloud';
   }, [apiBase]);
 
   // Fetch configuration if plans prop is not passed directly
@@ -279,7 +279,7 @@ export const OneEightyPricingTable: React.FC<PricingTableProps> = ({
       const profileBase =
         (window as any).__180_PROFILE_URL ||
         process.env.NEXT_PUBLIC_PROFILE_URL ||
-        (isInternalDev ? 'http://localhost:3009' : 'https://profile.180workspace.com');
+        (isInternalDev ? 'http://localhost:3009' : 'https://profile.180core.cloud');
       const checkoutUrl = `${profileBase}/checkout?appId=${encodeURIComponent(appId)}&planCode=${encodeURIComponent(plan.planCode || plan.id || '')}&interval=${interval.toUpperCase()}&amount=${plan.monthlyAmount || plan.amount || 0}&currency=${encodeURIComponent(plan.currency || 'USD')}&title=${encodeURIComponent(plan.name)}`;
       window.open(checkoutUrl, '_blank');
     }

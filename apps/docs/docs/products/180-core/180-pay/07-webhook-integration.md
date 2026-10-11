@@ -259,5 +259,5 @@ async def handle_180_webhook(request: Request):
    ngrok http 3000
    ```
 3. Copy your ngrok URL (e.g. `https://abc-123.ngrok-free.app/api/webhooks/180-pay`).
-4. In the [180 Developer Console](https://developers.180workspace.com), go to your project's **Webhooks** tab, paste the URL, and click **Send Test Webhook**.
+4. In the [180 Developer Console](https://developer.180core.cloud), go to your project's **Webhooks** tab, paste the URL, and click **Send Test Webhook**.
 5. Your terminal will instantly log the received and verified event!

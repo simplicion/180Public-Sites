@@ -113,9 +113,18 @@ const sdkFeatures = [
         </p>
 
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a href={`${saasUrl}/signup`} class="btn-primary w-full sm:w-auto">
+          <a 
+            href="https://developer.180core.cloud" 
+            class="btn-primary w-full sm:w-auto shadow-xl shadow-indigo-600/25"
+            data-180-identity-login="true"
+            data-redirect-url="https://developer.180core.cloud/dashboard"
+            data-target-app="Developer Portal"
+          >
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
-            <span>Get Free API Key</span>
+            <span>Launch Developer Console</span>
+          </a>
+          <a href="/180-core" class="btn-secondary w-full sm:w-auto">
+            <span>Explore 180 Core</span>
           </a>
           <a href="#endpoints" class="btn-secondary w-full sm:w-auto">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
@@ -264,20 +273,29 @@ const sdkFeatures = [
           ))}
         </div>
 
-        <div class="mt-10 text-center">
-          <a href={`${saasUrl}/signup`} class="btn-primary">
+        <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="https://docs.180workspace.com/docs/products/180-core/overview" class="btn-primary">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-            <span>View Full API Documentation</span>
+            <span>View Full API & SDK Documentation</span>
           </a>
+          <button 
+            type="button"
+            class="btn-secondary"
+            data-180-identity-login="true"
+            data-redirect-url="https://developer.180core.cloud/dashboard"
+            data-target-app="180 Core"
+          >
+            <span>Developer Console</span>
+          </button>
         </div>
       </div>
     </section>
 
     {/* Bottom CTA */}
     <AppBottomCTA 
-      appName="Developers" 
-      headline="Start building with the 180workspace API today."
-      subheadline="Create your developer account, generate API keys, and build custom integrations in minutes."
+      appName="180 Core" 
+      headline="Start building with the 180 Core APIs & SDKs today."
+      subheadline="Create your developer account, generate API keys, integrate universal WhatsApp OTP login, and build sovereign apps in minutes."
     />
 
   </main>

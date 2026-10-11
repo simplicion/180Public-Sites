@@ -18,14 +18,12 @@ To avoid confusion when configuring network policies, reverse proxies, and CORS 
 
 | Domain | Role & Purpose | Key Endpoints |
 | :--- | :--- | :--- |
-| **`auth.180workspace.com`** | Global Edge CDN host for SDK script delivery | `GET /sdk/v1/180-core-sdk.js`<br/>`GET /sdk/v1/180-core-sdk.min.js` |
-| **`profile.180workspace.com`** | Sovereign Identity & Login modal host, OIDC Discovery | `GET /auth/login` (Auth bottom sheet)<br/>`GET /.well-known/openid-configuration`<br/>`GET /.well-known/jwks.json` |
-| **`services.180workspace.com`** | Core OAuth 2.0 Backend & Token Engine | `POST /api/oauth/token` (Code exchange)<br/>`GET /api/oauth/userinfo`<br/>`POST /api/oauth/introspect` |
-| **`pay.180workspace.com`** | Universal Sovereign Checkout & Payments | `GET /checkout/:sessionId`<br/>`POST /api/v1/sessions/create` |
-| **`developers.180workspace.com`** | Developer Management Console | Client IDs, Allowed Origins, Webhooks, Billing |
+| **`profile.180core.cloud`** | Global Edge CDN host for SDK script & In-DOM Identity Bottom Sheet | `GET /sdk/v1/180-core-sdk.js`<br/>`GET /auth/login` (Auth sheet)<br/>`GET /.well-known/openid-configuration` |
+| **`api.180core.cloud`** | Core OAuth 2.0 Backend, Token Engine & 180 Pay APIs | `POST /api/oauth/token` (Code exchange)<br/>`GET /certs/jwks.json` (RS256 Keyring)<br/>`GET /api/oauth/userinfo`<br/>`POST /api/oauth/introspect`<br/>`POST /api/v1/sessions/create` (180 Pay) |
+| **`developer.180core.cloud`** | Developer Management Console | App Keys, Allowed Origins, Webhooks, Billing |
 
-:::tip CDN Redundancy
-The SDK script is also globally mirrored at `https://cdn.180workspace.com/sdk/v1/180-core-sdk.js` and `https://180workspace.com/sdk/v1/180-core-sdk.js`.
+:::tip CDN Delivery
+The SDK script is served from edge cache at `https://profile.180core.cloud/sdk/v1/180-core-sdk.js` or directly bundled via `@workspace/identity-sdk`.
 :::
 
 ---
@@ -109,10 +107,10 @@ export interface OneEightyError extends Error {
 
 | Error Code | Root Cause | Actionable Developer Resolution |
 | :--- | :--- | :--- |
-| **`180_ERR_ORIGIN_NOT_WHITELISTED`** | The requesting domain/localhost is not registered for this Client ID. | Add your origin (e.g., `http://localhost:3000`) in **[Developer Portal](https://developers.180workspace.com)** under Allowed Origins. |
+| **`180_ERR_ORIGIN_NOT_WHITELISTED`** | The requesting domain/localhost is not registered for this Client ID. | Add your origin (e.g., `http://localhost:3000`) in **[Developer Console](https://developer.180core.cloud)** under Allowed Origins. |
 | **`180_ERR_INVALID_CLIENT_ID`** | The provided `clientId` is nonexistent or revoked. | Verify `NEXT_PUBLIC_180_CLIENT_ID` in your `.env`. |
 | **`180_ERR_POPUP_BLOCKED`** | Browser blocked popup window due to security policy. | Trigger `signIn` from a direct user click or use `uxMode: 'bottom_sheet'`. |
-| **`180_ERR_NETWORK_DISCONNECTED`** | Failed to connect to 180 Sovereign Cloud. | Check your network or visit [status.180workspace.com](https://status.180workspace.com). |
+| **`180_ERR_NETWORK_DISCONNECTED`** | Failed to connect to 180 Sovereign Cloud. | Check your network or visit developer status. |
 | **`180_ERR_TIMEOUT`** | Auth server did not respond within timeout window. | Check network latency or retry the operation. |
 | **`180_ERR_USER_CANCELLED`** | The user closed the bottom sheet or clicked backdrop. | Optional: provide retry prompt or fallback login method. |
 
@@ -146,7 +144,7 @@ export function useOneEightyAuth() {
       if (!(window as any).OneEightyAuth) {
         if (!document.querySelector('script[src*="180-core-sdk.js"]')) {
           const s = document.createElement('script');
-          s.src = 'https://auth.180workspace.com/sdk/v1/180-core-sdk.js';
+          s.src = 'https://profile.180core.cloud/sdk/v1/180-core-sdk.js';
           s.async = true;
           document.body.appendChild(s);
         }
@@ -199,11 +197,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       name: '180 Identity',
       type: 'oauth',
       authorization: {
-        url: 'https://profile.180workspace.com/auth/login',
-        params: { scope: 'openid identity:read identity:email identity:phone', ux_mode: 'popup' },
+        url: 'https://profile.180core.cloud/auth/login',
+        params: { scope: 'openid identity:read identity:email identity:phone', ux_mode: 'bottom_sheet' },
       },
-      token: 'https://services.180workspace.com/api/oauth/token',
-      userinfo: 'https://services.180workspace.com/api/oauth/userinfo',
+      token: 'https://api.180core.cloud/api/oauth/token',
+      userinfo: 'https://api.180core.cloud/api/oauth/userinfo',
       clientId: process.env.ONE_EIGHTY_CLIENT_ID,
       clientSecret: process.env.ONE_EIGHTY_CLIENT_SECRET,
       profile(profile) {
@@ -229,7 +227,7 @@ import os
 
 CLIENT_ID = os.getenv("ONE_EIGHTY_CLIENT_ID")
 CLIENT_SECRET = os.getenv("ONE_EIGHTY_CLIENT_SECRET")
-CORE_URL = "https://services.180workspace.com"
+CORE_URL = "https://api.180core.cloud"
 
 def exchange_code_for_user(auth_code: str, redirect_uri: str):
     token_resp = requests.post(
@@ -263,7 +261,7 @@ In Flutter, use `flutter_custom_tabs` or `webview_flutter`:
 import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 
 void launch180Login() async {
-  final authUrl = 'https://profile.180workspace.com/auth/login?'
+  final authUrl = 'https://profile.180core.cloud/auth/login?'
       'client_id=YOUR_CLIENT_ID&'
       'redirect_uri=myflutterapp://callback&'
       'response_type=code&'

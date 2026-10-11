@@ -14,7 +14,7 @@ Enterprise and high-volume developers can process payments directly through thei
 
 ## 1. Bring Your Own Gateway (BYOG)
 
-In your **180 Developer Portal -> App Settings -> Custom Gateway**, choose your gateway provider:
+In your **[180 Developer Console](https://developer.180core.cloud) -> App Settings -> Custom Gateway**, choose your gateway provider:
 
 | Gateway Type | Credentials Required | Benefit |
 | :--- | :--- | :--- |

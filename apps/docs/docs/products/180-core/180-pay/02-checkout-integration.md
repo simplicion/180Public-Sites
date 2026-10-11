@@ -63,7 +63,7 @@ export function PricingSection() {
 
 ### Option B: Zero-Framework Sovereign Web Component
 ```html
-<script src="https://auth.180workspace.com/sdk/v1/180-core-sdk.js" async></script>
+<script src="https://profile.180core.cloud/sdk/v1/180-core-sdk.js" async></script>
 
 <one-eighty-pricing-table
   app-id="YOUR_APP_ID"
@@ -75,7 +75,7 @@ export function PricingSection() {
 ### Option C: Responsive IFrame
 ```html
 <iframe
-  src="https://auth.180workspace.com/embed/pricing/YOUR_APP_ID"
+  src="https://profile.180core.cloud/embed/pricing/YOUR_APP_ID"
   width="100%"
   height="720"
   frameborder="0"
@@ -93,7 +93,7 @@ If you want to initiate checkout from your backend before redirecting the custom
 ### Request:
 ```http
 POST /api/v1/checkout/sessions
-Host: services.180workspace.com
+Host: api.180core.cloud
 Content-Type: application/json
 
 {
@@ -119,7 +119,7 @@ Content-Type: application/json
 {
   "success": true,
   "sessionId": "cs_08ba67aa9755_9a1b8c7d",
-  "checkoutUrl": "https://auth.180workspace.com/pay/checkout/cs_08ba67aa9755_9a1b8c7d",
+  "checkoutUrl": "https://profile.180core.cloud/pay/checkout/cs_08ba67aa9755_9a1b8c7d",
   "amount": 50.00,
   "currency": "USD",
   "status": "PENDING"

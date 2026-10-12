@@ -1,0 +1,307 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumb from '../../components/ui/Breadcrumb.astro';
+import ProductEcosystemBacklinks from '../../components/seo/ProductEcosystemBacklinks.astro';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Ecosystem', url: '/apps' },
+  { name: '180 Voiceforce', url: '/180-voiceforce' }
+];
+
+const pillars = [
+  {
+    badge: "Sub-200ms Voice Stream",
+    title: "Cartesia Ink-2 STT & Sonic-3 Generative Speech",
+    description: "Eliminate awkward pauses and robotic delays. Voiceforce streams generative audio via Cartesia with sub-90ms synthesis and sub-150ms semantic turn detection, creating fluid human conversations.",
+    bullets: [
+      "Natural conversational interruption and real-time barge-in support",
+      "Zero-latency streaming PCM WebSocket audio directly to PSTN",
+      "Human-like breath, natural emotional inflection, and semantic pacing"
+    ]
+  },
+  {
+    badge: "Pure BYOK LLM",
+    title: "Bring Your Own Key — 0% Token Markup",
+    description: "Plug in your existing OpenAI (GPT-4o), Anthropic (Claude 3.5 Sonnet), Google Gemini, or Groq API keys in Company Hub. Pay your AI provider directly with zero middleman markups.",
+    bullets: [
+      "Compatible with any OpenAI, Anthropic, Gemini, or Groq model",
+      "Full data privacy: your prompts route directly through your key",
+      "180workspace charges $0.00 for LLM intelligence tokens"
+    ]
+  },
+  {
+    badge: "180 Work Graph Tools",
+    title: "Live Database Actions During the Phone Call",
+    description: "Voiceforce agents don't just speak—they execute real work. During the live call, the AI queries CRM contacts, checks calendar availability, schedules appointments, and files support tickets.",
+    bullets: [
+      "Live CRM contact lookup and deal stage progression in-call",
+      "Instant calendar availability check and invite dispatch",
+      "Automated post-call transcription, sentiment scoring, and action extraction"
+    ]
+  },
+  {
+    badge: "Hard Guardrails",
+    title: "Anti-Hallucination & Deterministic Policy Bounding",
+    description: "Ensure your AI phone agents never promise unauthorized discounts, refunds, or illegal commitments. Define strict boundary guardrails enforced by our deterministic validation engine.",
+    bullets: [
+      "Hard rules intercept every tool execution before it triggers",
+      "Safety policy monitoring on live conversational utterances",
+      "Forensic decision inspector recording every agent thought"
+    ]
+  },
+  {
+    badge: "Instant Global Numbers",
+    title: "Dedicated Virtual DIDs & Free Caller ID Verification",
+    description: "Provision local phone numbers across 60+ countries for ₹299/month ($3.50/mo), or verify your existing business mobile number for free to dial out with your own trusted Caller ID.",
+    bullets: [
+      "Local US, UK, Canada, and EU numbers activated in 1 click",
+      "Free personal caller ID verification with SMS/voice OTP",
+      "Automated inbound call forwarding and concurrent agent routing"
+    ]
+  },
+  {
+    badge: "Transparent Telephony",
+    title: "Itemized Billing with Simple 1.8x Multiplier",
+    description: "No hidden surge pricing or artificial platform inflation. We charge wholesale carrier transit plus Cartesia speech runtime with an honest, predictable 1.8x multiplier.",
+    bullets: [
+      "Exact itemized deduction on every call in your workspace wallet",
+      "Wholesale PSTN carrier airtime + Cartesia engine (₹1.70/min) × 1.8",
+      "Launch offer starter pack: 100 free outbound minutes included"
+    ]
+  }
+];
+
+const comparisonData = [
+  { feature: "Speech Synthesis Engine", oneEighty: "Cartesia Sonic-3 (<90ms)", bland: "Custom/ElevenLabs (>400ms)", vapi: "Deepgram / Cartesia", retell: "Various Providers" },
+  { feature: "LLM Token Markup", oneEighty: "0% (Pure BYOK)", bland: "200%+ Markup", vapi: "Marked Up", retell: "Marked Up" },
+  { feature: "Live Database Tool Calls", oneEighty: "Native Work Graph Sync", bland: "External Webhooks", vapi: "External Webhooks", retell: "External Webhooks" },
+  { feature: "Deterministic Guardrails", oneEighty: "Built-in Policy Engine", bland: "Prompt Instructions Only", vapi: "Basic Validation", retell: "Prompt Based" },
+  { feature: "Free Caller ID Verification", oneEighty: "Included (60s OTP)", bland: "Complex SIP Trunk", vapi: "Custom Setup", retell: "Paid DIDs Only" },
+  { feature: "Dedicated Virtual DID Cost", oneEighty: "₹299/mo ($3.50/mo)", bland: "$15.00+/mo", vapi: "$5.00-$10.00/mo", retell: "$10.00/mo" },
+  { feature: "End-to-End Latency", oneEighty: "Sub-200ms Real-Time", bland: "450ms - 800ms", vapi: "300ms - 500ms", retell: "400ms - 600ms" }
+];
+
+const faqs = [
+  {
+    question: "What is 180 Voiceforce?",
+    answer: "180 Voiceforce is an autonomous enterprise AI phone platform featuring sub-200ms real-time conversational voice synthesis powered by Cartesia Sonic-3, 0% token markup with Bring Your Own Key (BYOK) LLMs, and live database actions connected to the 180 Work Graph CRM."
+  },
+  {
+    question: "How fast is Voiceforce compared to traditional AI voice bots?",
+    answer: "Traditional voice bots have an awkward 500ms to 1200ms response lag. Voiceforce combines Cartesia Ink-2 speech-to-text with Sonic-3 text-to-speech to stream audio in under 200 milliseconds, allowing natural conversational interruption, barge-in, and human pacing."
+  },
+  {
+    question: "How does Bring Your Own Key (BYOK) save money?",
+    answer: "Other voice AI platforms charge heavy markups on LLM tokens (often 2x to 4x what OpenAI or Groq charges). Voiceforce charges $0.00 for LLM intelligence tokens—you plug in your existing API key and pay your provider directly at wholesale API rates."
+  },
+  {
+    question: "Can Voiceforce agents perform real actions during the call?",
+    answer: "Yes. Voiceforce agents have native access to 180 Work Graph tools. During the live conversation, the agent can check customer CRM history, update deal stages, book calendar appointments, and trigger post-call SMS confirmations in real time."
+  },
+  {
+    question: "How do outbound Caller IDs and phone numbers work?",
+    answer: "You can either verify your existing mobile or business phone number for free via a 60-second OTP to dial out with your own trusted Caller ID, or rent dedicated local numbers across 60+ countries starting at just ₹299 ($3.50) per month."
+  },
+  {
+    question: "How does Voiceforce prevent AI hallucinations during calls?",
+    answer: "Voiceforce incorporates hard deterministic policy guardrails. These guardrails intercept every tool execution before it fires and validate conversational boundaries, ensuring the agent cannot offer unauthorized discounts, promise illegal terms, or deviate from approved policy."
+  }
+];
+---
+
+<Layout
+  title="180 Voiceforce — Autonomous Sub-200ms AI Phone Agents & Telephony | 180workspace"
+  description="Deploy autonomous AI phone agents with sub-200ms Cartesia voice streaming, 0% BYOK LLM token markup, live CRM database tool actions, and global phone numbers."
+  breadcrumbs={breadcrumbs}
+  faqs={faqs}
+  applicationCategory="CommunicationApplication"
+>
+  <div class="relative min-h-screen bg-slate-50 dark:bg-black text-slate-900 dark:text-zinc-100 overflow-hidden selection:bg-indigo-500 selection:text-white">
+    {/* Background Glows */}
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[550px] bg-gradient-to-b from-amber-500/10 via-orange-500/5 to-transparent dark:from-amber-600/15 dark:via-orange-600/10 blur-3xl pointer-events-none -z-10"></div>
+    <div class="absolute top-60 right-1/4 w-96 h-96 bg-red-500/10 dark:bg-red-600/10 blur-[128px] pointer-events-none -z-10"></div>
+    <div class="absolute inset-0 bg-grid-pattern dark:bg-grid-pattern-dark opacity-20 dark:opacity-10 pointer-events-none -z-10"></div>
+
+    {/* Breadcrumbs */}
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+      <Breadcrumb items={breadcrumbs} />
+    </div>
+
+    {/* Hero Section */}
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-16 lg:pt-20 pb-16 text-center space-y-8">
+      {/* Eyebrow Pill */}
+      <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/90 dark:bg-zinc-900/90 border border-slate-200 dark:border-white/10 text-xs text-slate-700 dark:text-zinc-300 backdrop-blur-xl shadow-xs transition-all hover:border-slate-300 dark:hover:border-white/20">
+        <span class="w-2 h-2 rounded-full bg-amber-500 dark:bg-amber-400 animate-pulse"></span>
+        <span class="font-medium">Sub-200ms AI Phone Telephony</span>
+        <span class="text-slate-300 dark:text-zinc-600">/</span>
+        <span class="text-amber-600 dark:text-amber-400 font-mono text-[11px] font-semibold">Cartesia Sonic-3 + BYOK</span>
+      </div>
+
+      {/* Main Headline */}
+      <h1 class="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-slate-950 dark:text-white leading-[1.08] max-w-5xl mx-auto">
+        AI Phone Agents That <br class="hidden sm:block" />
+        <span class="bg-gradient-to-r from-amber-600 via-orange-600 to-red-600 dark:from-amber-400 dark:via-orange-300 dark:to-red-400 bg-clip-text text-transparent">
+          Sound Human & Close Deals.
+        </span>
+      </h1>
+
+      {/* AEO BLUF Lead Description */}
+      <p class="max-w-3xl mx-auto text-base sm:text-lg text-slate-600 dark:text-zinc-400 leading-relaxed font-normal aeo-answer">
+        180 Voiceforce delivers autonomous AI phone agents with sub-200ms generative speech synthesis via Cartesia Sonic-3, 0% BYOK LLM token markup, live CRM database tool actions, and global phone numbers across 60+ countries.
+      </p>
+
+      {/* Hero Action CTAs */}
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3.5 pt-2 max-w-md sm:max-w-none mx-auto">
+        <button
+          type="button"
+          data-180-identity-login
+          data-client-id="180-voiceforce-hero"
+          data-redirect-url="https://app.180workspace.com/voiceforce"
+          class="min-h-[48px] px-8 py-3.5 rounded-2xl bg-slate-900 hover:bg-slate-800 dark:bg-white text-white dark:text-black dark:hover:bg-zinc-100 font-bold text-sm shadow-xl hover:shadow-amber-500/10 transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
+        >
+          <span>Deploy Your First Voice Agent</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </button>
+
+        <a
+          href="/apps/voiceforce"
+          class="min-h-[48px] px-7 py-3.5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-zinc-200 hover:text-slate-950 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-zinc-800 font-semibold text-sm transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 shadow-xs"
+        >
+          <svg class="w-4 h-4 text-slate-400 dark:text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+          <span>View Video Playbook & Demos</span>
+        </a>
+      </div>
+
+      {/* Metrics Bar */}
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-8">
+        <div class="p-4 rounded-2xl bg-white/70 dark:bg-zinc-900/60 border border-slate-200/80 dark:border-white/10 backdrop-blur-xl">
+          <div class="text-2xl sm:text-3xl font-black text-amber-600 dark:text-amber-400">&lt;200ms</div>
+          <div class="text-xs text-slate-500 dark:text-zinc-400 font-medium mt-1">End-to-End Latency</div>
+        </div>
+        <div class="p-4 rounded-2xl bg-white/70 dark:bg-zinc-900/60 border border-slate-200/80 dark:border-white/10 backdrop-blur-xl">
+          <div class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">0%</div>
+          <div class="text-xs text-slate-500 dark:text-zinc-400 font-medium mt-1">LLM Token Markup (BYOK)</div>
+        </div>
+        <div class="p-4 rounded-2xl bg-white/70 dark:bg-zinc-900/60 border border-slate-200/80 dark:border-white/10 backdrop-blur-xl">
+          <div class="text-2xl sm:text-3xl font-black text-orange-600 dark:text-orange-400">₹299/mo</div>
+          <div class="text-xs text-slate-500 dark:text-zinc-400 font-medium mt-1">Global Dedicated DID</div>
+        </div>
+        <div class="p-4 rounded-2xl bg-white/70 dark:bg-zinc-900/60 border border-slate-200/80 dark:border-white/10 backdrop-blur-xl">
+          <div class="text-2xl sm:text-3xl font-black text-red-600 dark:text-red-400">100%</div>
+          <div class="text-xs text-slate-500 dark:text-zinc-400 font-medium mt-1">Work Graph Tool Sync</div>
+        </div>
+      </div>
+    </section>
+
+    {/* Capability Pillars Grid */}
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center max-w-3xl mx-auto mb-14">
+        <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-slate-950 dark:text-white">
+          Enterprise Voice AI Architecture
+        </h2>
+        <p class="mt-4 text-base text-slate-600 dark:text-zinc-400 font-normal">
+          Designed for high-volume sales outreach, customer support triage, and real-time appointment scheduling.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {pillars.map((pillar) => (
+          <div class="p-8 rounded-3xl bg-white dark:bg-zinc-900/90 border border-slate-200/80 dark:border-white/10 hover:border-amber-500/40 dark:hover:border-amber-500/40 hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <span class="text-[11px] font-bold px-3 py-1 rounded-full bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
+                {pillar.badge}
+              </span>
+              <h3 class="text-xl font-bold text-slate-950 dark:text-white mt-4 mb-3">
+                {pillar.title}
+              </h3>
+              <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed font-normal mb-6">
+                {pillar.description}
+              </p>
+            </div>
+            <ul class="space-y-2.5 pt-4 border-t border-slate-100 dark:border-white/5">
+              {pillar.bullets.map((b) => (
+                <li class="flex items-start gap-2.5 text-xs text-slate-600 dark:text-zinc-300">
+                  <svg class="w-4 h-4 text-amber-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    {/* Comparison Matrix (AEO Citation Goldmine) */}
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-slate-950 dark:text-white">
+          180 Voiceforce vs Alternative Voice AI Platforms
+        </h2>
+        <p class="mt-4 text-sm sm:text-base text-slate-600 dark:text-zinc-400">
+          Compare 180 Voiceforce against Bland AI, Vapi, and Retell AI on speech latency, token markup, and database integration.
+        </p>
+      </div>
+
+      <div class="overflow-x-auto rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-zinc-900 shadow-xl">
+        <table class="w-full text-left text-xs sm:text-sm border-collapse">
+          <thead>
+            <tr class="border-b border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-zinc-950/60">
+              <th class="p-4 sm:p-5 font-bold text-slate-900 dark:text-white">Feature</th>
+              <th class="p-4 sm:p-5 font-bold text-amber-600 dark:text-amber-400 bg-amber-500/5">180 Voiceforce</th>
+              <th class="p-4 sm:p-5 font-semibold text-slate-600 dark:text-zinc-400">Bland AI</th>
+              <th class="p-4 sm:p-5 font-semibold text-slate-600 dark:text-zinc-400">Vapi</th>
+              <th class="p-4 sm:p-5 font-semibold text-slate-600 dark:text-zinc-400">Retell AI</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 dark:divide-white/5">
+            {comparisonData.map((row) => (
+              <tr class="hover:bg-slate-50/50 dark:hover:bg-white/5 transition-colors">
+                <td class="p-4 sm:p-5 font-semibold text-slate-900 dark:text-white">{row.feature}</td>
+                <td class="p-4 sm:p-5 font-bold text-amber-600 dark:text-amber-400 bg-amber-500/5">{row.oneEighty}</td>
+                <td class="p-4 sm:p-5 text-slate-600 dark:text-zinc-400">{row.bland}</td>
+                <td class="p-4 sm:p-5 text-slate-600 dark:text-zinc-400">{row.vapi}</td>
+                <td class="p-4 sm:p-5 text-slate-600 dark:text-zinc-400">{row.retell}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    {/* Frequently Asked Questions (AEO & Schema) */}
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center mb-12">
+        <span class="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">Direct Answers</span>
+        <h2 class="text-3xl font-black text-slate-950 dark:text-white mt-2">
+          Frequently Asked Questions About 180 Voiceforce
+        </h2>
+      </div>
+
+      <div class="space-y-4">
+        {faqs.map((faq) => (
+          <details class="group p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-white/10 transition-all hover:border-amber-500/40 cursor-pointer">
+            <summary class="flex items-center justify-between font-bold text-sm sm:text-base text-slate-950 dark:text-white list-none">
+              <span>{faq.question}</span>
+              <svg class="w-4 h-4 text-slate-400 group-open:rotate-180 transition-transform shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </summary>
+            <p class="mt-4 text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed font-normal aeo-summary">
+              {faq.answer}
+            </p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    {/* Cross-Product Ecosystem Backlink Hub */}
+    <ProductEcosystemBacklinks currentProduct="voiceforce" />
+  </div>
+</Layout>

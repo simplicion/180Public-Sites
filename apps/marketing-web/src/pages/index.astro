@@ -5,6 +5,7 @@ import Badge from '../components/ui/Badge.astro';
 import Button from '../components/ui/Button.astro';
 import AppBottomCTA from '../components/apps/AppBottomCTA.astro';
 import SEOKnowledgeHub from '../components/seo/SEOKnowledgeHub.astro';
+import ProductEcosystemBacklinks from '../components/seo/ProductEcosystemBacklinks.astro';
 
 const saasUrl = import.meta.env.PUBLIC_SAAS_URL || 'https://app.180workspace.com';
 
@@ -336,6 +337,9 @@ const allApps = appCategories.flatMap(group => group.apps);
         </div>
       </div>
     </section>
+
+    <!-- 180 Sovereign Ecosystem Cross-Product Backlink Engine -->
+    <ProductEcosystemBacklinks currentProduct="workspace" />
 
     <!-- SEO & AI Discovery Knowledge Hub -->
     <SEOKnowledgeHub />

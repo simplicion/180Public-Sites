@@ -52,6 +52,21 @@ Allow: /
 User-agent: Meta-ExternalAgent
 Allow: /
 
+User-agent: GoogleOther
+Allow: /
+
+User-agent: GoogleOther-Image
+Allow: /
+
+User-agent: GoogleOther-Video
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: Diffbot
+Allow: /
+
 User-agent: CCBot
 Allow: /
 

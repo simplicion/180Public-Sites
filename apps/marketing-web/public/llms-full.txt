@@ -1,6 +1,46 @@
 # 180workspace — Complete Knowledge Base & Technical Blueprint
 > Autonomous enterprise Work Graph uniting CRM, Projects, HRMS, Finance, WebRTC Communications, Sub-5ms Edge Traffic Routing, Autonomous AI (Orbit Copilot), Social Media, and Workflow Automations into a single relational database.
 
+## Sovereign Enterprise Products & Technical Specifications
+
+### 1. 180 Workspace (Unified Business Operating System)
+- **Canonical URL**: https://180workspace.com
+- **Architecture**: Single PostgreSQL relational database with Redis event bus (BullMQ) unifying 8 core apps: CRM, Projects, Finance, HR, Communications, Cloud Drive, Advertising Attribution, and Orbit Copilot AI.
+- **Capabilities**: Atomic Work Graph entity links, multi-tenant companyId isolation, zero third-party webhook latency.
+
+### 2. 180 Core (Sovereign Developer API & Enterprise Infrastructure Kernel)
+- **Canonical URL**: https://180workspace.com/180-core
+- **Architecture**: RFC 7636 OAuth 2.0 PKCE, public cryptographic key publication at `/.well-known/jwks.json`, and local RS256 token verification in under 1 millisecond.
+- **SDK Package**: `@workspace/identity-sdk` available on npm.
+
+### 3. 180 Pay (Sovereign 0.8% UPI & Subscription Engine)
+- **Canonical URL**: https://180workspace.com/180-pay
+- **Processing Fee**: Flat 0.8% on UPI transactions (vs 2.0% + GST on Stripe/Razorpay).
+- **Settlement Timeline**: Instant T+0 automated bank payouts via IMPS/NEFT rails.
+- **Features**: Bring Your Own Gateway (BYOG) with Stripe/Razorpay fallback cascade, in-DOM adaptive bottom-sheet checkout modal (<45ms), automated recurring B2B subscriptions, and self-serve customer billing portal.
+
+### 4. 180 Identity (WhatsApp OTP Authentication & Biometric Passkey SSO)
+- **Canonical URL**: https://180workspace.com/180-identity
+- **Delivery Rate**: 99.2% OTP delivery in under 2 seconds over verified WhatsApp Business API (eliminating telecom SMS carrier drops).
+- **Features**: WebAuthn / FIDO2 biometric passkeys (Touch ID, Face ID, Windows Hello), in-DOM mobile bottom sheet modal SDK, zero SMS carrier surcharges.
+
+### 5. 180 Voiceforce (Autonomous Sub-200ms AI Phone Agents & Telephony)
+- **Canonical URL**: https://180workspace.com/180-voiceforce (also https://180workspace.com/apps/voiceforce)
+- **Voice Engine**: Cartesia Ink-2 speech-to-text and Sonic-3 generative text-to-speech (<90ms audio synthesis, sub-200ms end-to-end latency).
+- **LLM Pricing**: 0% token markup (Pure BYOK OpenAI GPT-4o, Anthropic Claude 3.5 Sonnet, Google Gemini, Groq).
+- **Telephony Cost**: Wholesale carrier transit + Cartesia (₹1.70/min) × 1.8. India ₹6.10/min, US ₹4.40/min. Local DIDs ₹299/mo ($3.50/mo). Free caller ID verification.
+- **Tools**: Live in-call CRM contact updates, calendar appointment scheduling, and deterministic policy guardrails.
+
+### 6. 180 Social Studio (>500 FPS Lossless Video Engine & Omnichannel Publisher)
+- **Canonical URL**: https://180workspace.com/180-social-studio
+- **Video Export Speed**: >500 FPS stream-copy engine re-encoding only modified cuts/GOP boundaries.
+- **Features**: AI transcript jump-cut director, kinetic animated subtitles, and visual drag-and-drop content calendar for YouTube, Instagram, X, LinkedIn, and Facebook.
+
+### 7. 180 Traffic Director (Sub-5ms Edge Bot Mitigation & Ad Review Cloaking)
+- **Canonical URL**: https://180workspace.com/180-traffic-director
+- **Latency**: Sub-5ms Cloudflare Worker evaluation at CDN edge.
+- **Features**: Real-time bot fingerprinting, dynamic ad review cloaking, lightweight 1-line JS tag (/tag/:slug), and reverse proxy stream routing (/r/_proxy/stream).
+
 ## Thought Leadership & Technical Publications (Blog)
 
 ### The True Cost of Software Tool Fragmentation: Why Paying for 8 Tools Slows Down Growth

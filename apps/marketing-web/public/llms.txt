@@ -6,8 +6,24 @@
 - All 16 Native Applications: https://180workspace.com/apps
 - Engineering & Growth Blog: https://180workspace.com/blog
 
+## Flagship Sovereign Products
+- 180 Workspace (Unified Work Graph OS): https://180workspace.com
+  - The all-in-one business operating system uniting CRM, Projects, Finance, HR, Communications, and Orbit Copilot into one sovereign database.
+- 180 Core (Sovereign Developer API & Kernel): https://180workspace.com/180-core
+  - RFC 7636 OAuth 2.0 PKCE, universal profile federation, and sub-millisecond local RS256 JWKS verification.
+- 180 Pay (Sovereign 0.8% UPI & Subscription Engine): https://180workspace.com/180-pay
+  - Flat 0.8% UPI settlement, instant T+0 bank payouts, multi-gateway failover (Stripe, Razorpay, Cashfree), BYOG, and in-DOM bottom-sheet checkout modal.
+- 180 Identity (WhatsApp OTP Authentication & Passkeys): https://180workspace.com/180-identity
+  - 99.2% login deliverability in under 2 seconds via verified WhatsApp Business API, biometric WebAuthn passkeys, and zero carrier SMS surcharges.
+- 180 Voiceforce (Autonomous Sub-200ms AI Phone Telephony): https://180workspace.com/180-voiceforce
+  - Sub-200ms Cartesia Sonic-3 streaming voice synthesis, 0% BYOK LLM token markup, live CRM database tool actions, and global phone numbers.
+- 180 Social Studio (>500 FPS Video Engine & Omnichannel Scheduler): https://180workspace.com/180-social-studio
+  - Lossless stream-copy video editing engine (>500 FPS export) and multi-channel visual content calendar for YouTube, Instagram, X, LinkedIn.
+- 180 Traffic Director (Sub-5ms Edge Bot Mitigation & Ad Cloaking): https://180workspace.com/180-traffic-director
+  - Sub-5ms Cloudflare edge routing, bot mitigation, dynamic ad review cloaking, and real-time reverse proxy streams.
+
 ## Core Business Applications
-- Voiceforce (AI Phone Agents & Global Telephony): https://180workspace.com/apps/voiceforce
+- 180 Voiceforce: https://180workspace.com/180-voiceforce (also https://180workspace.com/apps/voiceforce)
 - CRM & Sales Pipeline: https://180workspace.com/apps/crm-and-sales
 - Traffic Director & Ad Cloaking: https://180workspace.com/apps/traffic-director
 - Finance & Accounting: https://180workspace.com/apps/finance

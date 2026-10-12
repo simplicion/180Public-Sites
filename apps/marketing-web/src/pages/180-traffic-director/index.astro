@@ -6,7 +6,7 @@ import VideoPlaybook from '../../components/apps/VideoPlaybook.astro';
 import WorkGraphSynergy from '../../components/apps/WorkGraphSynergy.astro';
 import FAQAccordion from '../../components/apps/FAQAccordion.astro';
 import AppBottomCTA from '../../components/apps/AppBottomCTA.astro';
-import JSONLDSchema from '../../components/apps/JSONLDSchema.astro';
+import ProductEcosystemBacklinks from '../../components/seo/ProductEcosystemBacklinks.astro';
 
 const pillars = [
   {
@@ -153,6 +153,7 @@ const breadcrumbs = [
   title="180 Traffic Director — Sub-5ms Edge Routing & Bot Shield | 180workspace"
   description="Sub-5ms edge traffic evaluation, bot shielding, dynamic tag injection, and ad review protection natively integrated into 180workspace."
   breadcrumbs={breadcrumbs}
+  faqs={faqs}
   applicationCategory="BusinessApplication"
 >
   <main class="w-full relative">
@@ -199,12 +200,7 @@ const breadcrumbs = [
       subheadline="Start protecting your advertising campaigns today. Deploy in under 60 seconds with 180workspace."
     />
 
-    <JSONLDSchema 
-      appName="180 Traffic Director"
-      description="Sub-5ms edge traffic evaluation, bot shielding, dynamic tag injection, and ad review protection natively integrated into 180workspace."
-      urlPath="/180-traffic-director"
-      faqs={faqs}
-    />
+    <ProductEcosystemBacklinks currentProduct="traffic-director" />
 
   </main>
 </Layout>

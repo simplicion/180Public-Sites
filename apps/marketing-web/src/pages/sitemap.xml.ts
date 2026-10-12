@@ -10,8 +10,11 @@ export const GET: APIRoute = async () => {
   const corePages = [
     { url: `${baseUrl}`, priority: 1.0, changeFrequency: 'daily' },
     { url: `${baseUrl}/180-core`, priority: 0.95, changeFrequency: 'weekly' },
-    { url: `${baseUrl}/180-traffic-director`, priority: 0.95, changeFrequency: 'weekly' },
+    { url: `${baseUrl}/180-pay`, priority: 0.95, changeFrequency: 'weekly' },
+    { url: `${baseUrl}/180-identity`, priority: 0.95, changeFrequency: 'weekly' },
+    { url: `${baseUrl}/180-voiceforce`, priority: 0.95, changeFrequency: 'weekly' },
     { url: `${baseUrl}/180-social-studio`, priority: 0.95, changeFrequency: 'weekly' },
+    { url: `${baseUrl}/180-traffic-director`, priority: 0.95, changeFrequency: 'weekly' },
     { url: `${baseUrl}/tools`, priority: 0.95, changeFrequency: 'daily' },
     { url: `${baseUrl}/tools/youtube-tools`, priority: 0.90, changeFrequency: 'weekly' },
     { url: `${baseUrl}/tools/invoice-generator`, priority: 0.90, changeFrequency: 'weekly' },

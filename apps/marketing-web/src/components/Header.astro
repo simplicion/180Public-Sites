@@ -31,43 +31,73 @@ const appCategories = [
 const ecosystemProducts = [
   {
     title: "180 Workspace",
-    href: saasUrl,
+    href: "/",
     badge: "Core OS",
     badgeColor: "bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800",
     desc: "The all-in-one business operating system with 8 connected apps on one Work Graph.",
     iconSvg: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>',
     isExternal: false,
-    tag: "app.180workspace.com"
+    tag: "180workspace.com"
   },
   {
     title: "180 Core",
     href: "/180-core",
     badge: "Sovereign API",
     badgeColor: "bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300 border-blue-200 dark:border-blue-800",
-    desc: "Sovereign Identity SSO (WhatsApp OTP, OAuth 2.0 PKCE), Universal Profile & 180 Pay APIs.",
+    desc: "Sovereign developer infrastructure, OAuth 2.0 PKCE, universal profile federation & RS256 JWKS.",
     iconSvg: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>',
     isExternal: false,
     tag: "developer.180core.cloud"
   },
   {
-    title: "180 Traffic Director",
-    href: "/180-traffic-director",
-    badge: "Edge Routing",
+    title: "180 Pay",
+    href: "/180-pay",
+    badge: "0.8% UPI",
     badgeColor: "bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800",
-    desc: "Sub-5ms Cloudflare edge routing, bot mitigation, dynamic ad cloaking & traffic filtering.",
+    desc: "Sovereign 0.8% UPI settlement, multi-gateway fallback (Stripe, Razorpay) & 1-click checkout modal.",
+    iconSvg: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>',
+    isExternal: false,
+    tag: "pay.180core.cloud"
+  },
+  {
+    title: "180 Identity",
+    href: "/180-identity",
+    badge: "WhatsApp Auth",
+    badgeColor: "bg-teal-50 text-teal-700 dark:bg-teal-950 dark:text-teal-300 border-teal-200 dark:border-teal-800",
+    desc: "Universal WhatsApp OTP login (99.2% in 2s), biometric passkeys & adaptive bottom sheet modal SDK.",
     iconSvg: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>',
     isExternal: false,
-    tag: "traffic.180workspace.com"
+    tag: "auth.180core.cloud"
+  },
+  {
+    title: "180 Voiceforce",
+    href: "/180-voiceforce",
+    badge: "AI Telephony",
+    badgeColor: "bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-300 border-amber-200 dark:border-amber-800",
+    desc: "Autonomous AI phone agents with sub-200ms voice synthesis, BYOK LLM & live CRM tool execution.",
+    iconSvg: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>',
+    isExternal: false,
+    tag: "voice.180workspace.com"
   },
   {
     title: "180 Social Studio",
     href: "/180-social-studio",
     badge: "Creative AI",
     badgeColor: "bg-purple-50 text-purple-700 dark:bg-purple-950 dark:text-purple-300 border-purple-200 dark:border-purple-800",
-    desc: "Autonomous video editor engine (Remotion) & multi-channel social media publisher.",
+    desc: "Autonomous video editor engine (>500 FPS) & multi-channel social media scheduler.",
     iconSvg: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>',
     isExternal: false,
     tag: "social.180workspace.com"
+  },
+  {
+    title: "180 Traffic Director",
+    href: "/180-traffic-director",
+    badge: "Edge Routing",
+    badgeColor: "bg-cyan-50 text-cyan-700 dark:bg-cyan-950 dark:text-cyan-300 border-cyan-200 dark:border-cyan-800",
+    desc: "Sub-5ms Cloudflare edge routing, bot mitigation, dynamic ad cloaking & traffic filtering.",
+    iconSvg: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>',
+    isExternal: false,
+    tag: "traffic.180workspace.com"
   }
 ];
 

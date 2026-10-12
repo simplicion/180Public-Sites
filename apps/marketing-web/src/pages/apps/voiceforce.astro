@@ -6,7 +6,7 @@ import VideoPlaybook from '../../components/apps/VideoPlaybook.astro';
 import WorkGraphSynergy from '../../components/apps/WorkGraphSynergy.astro';
 import FAQAccordion from '../../components/apps/FAQAccordion.astro';
 import AppBottomCTA from '../../components/apps/AppBottomCTA.astro';
-import JSONLDSchema from '../../components/apps/JSONLDSchema.astro';
+import ProductEcosystemBacklinks from '../../components/seo/ProductEcosystemBacklinks.astro';
 
 const saasUrl = import.meta.env.PUBLIC_SAAS_URL || 'https://app.180workspace.com';
 
@@ -172,6 +172,8 @@ const breadcrumbs = [
   title="180 Voiceforce: Autonomous AI Phone Agents & Global Telephony"
   description="Deploy human-realistic AI phone agents for ₹999 with 115 minutes included. Cartesia voice streaming, BYOK LLM, instant phone numbers, and transparent 1.8x pricing."
   breadcrumbs={breadcrumbs}
+  faqs={faqs}
+  applicationCategory="CommunicationApplication"
 >
   <main class="w-full relative">
     
@@ -368,13 +370,8 @@ const breadcrumbs = [
       subheadline="Get your dedicated business phone number, 115 minutes of calling included, sub-200ms voice synthesis, and zero LLM token markup."
     />
 
-    <!-- JSON-LD SEO Schema -->
-    <JSONLDSchema 
-      appName="Voiceforce (AI Phone Agents)"
-      description="Autonomous AI phone agents powered by Cartesia streaming voice synthesis and LiveKit WebRTC. ₹999 launch package with 115 minutes included."
-      urlPath="/apps/voiceforce"
-      faqs={faqs}
-    />
+    <!-- Cross-Product Ecosystem Backlink Hub -->
+    <ProductEcosystemBacklinks currentProduct="voiceforce" />
 
   </main>
 </Layout>

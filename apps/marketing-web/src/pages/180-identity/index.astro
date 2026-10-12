@@ -1,0 +1,309 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumb from '../../components/ui/Breadcrumb.astro';
+import ProductEcosystemBacklinks from '../../components/seo/ProductEcosystemBacklinks.astro';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Ecosystem', url: '/apps' },
+  { name: '180 Identity', url: '/180-identity' }
+];
+
+const pillars = [
+  {
+    badge: "99.2% in 2 Seconds",
+    title: "Universal WhatsApp OTP Authentication",
+    description: "Standard SMS OTPs fail up to 28% of the time due to telecom routing delays and spam filtering, costing businesses tens of thousands in abandoned signups. 180 Identity delivers 99.2% OTPs in under 2 seconds directly over WhatsApp Business API.",
+    bullets: [
+      "99.2% OTP delivery success within 2000 milliseconds",
+      "Official verified green checkmark business trust badge",
+      "Eliminates per-SMS carrier surcharges and international route drops"
+    ]
+  },
+  {
+    badge: "FIDO2 / WebAuthn",
+    title: "Biometric Passwordless Passkeys",
+    description: "Allow users to authenticate instantly using Touch ID, Face ID, Windows Hello, or hardware security keys (YubiKey). Eliminate password fatigue, credential stuffing attacks, and forgotten password reset emails.",
+    bullets: [
+      "Phishing-resistant cryptographic public key authentication",
+      "Instant 1-tap sign-in on iOS, Android, macOS, and Windows",
+      "Automatic fallback to WhatsApp OTP on unconfigured devices"
+    ]
+  },
+  {
+    badge: "<45ms In-DOM Modal",
+    title: "Adaptive Mobile Bottom Sheet Client SDK",
+    description: "Keep visitors inside your product experience. Our 12KB lightweight SDK (@workspace/identity-sdk) renders an adaptive bottom sheet on mobile screens and a frosted glass modal on desktop with zero jarring redirects.",
+    bullets: [
+      "Zero external full-page redirects or clunky iframes",
+      "Works out of the box with data-180-identity-login attribute",
+      "First-class SDK bindings for React, Next.js, Vue, Node.js & Flutter"
+    ]
+  },
+  {
+    badge: "RFC 7636 PKCE",
+    title: "OAuth 2.0 PKCE & Universal Profile Federation",
+    description: "Standardized enterprise security. Implement Authorization Code Flow with Proof Key for Code Exchange (PKCE) for Single Page Applications (SPAs) and mobile apps, securing tokens against interception attacks.",
+    bullets: [
+      "Cryptographically secure RFC 7636 PKCE token exchange",
+      "Single sign-on (SSO) across your ecosystem apps and subdomains",
+      "Strict companyId multi-tenant isolation and session revocation"
+    ]
+  },
+  {
+    badge: "Sub-Millisecond Verification",
+    title: "Local RS256 JWKS Cryptographic Verification",
+    description: "Your API backends verify access tokens locally using public cryptographic keys cached from /.well-known/jwks.json. Zero external HTTP roundtrips per user request, guaranteeing sub-millisecond API execution and zero vendor downtime risk.",
+    bullets: [
+      "Local RS256 asymmetric signature verification in <1ms",
+      "Standard JWT payload compatible with any backend language",
+      "Rotatable key pairs with zero application downtime"
+    ]
+  },
+  {
+    badge: "Zero Per-Seat Taxes",
+    title: "Predictable Growth Without User Taxes",
+    description: "Legacy auth platforms penalize you as your Monthly Active Users (MAUs) grow, charging $0.05 to $0.15 per user plus telecom markups. 180 Identity provides flat, sovereign pricing with zero arbitrary MAU paywalls.",
+    bullets: [
+      "No MAU tier penalties as your customer base scales",
+      "Zero vendor lock-in: full export of user profiles and hashes",
+      "Native synchronization with 180 Work Graph CRM contacts"
+    ]
+  }
+];
+
+const comparisonData = [
+  { feature: "WhatsApp One-Tap OTP", oneEighty: "Native (99.2% in 2s)", auth0: "Custom Twilio Addon", clerk: "Limited / Beta", firebase: "SMS Only" },
+  { feature: "Per-SMS Telecom Surcharges", oneEighty: "$0.00 (Flat WhatsApp)", auth0: "$0.05-$0.08 per SMS", clerk: "$0.05-$0.08 per SMS", firebase: "High Carrier Fees" },
+  { feature: "Mobile Checkout / Login UX", oneEighty: "<45ms Bottom Sheet", auth0: "Hosted Page Redirect", clerk: "Iframe Modal", firebase: "FirebaseUI Iframe" },
+  { feature: "Biometric Passkeys (WebAuthn)", oneEighty: "Included Native", auth0: "Enterprise Tier ($$$)", clerk: "Included", firebase: "Custom Code" },
+  { feature: "Backend JWKS Verification", oneEighty: "<1ms Local RS256", auth0: "Rate-Limited JWKS", clerk: "Remote Middleware", firebase: "Google Admin SDK" },
+  { feature: "Sovereign Self-Hosting", oneEighty: "Supported", auth0: "None (SaaS Lock-in)", clerk: "None (SaaS Lock-in)", firebase: "GCP Only" },
+  { feature: "Direct 180 Work Graph Sync", oneEighty: "Instant 0ms Lag", auth0: "Requires Webhooks", clerk: "Requires Webhooks", firebase: "Requires Cloud Functions" }
+];
+
+const faqs = [
+  {
+    question: "What is 180 Identity?",
+    answer: "180 Identity is an enterprise authentication and user identity platform featuring universal WhatsApp OTP delivery, biometric WebAuthn passkeys, RFC 7636 OAuth 2.0 PKCE, and a native in-DOM adaptive bottom-sheet modal SDK designed to eliminate SMS delivery failures and user abandonment."
+  },
+  {
+    question: "Why is WhatsApp OTP superior to standard carrier SMS OTP?",
+    answer: "Carrier SMS messages suffer an average failure rate of 15% to 28% due to international telecom routing hops, carrier spam filters, and network congestion. In contrast, WhatsApp OTP achieves a 99.2% delivery success rate within 2 seconds with official verified business branding and zero carrier markups."
+  },
+  {
+    question: "How does the in-DOM bottom-sheet login modal work?",
+    answer: "Instead of redirecting users away to an external hosted login page (like Auth0 or Okta), the 180 Identity client SDK mounts an adaptive bottom sheet on mobile screens and a glass modal on desktop. Users sign in and return to their flow in seconds with zero page reloads."
+  },
+  {
+    question: "How does backend token verification work with 180 Identity?",
+    answer: "Your backend downloads and caches 180 Identity's public cryptographic keys from `/.well-known/jwks.json`. Using standard RS256 JWT libraries, your API verifies signatures locally in less than 1 millisecond without making an outbound network request on every request."
+  },
+  {
+    question: "Can 180 Identity be integrated with existing Next.js, React, or Node.js apps?",
+    answer: "Yes. 180 Identity ships with the `@workspace/identity-sdk` package and standard OAuth 2.0 endpoints. You can integrate login into React, Next.js, Vue, Node.js, Python FastAPI, Go, or native mobile apps in under 10 lines of code."
+  },
+  {
+    question: "Is 180 Identity compliant with global privacy and security standards?",
+    answer: "Yes. 180 Identity is engineered with AES-256 encryption at rest, TLS 1.3 transport security, strict tenant isolation (companyId), SOC-2 Type II readiness, and GDPR compliance with end-to-end user data portability."
+  }
+];
+---
+
+<Layout
+  title="180 Identity — WhatsApp OTP Authentication & Biometric Passkey SSO | 180workspace"
+  description="Deliver 99.2% login deliverability in under 2s with WhatsApp OTP, biometric WebAuthn passkeys, RFC 7636 OAuth PKCE, and in-DOM bottom sheet modal SDK."
+  breadcrumbs={breadcrumbs}
+  faqs={faqs}
+  applicationCategory="SecurityApplication"
+>
+  <div class="relative min-h-screen bg-slate-50 dark:bg-black text-slate-900 dark:text-zinc-100 overflow-hidden selection:bg-indigo-500 selection:text-white">
+    {/* Background Glows */}
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[550px] bg-gradient-to-b from-teal-500/10 via-emerald-500/5 to-transparent dark:from-teal-600/15 dark:via-emerald-600/10 blur-3xl pointer-events-none -z-10"></div>
+    <div class="absolute top-60 left-1/4 w-96 h-96 bg-blue-500/10 dark:bg-blue-600/10 blur-[128px] pointer-events-none -z-10"></div>
+    <div class="absolute inset-0 bg-grid-pattern dark:bg-grid-pattern-dark opacity-20 dark:opacity-10 pointer-events-none -z-10"></div>
+
+    {/* Breadcrumbs */}
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+      <Breadcrumb items={breadcrumbs} />
+    </div>
+
+    {/* Hero Section */}
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-16 lg:pt-20 pb-16 text-center space-y-8">
+      {/* Eyebrow Pill */}
+      <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/90 dark:bg-zinc-900/90 border border-slate-200 dark:border-white/10 text-xs text-slate-700 dark:text-zinc-300 backdrop-blur-xl shadow-xs transition-all hover:border-slate-300 dark:hover:border-white/20">
+        <span class="w-2 h-2 rounded-full bg-teal-500 dark:bg-teal-400 animate-pulse"></span>
+        <span class="font-medium">Sovereign Identity Infrastructure</span>
+        <span class="text-slate-300 dark:text-zinc-600">/</span>
+        <span class="text-teal-600 dark:text-teal-400 font-mono text-[11px] font-semibold">99.2% Delivery in &lt;2s</span>
+      </div>
+
+      {/* Main Headline */}
+      <h1 class="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-slate-950 dark:text-white leading-[1.08] max-w-5xl mx-auto">
+        Authentication That Converts. <br class="hidden sm:block" />
+        <span class="bg-gradient-to-r from-teal-600 via-emerald-600 to-indigo-600 dark:from-teal-400 dark:via-emerald-300 dark:to-indigo-400 bg-clip-text text-transparent">
+          WhatsApp OTP & Biometric Passkeys.
+        </span>
+      </h1>
+
+      {/* AEO BLUF Lead Description */}
+      <p class="max-w-3xl mx-auto text-base sm:text-lg text-slate-600 dark:text-zinc-400 leading-relaxed font-normal aeo-answer">
+        180 Identity delivers 99.2% login deliverability in under 2 seconds via verified WhatsApp Business OTP, biometric WebAuthn passkeys, RFC 7636 OAuth 2.0 PKCE, and an adaptive in-DOM bottom-sheet authentication modal with zero per-SMS carrier surcharges.
+      </p>
+
+      {/* Hero Action CTAs */}
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3.5 pt-2 max-w-md sm:max-w-none mx-auto">
+        <button
+          type="button"
+          data-180-identity-login
+          data-client-id="180-identity-hero"
+          data-redirect-url="https://app.180workspace.com"
+          class="min-h-[48px] px-8 py-3.5 rounded-2xl bg-slate-900 hover:bg-slate-800 dark:bg-white text-white dark:text-black dark:hover:bg-zinc-100 font-bold text-sm shadow-xl hover:shadow-teal-500/10 transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
+        >
+          <span>Try Interactive Login Modal</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </button>
+
+        <a
+          href="https://docs.180workspace.com/docs/products/180-core/180-identity/getting-started"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="min-h-[48px] px-7 py-3.5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-zinc-200 hover:text-slate-950 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-zinc-800 font-semibold text-sm transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 shadow-xs"
+        >
+          <svg class="w-4 h-4 text-slate-400 dark:text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          </svg>
+          <span>Read SDK & API Docs</span>
+        </a>
+      </div>
+
+      {/* Metrics Bar */}
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-8">
+        <div class="p-4 rounded-2xl bg-white/70 dark:bg-zinc-900/60 border border-slate-200/80 dark:border-white/10 backdrop-blur-xl">
+          <div class="text-2xl sm:text-3xl font-black text-teal-600 dark:text-teal-400">99.2%</div>
+          <div class="text-xs text-slate-500 dark:text-zinc-400 font-medium mt-1">Delivery Success Rate</div>
+        </div>
+        <div class="p-4 rounded-2xl bg-white/70 dark:bg-zinc-900/60 border border-slate-200/80 dark:border-white/10 backdrop-blur-xl">
+          <div class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">&lt;2s</div>
+          <div class="text-xs text-slate-500 dark:text-zinc-400 font-medium mt-1">WhatsApp Delivery Speed</div>
+        </div>
+        <div class="p-4 rounded-2xl bg-white/70 dark:bg-zinc-900/60 border border-slate-200/80 dark:border-white/10 backdrop-blur-xl">
+          <div class="text-2xl sm:text-3xl font-black text-emerald-600 dark:text-emerald-400">&lt;1ms</div>
+          <div class="text-xs text-slate-500 dark:text-zinc-400 font-medium mt-1">Local RS256 Verification</div>
+        </div>
+        <div class="p-4 rounded-2xl bg-white/70 dark:bg-zinc-900/60 border border-slate-200/80 dark:border-white/10 backdrop-blur-xl">
+          <div class="text-2xl sm:text-3xl font-black text-indigo-600 dark:text-indigo-400">$0.00</div>
+          <div class="text-xs text-slate-500 dark:text-zinc-400 font-medium mt-1">SMS Telecom Surcharges</div>
+        </div>
+      </div>
+    </section>
+
+    {/* Capability Pillars Grid */}
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center max-w-3xl mx-auto mb-14">
+        <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-slate-950 dark:text-white">
+          Enterprise Security Without Developer Pain
+        </h2>
+        <p class="mt-4 text-base text-slate-600 dark:text-zinc-400 font-normal">
+          Designed for high-trust products where login speed directly impacts activation, retention, and revenue.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {pillars.map((pillar) => (
+          <div class="p-8 rounded-3xl bg-white dark:bg-zinc-900/90 border border-slate-200/80 dark:border-white/10 hover:border-teal-500/40 dark:hover:border-teal-500/40 hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <span class="text-[11px] font-bold px-3 py-1 rounded-full bg-teal-50 text-teal-700 dark:bg-teal-950 dark:text-teal-300 border border-teal-200 dark:border-teal-800">
+                {pillar.badge}
+              </span>
+              <h3 class="text-xl font-bold text-slate-950 dark:text-white mt-4 mb-3">
+                {pillar.title}
+              </h3>
+              <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed font-normal mb-6">
+                {pillar.description}
+              </p>
+            </div>
+            <ul class="space-y-2.5 pt-4 border-t border-slate-100 dark:border-white/5">
+              {pillar.bullets.map((b) => (
+                <li class="flex items-start gap-2.5 text-xs text-slate-600 dark:text-zinc-300">
+                  <svg class="w-4 h-4 text-teal-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    {/* Comparison Matrix (AEO Citation Goldmine) */}
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-slate-950 dark:text-white">
+          180 Identity vs Legacy Auth Providers
+        </h2>
+        <p class="mt-4 text-sm sm:text-base text-slate-600 dark:text-zinc-400">
+          Compare 180 Identity against Auth0, Clerk, and Firebase Auth on delivery speed, UX, and total cost of ownership.
+        </p>
+      </div>
+
+      <div class="overflow-x-auto rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-zinc-900 shadow-xl">
+        <table class="w-full text-left text-xs sm:text-sm border-collapse">
+          <thead>
+            <tr class="border-b border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-zinc-950/60">
+              <th class="p-4 sm:p-5 font-bold text-slate-900 dark:text-white">Feature</th>
+              <th class="p-4 sm:p-5 font-bold text-teal-600 dark:text-teal-400 bg-teal-500/5">180 Identity</th>
+              <th class="p-4 sm:p-5 font-semibold text-slate-600 dark:text-zinc-400">Auth0</th>
+              <th class="p-4 sm:p-5 font-semibold text-slate-600 dark:text-zinc-400">Clerk</th>
+              <th class="p-4 sm:p-5 font-semibold text-slate-600 dark:text-zinc-400">Firebase Auth</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 dark:divide-white/5">
+            {comparisonData.map((row) => (
+              <tr class="hover:bg-slate-50/50 dark:hover:bg-white/5 transition-colors">
+                <td class="p-4 sm:p-5 font-semibold text-slate-900 dark:text-white">{row.feature}</td>
+                <td class="p-4 sm:p-5 font-bold text-teal-600 dark:text-teal-400 bg-teal-500/5">{row.oneEighty}</td>
+                <td class="p-4 sm:p-5 text-slate-600 dark:text-zinc-400">{row.auth0}</td>
+                <td class="p-4 sm:p-5 text-slate-600 dark:text-zinc-400">{row.clerk}</td>
+                <td class="p-4 sm:p-5 text-slate-600 dark:text-zinc-400">{row.firebase}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    {/* Frequently Asked Questions (AEO & Schema) */}
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center mb-12">
+        <span class="text-xs font-bold uppercase tracking-wider text-teal-600 dark:text-teal-400">Direct Answers</span>
+        <h2 class="text-3xl font-black text-slate-950 dark:text-white mt-2">
+          Frequently Asked Questions About 180 Identity
+        </h2>
+      </div>
+
+      <div class="space-y-4">
+        {faqs.map((faq) => (
+          <details class="group p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-white/10 transition-all hover:border-teal-500/40 cursor-pointer">
+            <summary class="flex items-center justify-between font-bold text-sm sm:text-base text-slate-950 dark:text-white list-none">
+              <span>{faq.question}</span>
+              <svg class="w-4 h-4 text-slate-400 group-open:rotate-180 transition-transform shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </summary>
+            <p class="mt-4 text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed font-normal aeo-summary">
+              {faq.answer}
+            </p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    {/* Cross-Product Ecosystem Backlink Hub */}
+    <ProductEcosystemBacklinks currentProduct="identity" />
+  </div>
+</Layout>

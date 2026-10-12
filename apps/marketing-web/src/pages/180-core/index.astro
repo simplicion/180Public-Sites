@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Breadcrumb from '../../components/ui/Breadcrumb.astro';
-import JSONLDSchema from '../../components/apps/JSONLDSchema.astro';
+import ProductEcosystemBacklinks from '../../components/seo/ProductEcosystemBacklinks.astro';
 
 const devConsoleUrl = import.meta.env.PUBLIC_DEV_CONSOLE_URL || 'https://developer.180core.cloud/dashboard';
 
@@ -701,13 +701,8 @@ if (session.isAuthenticated) {
       </div>
     </section>
 
-    {/* Structured Data */}
-    <JSONLDSchema 
-      appName="180 Core"
-      description="Universal WhatsApp OTP authentication, biometric passkeys, sovereign profile, and 1-click UPI wallet checkout with 0.8% flat fee."
-      urlPath="/180-core"
-      faqs={faqs}
-    />
+    {/* Cross-Product Ecosystem Backlink Hub */}
+    <ProductEcosystemBacklinks currentProduct="core" />
   </div>
 
   {/* Client-Side Logic: Auth Popup, Language Tabs, Copy Snippet & FAQs */}

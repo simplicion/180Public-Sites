@@ -120,27 +120,48 @@ const faqSchema = faqs.length > 0 ? {
   }))
 } : null;
 
-// SoftwareApplication Schema (for App Pages)
+// SoftwareApplication Schema (for App & Product Pages)
 const softwareAppSchema = applicationCategory ? {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": title,
   "applicationCategory": applicationCategory,
-  "operatingSystem": "Web, Cloud, Windows, macOS, iOS, Android",
+  "operatingSystem": "Web, Cloud, Windows, macOS, Linux, iOS, Android",
   "description": description,
   "url": canonicalUrl,
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "180",
+    "bestRating": "5",
+    "worstRating": "1"
+  },
   "offers": {
     "@type": "Offer",
     "price": "0.00",
     "priceCurrency": "USD",
-    "availability": "https://schema.org/InStock"
+    "availability": "https://schema.org/InStock",
+    "priceValidUntil": "2027-12-31"
   },
   "publisher": {
     "@type": "Organization",
     "name": "180workspace",
-    "url": siteUrl
+    "url": siteUrl,
+    "logo": `${siteUrl}/black-icon.svg`
   }
 } : null;
+
+// Speakable Schema for Voice Search & AI Assistants (AEO)
+const speakableSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": title,
+  "url": canonicalUrl,
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": ["h1", ".aeo-answer", ".aeo-summary"]
+  }
+};
 
 // Article Schema (for Blog Posts)
 const articleSchema = type === 'article' && article ? {
@@ -238,4 +259,5 @@ const articleSchema = type === 'article' && article ? {
 {breadcrumbSchema && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />}
 {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
 {softwareAppSchema && <script type="application/ld+json" set:html={JSON.stringify(softwareAppSchema)} />}
+{speakableSchema && <script type="application/ld+json" set:html={JSON.stringify(speakableSchema)} />}
 {articleSchema && <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />}

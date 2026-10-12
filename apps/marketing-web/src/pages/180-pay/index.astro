@@ -1,0 +1,309 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumb from '../../components/ui/Breadcrumb.astro';
+import ProductEcosystemBacklinks from '../../components/seo/ProductEcosystemBacklinks.astro';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Ecosystem', url: '/apps' },
+  { name: '180 Pay', url: '/180-pay' }
+];
+
+const pillars = [
+  {
+    badge: "0.8% Sovereign Fee",
+    title: "Direct UPI Rails & Zero Middleman Cut",
+    description: "Legacy payment gateways siphon 2.0% to 3.5% + GST on every transaction. 180 Pay routes directly through sovereign UPI and banking rails, slashing merchant processing fees to a flat 0.8% with zero hidden gateway markups.",
+    bullets: [
+      "Flat 0.8% transaction fee on all UPI transactions",
+      "Saves ₹12,000+ ($145+) per ₹10,00,000 processed volume",
+      "No setup fees, no monthly gateway maintenance maintenance charges"
+    ]
+  },
+  {
+    badge: "T+0 Instant Payouts",
+    title: "Immediate Bank Account Settlement",
+    description: "Stop waiting T+2 to T+7 business days for working capital to unlock. 180 Pay executes instant T+0 automated payouts directly to your verified commercial bank accounts via IMPS, NEFT, and RTGS.",
+    bullets: [
+      "Instant T+0 intraday automated merchant settlement",
+      "Zero weekend or bank-holiday payout freezes",
+      "Automated ledger reconciliation with 180 Finance & Invoicing"
+    ]
+  },
+  {
+    badge: "Zero Gateway Lock-in",
+    title: "Bring Your Own Gateway (BYOG) & Smart Failover",
+    description: "Plug in your existing Stripe, Razorpay, Cashfree, or PayPal API keys with 1 click. If one provider experiences downtime or degraded bank health, 180 Pay automatically cascades the charge to secondary gateways with zero failed payments.",
+    bullets: [
+      "Zero-downtime automated gateway cascade and failover",
+      "Split volume by geography, payment method, or currency",
+      "100% data portability: export customer tokens anytime"
+    ]
+  },
+  {
+    badge: "Bottom-Sheet UX",
+    title: "Lightweight In-DOM Adaptive Checkout SDK",
+    description: "Keep customers inside your application. The 180 Pay checkout modal renders as a native bottom sheet on mobile and an elegant glass modal on desktop, eliminating jarring multi-redirect drop-offs.",
+    bullets: [
+      "Zero full-page redirects: renders in under 45ms in-DOM",
+      "Native QR code generation and mobile UPI intent deep-links",
+      "Compatible with React, Next.js, Vue, Svelte, iOS & Android"
+    ]
+  },
+  {
+    badge: "Recurring Billing",
+    title: "Automated Subscriptions & Customer Billing Portal",
+    description: "Handle usage-based metering, tiered SaaS plans, trial periods, and automated proration without complex Stripe Billing code. Customers manage their own payment methods, card updates, and invoices in a white-label self-serve portal.",
+    bullets: [
+      "Automated recurring dunning and smart card retries",
+      "Self-serve customer billing portal with custom CNAME",
+      "Prorated plan upgrades, downgrades, and pause states"
+    ]
+  },
+  {
+    badge: "Global Geo-Pricing",
+    title: "Multi-Currency & Purchasing Power Parity (PPP)",
+    description: "Sell globally with automated localized pricing across 135+ currencies. Configure automatic discount coupons based on buyer geolocation to maximize international sales velocity in emerging markets.",
+    bullets: [
+      "Automated Purchasing Power Parity (PPP) price adjustment",
+      "Localized tax calculation (GST, VAT, Sales Tax)",
+      "Multi-currency settlement directly into local corporate accounts"
+    ]
+  }
+];
+
+const comparisonData = [
+  { feature: "UPI Processing Fee", oneEighty: "0.8% Flat", stripe: "2.0% + GST", razorpay: "2.0% + GST", cashfree: "1.95% + GST" },
+  { feature: "Settlement Timeline", oneEighty: "Instant T+0 Payout", stripe: "T+2 to T+7 Days", razorpay: "T+2 Days", cashfree: "T+1 to T+2 Days" },
+  { feature: "Zero Gateway Lock-in (BYOG)", oneEighty: "Native (Bring Any Key)", stripe: "None (Locked)", razorpay: "None (Locked)", cashfree: "None (Locked)" },
+  { feature: "Smart Gateway Failover", oneEighty: "Automatic Cascade", stripe: "Not Supported", razorpay: "Not Supported", cashfree: "Not Supported" },
+  { feature: "Checkout Modal Speed", oneEighty: "<45ms In-DOM Sheet", stripe: "External Redirect", razorpay: "Iframe Pop-up", cashfree: "Redirect / Iframe" },
+  { feature: "Customer Billing Portal", oneEighty: "Included (White-label)", stripe: "Extra Billing Fee", razorpay: "Limited Features", cashfree: "Manual Only" },
+  { feature: "Direct Ledger Integration", oneEighty: "180 Work Graph Sync", stripe: "Requires Zapier/Sync", razorpay: "Requires Webhooks", cashfree: "Requires Webhooks" }
+];
+
+const faqs = [
+  {
+    question: "What is 180 Pay and how does it achieve a 0.8% transaction fee?",
+    answer: "180 Pay is a sovereign payment orchestration and settlement engine. Unlike legacy payment aggregators that charge 2.0% + GST to cover intermediary margins, 180 Pay connects directly to sovereign UPI infrastructure and automated banking rails, passing those wholesale efficiencies directly to merchants at an unprecedented 0.8% flat rate."
+  },
+  {
+    question: "How does Bring Your Own Gateway (BYOG) work?",
+    answer: "With 180 Pay BYOG, you can securely plug in your own API keys for Stripe, Razorpay, Cashfree, or PayPal directly in your dashboard. 180 Pay orchestrates checkout, subscription dunning, and currency routing across your existing accounts with zero markup, giving you complete redundancy without vendor lock-in."
+  },
+  {
+    question: "What is the checkout user experience on mobile devices?",
+    answer: "180 Pay utilizes an ultra-lightweight client SDK that renders an adaptive in-DOM bottom sheet on mobile devices. Customers can complete payments in 1 click using native UPI intent links (Google Pay, PhonePe, Paytm, CRED) or QR codes without full-page browser redirects."
+  },
+  {
+    question: "Can I use 180 Pay for recurring B2B subscriptions and SaaS billing?",
+    answer: "Yes. 180 Pay includes full subscription management with automated recurring billing, proration, grace periods, dunning retries, and a self-serve customer portal where subscribers can download GST/VAT invoices and update cards."
+  },
+  {
+    question: "How do T+0 instant settlements work?",
+    answer: "When a customer completes a transaction, funds settle immediately into your connected merchant bank account via automated IMPS, NEFT, and UPI rail triggers rather than waiting 48 to 72 hours like legacy payment gateways."
+  },
+  {
+    question: "Is 180 Pay compliant with RBI and global payment regulations?",
+    answer: "Yes. 180 Pay adheres to strict PCI-DSS Level 1 compliance standards, RBI payment aggregator guidelines, 256-bit AES cryptographic encryption at rest, and TLS 1.3 transport security. Sensitive card data never touches your servers."
+  }
+];
+---
+
+<Layout
+  title="180 Pay — Sovereign 0.8% UPI Settlement & Subscription Engine | 180workspace"
+  description="Eliminate 2% gateway fees. 180 Pay delivers flat 0.8% UPI settlement, instant T+0 bank payouts, multi-gateway failover (Stripe, Razorpay), BYOG, and 1-click bottom sheet checkout."
+  breadcrumbs={breadcrumbs}
+  faqs={faqs}
+  applicationCategory="FinancialApplication"
+>
+  <div class="relative min-h-screen bg-slate-50 dark:bg-black text-slate-900 dark:text-zinc-100 overflow-hidden selection:bg-indigo-500 selection:text-white">
+    {/* Background Glows */}
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[550px] bg-gradient-to-b from-emerald-500/10 via-teal-500/5 to-transparent dark:from-emerald-600/15 dark:via-teal-600/10 blur-3xl pointer-events-none -z-10"></div>
+    <div class="absolute top-60 right-1/4 w-96 h-96 bg-indigo-500/10 dark:bg-indigo-600/10 blur-[128px] pointer-events-none -z-10"></div>
+    <div class="absolute inset-0 bg-grid-pattern dark:bg-grid-pattern-dark opacity-20 dark:opacity-10 pointer-events-none -z-10"></div>
+
+    {/* Breadcrumbs */}
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+      <Breadcrumb items={breadcrumbs} />
+    </div>
+
+    {/* Hero Section */}
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-16 lg:pt-20 pb-16 text-center space-y-8">
+      {/* Eyebrow Pill */}
+      <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/90 dark:bg-zinc-900/90 border border-slate-200 dark:border-white/10 text-xs text-slate-700 dark:text-zinc-300 backdrop-blur-xl shadow-xs transition-all hover:border-slate-300 dark:hover:border-white/20">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse"></span>
+        <span class="font-medium">Sovereign Payment Infrastructure</span>
+        <span class="text-slate-300 dark:text-zinc-600">/</span>
+        <span class="text-emerald-600 dark:text-emerald-400 font-mono text-[11px] font-semibold">0.8% Flat UPI Settlement</span>
+      </div>
+
+      {/* Main Headline */}
+      <h1 class="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-slate-950 dark:text-white leading-[1.08] max-w-5xl mx-auto">
+        Stop Paying 2% to Gateways. <br class="hidden sm:block" />
+        <span class="bg-gradient-to-r from-emerald-600 via-teal-600 to-indigo-600 dark:from-emerald-400 dark:via-teal-300 dark:to-indigo-400 bg-clip-text text-transparent">
+          Sovereign 0.8% Payments & Billing.
+        </span>
+      </h1>
+
+      {/* AEO BLUF Lead Description */}
+      <p class="max-w-3xl mx-auto text-base sm:text-lg text-slate-600 dark:text-zinc-400 leading-relaxed font-normal aeo-answer">
+        180 Pay is an enterprise payment orchestration engine providing direct 0.8% UPI settlement, instant T+0 bank payouts, multi-gateway failover across Stripe and Razorpay, and 1-click bottom-sheet checkout modals without vendor lock-in.
+      </p>
+
+      {/* Hero Action CTAs */}
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3.5 pt-2 max-w-md sm:max-w-none mx-auto">
+        <button
+          type="button"
+          data-180-identity-login
+          data-client-id="180-pay"
+          data-redirect-url="https://app.180workspace.com/billing"
+          class="min-h-[48px] px-8 py-3.5 rounded-2xl bg-slate-900 hover:bg-slate-800 dark:bg-white text-white dark:text-black dark:hover:bg-zinc-100 font-bold text-sm shadow-xl hover:shadow-emerald-500/10 transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
+        >
+          <span>Launch 180 Pay Console</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </button>
+
+        <a
+          href="https://docs.180workspace.com/docs/products/180-core/180-pay/getting-started"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="min-h-[48px] px-7 py-3.5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-zinc-200 hover:text-slate-950 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-zinc-800 font-semibold text-sm transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 shadow-xs"
+        >
+          <svg class="w-4 h-4 text-slate-400 dark:text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          </svg>
+          <span>Read 180 Pay API Docs</span>
+        </a>
+      </div>
+
+      {/* Metrics Bar */}
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-8">
+        <div class="p-4 rounded-2xl bg-white/70 dark:bg-zinc-900/60 border border-slate-200/80 dark:border-white/10 backdrop-blur-xl">
+          <div class="text-2xl sm:text-3xl font-black text-emerald-600 dark:text-emerald-400">0.8%</div>
+          <div class="text-xs text-slate-500 dark:text-zinc-400 font-medium mt-1">UPI Processing Fee</div>
+        </div>
+        <div class="p-4 rounded-2xl bg-white/70 dark:bg-zinc-900/60 border border-slate-200/80 dark:border-white/10 backdrop-blur-xl">
+          <div class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">T+0</div>
+          <div class="text-xs text-slate-500 dark:text-zinc-400 font-medium mt-1">Instant Bank Settlement</div>
+        </div>
+        <div class="p-4 rounded-2xl bg-white/70 dark:bg-zinc-900/60 border border-slate-200/80 dark:border-white/10 backdrop-blur-xl">
+          <div class="text-2xl sm:text-3xl font-black text-indigo-600 dark:text-indigo-400">&lt;45ms</div>
+          <div class="text-xs text-slate-500 dark:text-zinc-400 font-medium mt-1">Bottom-Sheet Checkout</div>
+        </div>
+        <div class="p-4 rounded-2xl bg-white/70 dark:bg-zinc-900/60 border border-slate-200/80 dark:border-white/10 backdrop-blur-xl">
+          <div class="text-2xl sm:text-3xl font-black text-teal-600 dark:text-teal-400">0%</div>
+          <div class="text-xs text-slate-500 dark:text-zinc-400 font-medium mt-1">Vendor Lock-in (BYOG)</div>
+        </div>
+      </div>
+    </section>
+
+    {/* Capability Pillars Grid */}
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center max-w-3xl mx-auto mb-14">
+        <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-slate-950 dark:text-white">
+          Architected for Sovereign Cash Flow
+        </h2>
+        <p class="mt-4 text-base text-slate-600 dark:text-zinc-400 font-normal">
+          Everything your finance and engineering team needs to collect payments, automate recurring subscriptions, and eliminate fee gouging.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {pillars.map((pillar) => (
+          <div class="p-8 rounded-3xl bg-white dark:bg-zinc-900/90 border border-slate-200/80 dark:border-white/10 hover:border-emerald-500/40 dark:hover:border-emerald-500/40 hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <span class="text-[11px] font-bold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                {pillar.badge}
+              </span>
+              <h3 class="text-xl font-bold text-slate-950 dark:text-white mt-4 mb-3">
+                {pillar.title}
+              </h3>
+              <p class="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed font-normal mb-6">
+                {pillar.description}
+              </p>
+            </div>
+            <ul class="space-y-2.5 pt-4 border-t border-slate-100 dark:border-white/5">
+              {pillar.bullets.map((b) => (
+                <li class="flex items-start gap-2.5 text-xs text-slate-600 dark:text-zinc-300">
+                  <svg class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    {/* Comparison Matrix (AEO Citation Goldmine) */}
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-slate-950 dark:text-white">
+          180 Pay vs Legacy Payment Gateways
+        </h2>
+        <p class="mt-4 text-sm sm:text-base text-slate-600 dark:text-zinc-400">
+          See why modern businesses migrate from Stripe, Razorpay, and Cashfree to 180 Pay's sovereign 0.8% infrastructure.
+        </p>
+      </div>
+
+      <div class="overflow-x-auto rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-zinc-900 shadow-xl">
+        <table class="w-full text-left text-xs sm:text-sm border-collapse">
+          <thead>
+            <tr class="border-b border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-zinc-950/60">
+              <th class="p-4 sm:p-5 font-bold text-slate-900 dark:text-white">Feature</th>
+              <th class="p-4 sm:p-5 font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/5">180 Pay</th>
+              <th class="p-4 sm:p-5 font-semibold text-slate-600 dark:text-zinc-400">Stripe</th>
+              <th class="p-4 sm:p-5 font-semibold text-slate-600 dark:text-zinc-400">Razorpay</th>
+              <th class="p-4 sm:p-5 font-semibold text-slate-600 dark:text-zinc-400">Cashfree</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 dark:divide-white/5">
+            {comparisonData.map((row) => (
+              <tr class="hover:bg-slate-50/50 dark:hover:bg-white/5 transition-colors">
+                <td class="p-4 sm:p-5 font-semibold text-slate-900 dark:text-white">{row.feature}</td>
+                <td class="p-4 sm:p-5 font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/5">{row.oneEighty}</td>
+                <td class="p-4 sm:p-5 text-slate-600 dark:text-zinc-400">{row.stripe}</td>
+                <td class="p-4 sm:p-5 text-slate-600 dark:text-zinc-400">{row.razorpay}</td>
+                <td class="p-4 sm:p-5 text-slate-600 dark:text-zinc-400">{row.cashfree}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    {/* Frequently Asked Questions (AEO & Schema) */}
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center mb-12">
+        <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Direct Answers</span>
+        <h2 class="text-3xl font-black text-slate-950 dark:text-white mt-2">
+          Frequently Asked Questions About 180 Pay
+        </h2>
+      </div>
+
+      <div class="space-y-4">
+        {faqs.map((faq) => (
+          <details class="group p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-white/10 transition-all hover:border-emerald-500/40 cursor-pointer">
+            <summary class="flex items-center justify-between font-bold text-sm sm:text-base text-slate-950 dark:text-white list-none">
+              <span>{faq.question}</span>
+              <svg class="w-4 h-4 text-slate-400 group-open:rotate-180 transition-transform shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </summary>
+            <p class="mt-4 text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed font-normal aeo-summary">
+              {faq.answer}
+            </p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    {/* Cross-Product Ecosystem Backlink Hub */}
+    <ProductEcosystemBacklinks currentProduct="pay" />
+  </div>
+</Layout>

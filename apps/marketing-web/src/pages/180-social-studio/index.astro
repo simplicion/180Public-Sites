@@ -6,7 +6,7 @@ import VideoPlaybook from '../../components/apps/VideoPlaybook.astro';
 import WorkGraphSynergy from '../../components/apps/WorkGraphSynergy.astro';
 import FAQAccordion from '../../components/apps/FAQAccordion.astro';
 import AppBottomCTA from '../../components/apps/AppBottomCTA.astro';
-import JSONLDSchema from '../../components/apps/JSONLDSchema.astro';
+import ProductEcosystemBacklinks from '../../components/seo/ProductEcosystemBacklinks.astro';
 
 const pillars = [
   {
@@ -153,6 +153,7 @@ const breadcrumbs = [
   title="180 Social Studio — Autonomous Video Editor & Omnichannel Scheduler | 180workspace"
   description="High-speed >500 FPS video editing engine and universal multi-network social media publisher integrated on the 180 Work Graph."
   breadcrumbs={breadcrumbs}
+  faqs={faqs}
   applicationCategory="MultimediaApplication"
 >
   <main class="w-full relative">
@@ -199,12 +200,7 @@ const breadcrumbs = [
       subheadline="Start editing faster and scheduling smarter today with 180 Social Studio on 180workspace."
     />
 
-    <JSONLDSchema 
-      appName="180 Social Studio"
-      description="High-speed >500 FPS video editing engine and universal multi-network social media publisher integrated on the 180 Work Graph."
-      urlPath="/180-social-studio"
-      faqs={faqs}
-    />
+    <ProductEcosystemBacklinks currentProduct="social-studio" />
 
   </main>
 </Layout>

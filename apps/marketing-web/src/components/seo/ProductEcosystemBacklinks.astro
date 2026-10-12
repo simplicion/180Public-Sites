@@ -1,0 +1,150 @@
+---
+interface Props {
+  currentProduct?: string;
+  className?: string;
+}
+
+const { currentProduct = "", className = "" } = Astro.props;
+
+const products = [
+  {
+    id: "workspace",
+    name: "180 Workspace",
+    tagline: "Unified Work Graph Operating System",
+    description: "Replace 15+ fragmented SaaS tools with one sovereign database uniting CRM, Projects, Finance, HR, and Orbit Copilot AI.",
+    href: "/",
+    badge: "Flagship OS",
+    badgeColor: "bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800",
+    iconSvg: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />`
+  },
+  {
+    id: "core",
+    name: "180 Core",
+    tagline: "Sovereign Developer API & Auth Kernel",
+    description: "RFC 7636 OAuth 2.0 PKCE, universal profile federation, and sub-millisecond RS256 JWKS token verification for modern apps.",
+    href: "/180-core",
+    badge: "Developer API",
+    badgeColor: "bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300 border-blue-200 dark:border-blue-800",
+    iconSvg: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />`
+  },
+  {
+    id: "pay",
+    name: "180 Pay",
+    tagline: "Sovereign 0.8% UPI & Subscription Engine",
+    description: "Eliminate 2% gateway fees with direct UPI settlement, multi-gateway fallback (Stripe, Razorpay), BYOG, and 1-click modal checkout.",
+    href: "/180-pay",
+    badge: "0.8% Flat Fee",
+    badgeColor: "bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800",
+    iconSvg: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />`
+  },
+  {
+    id: "identity",
+    name: "180 Identity",
+    tagline: "WhatsApp OTP & Biometric Passkey SSO",
+    description: "99.2% login deliverability in under 2s with WhatsApp OTP, WebAuthn passkeys, and built-in adaptive bottom-sheet modal SDK.",
+    href: "/180-identity",
+    badge: "99.2% Delivery",
+    badgeColor: "bg-teal-50 text-teal-700 dark:bg-teal-950 dark:text-teal-300 border-teal-200 dark:border-teal-800",
+    iconSvg: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />`
+  },
+  {
+    id: "voiceforce",
+    name: "180 Voiceforce",
+    tagline: "Autonomous Sub-200ms AI Phone Telephony",
+    description: "Deploy ultra-realistic generative voice agents with Cartesia Sonic-3, BYOK OpenAI/Groq tokens, and live CRM database tool actions.",
+    href: "/180-voiceforce",
+    badge: "Sub-200ms Audio",
+    badgeColor: "bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-300 border-amber-200 dark:border-amber-800",
+    iconSvg: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />`
+  },
+  {
+    id: "social-studio",
+    name: "180 Social Studio",
+    tagline: ">500 FPS Video Engine & Omnichannel Publisher",
+    description: "Lossless stream-copy video editing and automated visual content scheduling for YouTube, Instagram, X, LinkedIn, and Facebook.",
+    href: "/180-social-studio",
+    badge: ">500 FPS Export",
+    badgeColor: "bg-purple-50 text-purple-700 dark:bg-purple-950 dark:text-purple-300 border-purple-200 dark:border-purple-800",
+    iconSvg: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />`
+  },
+  {
+    id: "traffic-director",
+    name: "180 Traffic Director",
+    tagline: "Sub-5ms Edge Bot Mitigation & Ad Cloaking",
+    description: "Protect digital ad spend from bot clicks and competitor scrapers with real-time Cloudflare Worker evaluation and reverse proxy streams.",
+    href: "/180-traffic-director",
+    badge: "Sub-5ms Edge",
+    badgeColor: "bg-cyan-50 text-cyan-700 dark:bg-cyan-950 dark:text-cyan-300 border-cyan-200 dark:border-cyan-800",
+    iconSvg: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />`
+  }
+];
+---
+
+<section class={`py-20 border-t border-slate-200/80 dark:border-white/10 bg-slate-50/50 dark:bg-zinc-950/40 relative overflow-hidden ${className}`}>
+  {/* Ambient background glow */}
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gradient-to-r from-indigo-500/5 via-purple-500/5 to-blue-500/5 blur-3xl pointer-events-none -z-10"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-3xl mx-auto mb-14">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800/80 text-indigo-700 dark:text-indigo-300 mb-4 shadow-xs">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+        <span>The 180 Sovereign Ecosystem</span>
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-slate-950 dark:text-white">
+        Interconnected Solutions, <span class="bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">Zero Fragmentation</span>
+      </h2>
+      <p class="mt-4 text-sm sm:text-base text-slate-600 dark:text-zinc-400 font-normal leading-relaxed">
+        Explore every pillar of the 180 enterprise platform. Engineered with native interoperability, shared user identity, and sovereign Work Graph data architecture.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {products.map((prod) => {
+        const isCurrent = prod.id === currentProduct;
+        return (
+          <a
+            href={prod.href}
+            class={`group relative p-6 rounded-2xl border transition-all duration-300 flex flex-col justify-between ${
+              isCurrent
+                ? "bg-indigo-50/40 dark:bg-indigo-950/20 border-indigo-500/50 shadow-md ring-2 ring-indigo-500/20"
+                : "bg-white dark:bg-zinc-900/80 border-slate-200/80 dark:border-white/10 hover:border-indigo-500/40 dark:hover:border-indigo-500/40 hover:shadow-xl hover:-translate-y-1"
+            }`}
+          >
+            <div>
+              <div class="flex items-center justify-between gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-zinc-800 flex items-center justify-center text-slate-700 dark:text-zinc-200 group-hover:scale-110 group-hover:bg-indigo-50 dark:group-hover:bg-indigo-950 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-all">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" set:html={prod.iconSvg} />
+                </div>
+                <span class={`text-[11px] font-bold px-2.5 py-1 rounded-full border ${prod.badgeColor}`}>
+                  {prod.badge}
+                </span>
+              </div>
+
+              <h3 class="text-lg font-bold text-slate-950 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors flex items-center gap-1.5">
+                <span>{prod.name}</span>
+                {isCurrent && (
+                  <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-indigo-500 text-white">Current</span>
+                )}
+              </h3>
+              <p class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 mb-2 mt-0.5">
+                {prod.tagline}
+              </p>
+              <p class="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed font-normal">
+                {prod.description}
+              </p>
+            </div>
+
+            <div class="pt-5 mt-5 border-t border-slate-100 dark:border-white/5 flex items-center justify-between text-xs font-semibold text-slate-500 dark:text-zinc-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+              <span>{isCurrent ? "Currently viewing" : `Explore ${prod.name}`}</span>
+              <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+  </div>
+</section>

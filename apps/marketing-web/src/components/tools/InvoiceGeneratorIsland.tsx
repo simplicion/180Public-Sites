@@ -563,8 +563,8 @@ export default function InvoiceGeneratorIsland() {
 
         {/* Dynamic Line Items */}
         <div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+          <div className="overflow-x-auto -mx-2 px-2 sm:mx-0 sm:px-0">
+            <table className="w-full min-w-[560px] text-left border-collapse">
               <thead>
                 <tr className="border-b border-slate-200 dark:border-slate-800 text-[10px] font-black uppercase tracking-wider text-slate-400">
                   <th className="py-3 px-2">Item Description</th>

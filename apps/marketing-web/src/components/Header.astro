@@ -305,7 +305,7 @@ const resources = [
     </div>
 
     {/* Auth & CTA Area + Mobile Toggle */}
-    <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+    <div class="flex items-center gap-1.5 sm:gap-3 shrink-0">
       <a 
         href={`${saasUrl}/login`} 
         data-180-identity-login
@@ -317,9 +317,10 @@ const resources = [
       
       <a 
         href={`${saasUrl}/signup?plan=kickstart`} 
-        class="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-md shadow-indigo-600/20 hover:shadow-indigo-600/35 hover:scale-[1.02] active:scale-[0.98] transition-all whitespace-nowrap shrink-0 group cursor-pointer min-h-[44px]"
+        class="inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-5 md:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-md shadow-indigo-600/20 hover:shadow-indigo-600/35 hover:scale-[1.02] active:scale-[0.98] transition-all whitespace-nowrap shrink-0 group cursor-pointer min-h-[38px] sm:min-h-[44px]"
       >
-        <span>Start with $10 Plan</span>
+        <span class="hidden sm:inline">Start with $10 Plan</span>
+        <span class="sm:hidden">Start Plan</span>
         <svg class="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
       </a>
 
@@ -328,7 +329,8 @@ const resources = [
         type="button"
         id="mobile-menu-btn"
         aria-label="Toggle mobile menu"
-        class="lg:hidden p-2.5 min-h-[44px] min-w-[44px] rounded-xl text-slate-700 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors flex items-center justify-center cursor-pointer"
+        aria-expanded="false"
+        class="lg:hidden p-2 min-h-[40px] min-w-[40px] sm:min-h-[44px] sm:min-w-[44px] rounded-xl text-slate-700 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors flex items-center justify-center cursor-pointer shrink-0"
       >
         <svg id="hamburger-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
         <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -338,46 +340,12 @@ const resources = [
   </div>
 
   {/* Mobile Navigation Drawer */}
-  <div id="mobile-drawer" class="lg:hidden hidden border-t border-slate-200 dark:border-white/10 bg-white/95 dark:bg-black/95 backdrop-blur-2xl px-4 py-6 space-y-4">
-    <div class="grid grid-cols-2 gap-2 pb-4 border-b border-slate-100 dark:border-white/10">
-      <a href="/180-core" class="p-2.5 rounded-xl bg-blue-50 dark:bg-zinc-900 border border-blue-200/60 dark:border-white/10 text-xs font-bold text-blue-700 dark:text-blue-400 text-center col-span-2 flex items-center justify-center gap-1.5 min-h-[44px]">
-        <span>180 Core (Identity & Pay)</span>
-        <span class="text-[9px] text-blue-500 font-mono">/180-core</span>
-      </a>
-      <a href="/tools" class="p-2.5 rounded-xl bg-indigo-50 dark:bg-zinc-900 border border-indigo-200/60 dark:border-white/10 text-xs font-bold text-indigo-700 dark:text-indigo-400 text-center col-span-2 min-h-[44px] flex items-center justify-center">
-        Free Tools Suite
-      </a>
-      <a href="/180-traffic-director" class="p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-900 text-xs font-bold text-slate-800 dark:text-zinc-200 text-center min-h-[44px] flex items-center justify-center">
-        180 Traffic Director
-      </a>
-      <a href="/180-social-studio" class="p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-900 text-xs font-bold text-slate-800 dark:text-zinc-200 text-center min-h-[44px] flex items-center justify-center">
-        180 Social Studio
-      </a>
-      <a href="https://developers.180workspace.com" target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-900 text-xs font-bold text-slate-800 dark:text-zinc-200 text-center flex items-center justify-center gap-1 min-h-[44px]">
-        <span>Developer Console</span>
-        <span class="text-[9px] text-indigo-500">↗</span>
-      </a>
-      <a href="https://docs.180workspace.com" target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-900 text-xs font-bold text-slate-800 dark:text-zinc-200 text-center flex items-center justify-center gap-1 min-h-[44px]">
-        <span>Docs Portal</span>
-        <span class="text-[9px] text-indigo-500">↗</span>
-      </a>
-      <a href="/blog" class="p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-900 text-xs font-bold text-slate-800 dark:text-zinc-200 text-center min-h-[44px] flex items-center justify-center">
-        Blog & News
-      </a>
-      <a href="/whitepapers" class="p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-900 text-xs font-bold text-slate-800 dark:text-zinc-200 text-center min-h-[44px] flex items-center justify-center">
-        White Papers
-      </a>
-      <a href="/case-studies" class="p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-900 text-xs font-bold text-slate-800 dark:text-zinc-200 text-center min-h-[44px] flex items-center justify-center">
-        Case Studies
-      </a>
-      <a href="/apps" class="p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-900 text-xs font-bold text-slate-800 dark:text-zinc-200 text-center min-h-[44px] flex items-center justify-center">
-        All 8 Apps
-      </a>
-      <a href="/pricing" class="p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-900 text-xs font-bold text-slate-800 dark:text-zinc-200 text-center min-h-[44px] flex items-center justify-center">
-        Pricing Plans
-      </a>
-    </div>
-    <div class="flex flex-col gap-2 pt-1">
+  <div 
+    id="mobile-drawer" 
+    class="lg:hidden hidden fixed inset-x-0 top-16 bottom-0 z-50 max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain border-t border-slate-200 dark:border-white/10 bg-white/95 dark:bg-black/95 backdrop-blur-2xl px-4 py-6 space-y-6 shadow-2xl"
+  >
+    {/* Top Action CTAs in Mobile Menu */}
+    <div class="grid grid-cols-2 gap-2 pb-5 border-b border-slate-200/80 dark:border-white/10">
       <a 
         href={`${saasUrl}/login`} 
         data-180-identity-login
@@ -386,10 +354,126 @@ const resources = [
       >
         Sign In
       </a>
-      <a href={`${saasUrl}/signup?plan=kickstart`} class="btn-primary w-full text-center py-2.5 text-xs font-bold flex items-center justify-center gap-2 min-h-[44px]">
-        <span>Start with $10 Plan</span>
+      <a 
+        href={`${saasUrl}/signup?plan=kickstart`} 
+        class="btn-primary w-full text-center py-2.5 text-xs font-bold flex items-center justify-center gap-1.5 min-h-[44px]"
+      >
+        <span>$10 Plan</span>
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
       </a>
+    </div>
+
+    {/* Section 1: Flagship Sovereign Platforms */}
+    <div class="space-y-2">
+      <div class="flex items-center justify-between px-1">
+        <span class="text-[11px] font-black uppercase tracking-wider text-slate-400 dark:text-zinc-500">
+          Sovereign Platforms
+        </span>
+        <span class="text-[10px] text-indigo-600 dark:text-indigo-400 font-mono font-bold">
+          Ecosystem
+        </span>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        {ecosystemProducts.map((prod) => (
+          <a
+            href={prod.href}
+            target={prod.isExternal ? "_blank" : undefined}
+            rel={prod.isExternal ? "noopener noreferrer" : undefined}
+            class="flex items-start gap-3 p-3 rounded-2xl bg-slate-50/80 dark:bg-zinc-900/70 border border-slate-200/60 dark:border-white/5 hover:border-indigo-300 dark:hover:border-indigo-500/40 transition-all min-h-[52px]"
+          >
+            <div class="w-8 h-8 rounded-xl bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 flex items-center justify-center shrink-0 mt-0.5 text-slate-700 dark:text-zinc-300">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" set:html={prod.iconSvg}></svg>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between gap-1.5">
+                <span class="text-xs font-bold text-slate-900 dark:text-white truncate">
+                  {prod.title}
+                </span>
+                <span class={`text-[8px] font-black uppercase px-1.5 py-0.2 rounded-full border ${prod.badgeColor} shrink-0`}>
+                  {prod.badge}
+                </span>
+              </div>
+              <p class="text-[11px] text-slate-500 dark:text-zinc-400 line-clamp-1 mt-0.5">
+                {prod.desc}
+              </p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    {/* Section 2: 8 Connected Applications */}
+    <div class="space-y-2 pt-2">
+      <div class="flex items-center justify-between px-1">
+        <span class="text-[11px] font-black uppercase tracking-wider text-slate-400 dark:text-zinc-500">
+          8 Workspace Apps
+        </span>
+        <a href="/apps" class="text-[11px] font-bold text-indigo-600 dark:text-indigo-400 hover:underline">
+          View All →
+        </a>
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <a href="/apps/voiceforce" class="p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-900/60 border border-slate-200/60 dark:border-white/5 text-xs font-bold text-slate-900 dark:text-white flex items-center justify-between min-h-[44px]">
+          <span class="truncate">Voiceforce AI</span>
+          <span class="text-[8px] font-bold px-1 py-0.2 rounded bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 shrink-0">AI</span>
+        </a>
+        <a href="/apps/crm-and-sales" class="p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-900/60 border border-slate-200/60 dark:border-white/5 text-xs font-bold text-slate-900 dark:text-white flex items-center justify-between min-h-[44px]">
+          <span class="truncate">CRM & Sales</span>
+          <span class="text-[8px] font-bold px-1 py-0.2 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-300 shrink-0">Core</span>
+        </a>
+        <a href="/apps/advertising" class="p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-900/60 border border-slate-200/60 dark:border-white/5 text-xs font-bold text-slate-900 dark:text-white flex items-center justify-between min-h-[44px]">
+          <span class="truncate">Advertising</span>
+        </a>
+        <a href="/apps/projects-and-tasks" class="p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-900/60 border border-slate-200/60 dark:border-white/5 text-xs font-bold text-slate-900 dark:text-white flex items-center justify-between min-h-[44px]">
+          <span class="truncate">Projects & Tasks</span>
+        </a>
+        <a href="/apps/hr-management" class="p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-900/60 border border-slate-200/60 dark:border-white/5 text-xs font-bold text-slate-900 dark:text-white flex items-center justify-between min-h-[44px]">
+          <span class="truncate">HR & Payroll</span>
+        </a>
+        <a href="/apps/finance" class="p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-900/60 border border-slate-200/60 dark:border-white/5 text-xs font-bold text-slate-900 dark:text-white flex items-center justify-between min-h-[44px]">
+          <span class="truncate">Finance & Ledger</span>
+        </a>
+        <a href="/apps/communications" class="p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-900/60 border border-slate-200/60 dark:border-white/5 text-xs font-bold text-slate-900 dark:text-white flex items-center justify-between min-h-[44px]">
+          <span class="truncate">HD Meetings</span>
+        </a>
+        <a href="/apps/workspace-tools" class="p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-900/60 border border-slate-200/60 dark:border-white/5 text-xs font-bold text-slate-900 dark:text-white flex items-center justify-between min-h-[44px]">
+          <span class="truncate">Cloud Docs & Drive</span>
+        </a>
+      </div>
+    </div>
+
+    {/* Section 3: Tools & Resources */}
+    <div class="space-y-2 pt-2 border-t border-slate-200/80 dark:border-white/10">
+      <div class="px-1">
+        <span class="text-[11px] font-black uppercase tracking-wider text-slate-400 dark:text-zinc-500">
+          Tools, Pricing & Resources
+        </span>
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <a href="/pricing" class="p-2.5 rounded-xl bg-indigo-50/80 dark:bg-indigo-950/40 border border-indigo-200/60 dark:border-indigo-800/40 text-xs font-bold text-indigo-700 dark:text-indigo-300 text-center flex items-center justify-center min-h-[44px]">
+          Pricing Plans
+        </a>
+        <a href="/tools" class="p-2.5 rounded-xl bg-emerald-50/80 dark:bg-emerald-950/40 border border-emerald-200/60 dark:border-emerald-800/40 text-xs font-bold text-emerald-700 dark:text-emerald-300 text-center flex items-center justify-center min-h-[44px]">
+          Free Tools Suite
+        </a>
+        <a href="https://docs.180workspace.com" target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-900/60 border border-slate-200/60 dark:border-white/5 text-xs font-bold text-slate-800 dark:text-zinc-200 text-center flex items-center justify-center gap-1 min-h-[44px]">
+          <span>Docs Portal</span>
+          <span class="text-[9px] text-indigo-500">↗</span>
+        </a>
+        <a href="/case-studies" class="p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-900/60 border border-slate-200/60 dark:border-white/5 text-xs font-bold text-slate-800 dark:text-zinc-200 text-center flex items-center justify-center min-h-[44px]">
+          Case Studies
+        </a>
+        <a href="/whitepapers" class="p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-900/60 border border-slate-200/60 dark:border-white/5 text-xs font-bold text-slate-800 dark:text-zinc-200 text-center flex items-center justify-center min-h-[44px]">
+          White Papers
+        </a>
+        <a href="/blog" class="p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-900/60 border border-slate-200/60 dark:border-white/5 text-xs font-bold text-slate-800 dark:text-zinc-200 text-center flex items-center justify-center min-h-[44px]">
+          Blog & News
+        </a>
+        <a href="https://developer.180core.cloud" target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-900/60 border border-slate-200/60 dark:border-white/5 text-xs font-bold text-slate-800 dark:text-zinc-200 text-center flex items-center justify-center gap-1 min-h-[44px]">
+          <span>Dev Console</span>
+          <span class="text-[9px] text-indigo-500">↗</span>
+        </a>
+      </div>
     </div>
   </div>
 </header>
@@ -400,13 +484,54 @@ const resources = [
   const hamburger = document.getElementById('hamburger-icon');
   const close = document.getElementById('close-icon');
 
+  function closeMenu() {
+    if (!btn || !drawer || !hamburger || !close) return;
+    btn.setAttribute('aria-expanded', 'false');
+    drawer.classList.add('hidden');
+    hamburger.classList.remove('hidden');
+    close.classList.add('hidden');
+    document.body.classList.remove('overflow-hidden');
+  }
+
+  function openMenu() {
+    if (!btn || !drawer || !hamburger || !close) return;
+    btn.setAttribute('aria-expanded', 'true');
+    drawer.classList.remove('hidden');
+    hamburger.classList.add('hidden');
+    close.classList.remove('hidden');
+    document.body.classList.add('overflow-hidden');
+  }
+
   if (btn && drawer && hamburger && close) {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
       const isExpanded = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', String(!isExpanded));
-      drawer.classList.toggle('hidden');
-      hamburger.classList.toggle('hidden');
-      close.classList.toggle('hidden');
+      if (isExpanded) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    // Close when clicking any link inside the mobile drawer
+    drawer.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        closeMenu();
+      });
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') {
+        closeMenu();
+      }
+    });
+
+    // Automatically close mobile menu if resized to desktop (>= 1024px)
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 1024 && btn.getAttribute('aria-expanded') === 'true') {
+        closeMenu();
+      }
     });
   }
 </script>

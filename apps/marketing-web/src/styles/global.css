@@ -49,6 +49,9 @@
   body {
     scrollbar-width: none !important;
     -ms-overflow-style: none !important;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
   }
 
   *::-webkit-scrollbar,
@@ -62,6 +65,7 @@
 
   body {
     @apply bg-slate-50 dark:bg-black text-slate-900 dark:text-zinc-100 font-sans antialiased;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 }
 
@@ -72,19 +76,19 @@
 @layer components {
   /* --- Typography Scale Hierarchy --- */
   .display-h1 {
-    @apply text-4xl sm:text-5xl md:text-7xl font-black tracking-tight leading-[1.08] text-slate-950 dark:text-white;
+    @apply text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[1.08] text-slate-950 dark:text-white break-words;
   }
 
   .section-h2 {
-    @apply text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight text-slate-950 dark:text-white;
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-slate-950 dark:text-white break-words;
   }
 
   .card-h3 {
-    @apply text-xl sm:text-2xl font-bold tracking-tight text-slate-950 dark:text-white;
+    @apply text-lg sm:text-xl md:text-2xl font-bold tracking-tight text-slate-950 dark:text-white break-words;
   }
 
   .body-lead {
-    @apply text-lg sm:text-xl text-slate-600 dark:text-zinc-300 font-medium leading-relaxed;
+    @apply text-base sm:text-lg md:text-xl text-slate-600 dark:text-zinc-300 font-medium leading-relaxed;
   }
 
   .body-standard {
@@ -114,23 +118,23 @@
 
   /* --- Button Hierarchy Tokens --- */
   .btn-primary {
-    @apply inline-flex h-12 md:h-14 items-center justify-center rounded-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm md:text-base px-8 shadow-xl shadow-indigo-600/20 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer whitespace-nowrap;
+    @apply inline-flex min-h-[44px] md:min-h-[48px] h-auto py-3 md:py-3.5 items-center justify-center rounded-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm md:text-base px-6 sm:px-8 shadow-xl shadow-indigo-600/20 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer whitespace-nowrap;
   }
 
   .btn-secondary {
-    @apply inline-flex h-12 md:h-14 items-center justify-center rounded-full border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-slate-800 dark:text-zinc-200 font-bold text-sm md:text-base px-8 shadow-sm hover:bg-slate-50 dark:hover:bg-zinc-800 transition-all duration-200 cursor-pointer whitespace-nowrap;
+    @apply inline-flex min-h-[44px] md:min-h-[48px] h-auto py-3 md:py-3.5 items-center justify-center rounded-full border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-slate-800 dark:text-zinc-200 font-bold text-sm md:text-base px-6 sm:px-8 shadow-sm hover:bg-slate-50 dark:hover:bg-zinc-800 transition-all duration-200 cursor-pointer whitespace-nowrap;
   }
 
   .btn-sm-primary {
-    @apply inline-flex h-10 items-center justify-center rounded-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs md:text-sm px-5 shadow-md shadow-indigo-600/20 transition-all hover:scale-105 active:scale-95 cursor-pointer whitespace-nowrap;
+    @apply inline-flex min-h-[40px] items-center justify-center rounded-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs md:text-sm px-4 sm:px-5 py-2 shadow-md shadow-indigo-600/20 transition-all hover:scale-105 active:scale-95 cursor-pointer whitespace-nowrap;
   }
 
   .btn-sm-secondary {
-    @apply inline-flex h-10 items-center justify-center rounded-full border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-slate-800 dark:text-zinc-200 font-bold text-xs md:text-sm px-5 shadow-sm hover:bg-slate-50 dark:hover:bg-zinc-800 transition-all cursor-pointer whitespace-nowrap;
+    @apply inline-flex min-h-[40px] items-center justify-center rounded-full border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-slate-800 dark:text-zinc-200 font-bold text-xs md:text-sm px-4 sm:px-5 py-2 shadow-sm hover:bg-slate-50 dark:hover:bg-zinc-800 transition-all cursor-pointer whitespace-nowrap;
   }
 
   .btn-ghost {
-    @apply inline-flex h-10 items-center justify-center rounded-xl text-slate-700 dark:text-zinc-300 font-bold text-sm px-4 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer whitespace-nowrap;
+    @apply inline-flex min-h-[40px] items-center justify-center rounded-xl text-slate-700 dark:text-zinc-300 font-bold text-sm px-3 sm:px-4 py-2 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer whitespace-nowrap;
   }
 
   /* --- Pill Badges & App Domain Token Styling --- */

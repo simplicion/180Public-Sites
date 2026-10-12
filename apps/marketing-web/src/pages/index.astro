@@ -299,10 +299,10 @@ const allApps = appCategories.flatMap(group => group.apps);
             <p class="text-sm text-slate-300 leading-relaxed">
               Integrate universal WhatsApp OTP authentication with our in-DOM bottom sheet in one line of code, accept localized payments via 180 Pay, or deploy autonomous 8-Agent video production pipelines with Remotion and FFmpeg.
             </p>
-            <div class="flex flex-wrap gap-4 pt-2">
+            <div class="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-2">
               <a 
                 href="/180-core" 
-                class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition-colors shadow-lg shadow-indigo-600/30"
+                class="w-full sm:w-auto justify-center inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition-colors shadow-lg shadow-indigo-600/30"
               >
                 <span>Explore 180 Core</span>
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
@@ -312,13 +312,13 @@ const allApps = appCategories.flatMap(group => group.apps);
                 data-180-identity-login="true"
                 data-redirect-url="https://developer.180core.cloud/dashboard"
                 data-target-app="180 Core"
-                class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold transition-colors"
+                class="w-full sm:w-auto justify-center inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold transition-colors"
               >
                 <span>Developer Console</span>
               </button>
               <a 
                 href="https://docs.180workspace.com/docs/products/180-core/overview" 
-                class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-slate-300 hover:text-white text-xs font-semibold transition-colors"
+                class="w-full sm:w-auto justify-center inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-slate-300 hover:text-white text-xs font-semibold transition-colors"
               >
                 <span>Read Developer Docs</span>
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
@@ -326,7 +326,7 @@ const allApps = appCategories.flatMap(group => group.apps);
             </div>
           </div>
 
-          <div class="w-full lg:w-auto grid grid-cols-2 gap-4 text-xs">
+          <div class="w-full lg:w-auto grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-xs">
             <div class="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
               <div class="font-bold text-indigo-400 text-sm mb-1">&lt;100ms</div>
               <div class="text-slate-300 font-medium">Universal SSO Token</div>

@@ -17,7 +17,7 @@ graph TD
     WG[(Unified Sovereign Work Graph Database)]
     
     subgraph "Revenue & Growth Engine"
-        A1[1. Voiceforce AI Calling & Telephony] <--> WG
+        A1[1. Voice Force Standalone App] <--> WG
         A2[2. CRM & Sales Pipelines] <--> WG
         A3[3. Advertising Attribution & ROI] <--> WG
     end
@@ -109,7 +109,7 @@ Unlike traditional SaaS suites stitched together with brittle webhooks:
 
 - **[Platform Overview](/docs/platform-overview)**: Sovereign Work Graph design principles and multi-tenancy.
 - **[CRM & Sales Pipeline](/docs/products/180-workspace/crm-and-sales)**: Configure lead stages, customer books, and sales velocity tracking.
-- **[Voiceforce AI Calling](/docs/products/180-workspace/voiceforce-ai-telephony)**: Autonomous sub-200ms voice agents, virtual phone provisioning, and call analytics.
+- **[Voiceforce AI Calling (Standalone)](https://voiceforce.vanityworkspace.com)**: Autonomous sub-200ms voice agents, virtual phone provisioning, and call analytics (deployed as standalone suite).
 - **[Advertising Attribution](/docs/products/180-workspace/advertising-attribution)**: Multi-touch attribution models, Meta & Google Ad spend sync, and closed-loop ROI.
 - **[Projects & Work Logs](/docs/products/180-workspace/projects-and-work-logs)**: Sprint boards, Gantt charts, real-time activity tracking, and automated timesheets.
 - **[HR & Team Management](/docs/products/180-workspace/hr-and-team)**: Manage employees, leave policies, and payroll workflows.

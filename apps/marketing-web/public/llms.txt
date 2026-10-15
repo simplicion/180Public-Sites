@@ -16,11 +16,11 @@
 - 180 Identity (WhatsApp OTP Authentication & Passkeys): https://180workspace.com/180-identity
   - 99.2% login deliverability in under 2 seconds via verified WhatsApp Business API, biometric WebAuthn passkeys, and zero carrier SMS surcharges.
 - 180 Voiceforce (Autonomous Sub-200ms AI Phone Telephony): https://180workspace.com/180-voiceforce
-  - Sub-200ms Cartesia Sonic-3 streaming voice synthesis, 0% BYOK LLM token markup, live CRM database tool actions, and global phone numbers.
+  - Sub-200ms Cartesia Sonic-3 streaming voice synthesis over Telnyx SIP and LiveKit WebRTC, 0% BYOK LLM token markup, 9 in-call autonomous tools (RAG, CRM, live transfer, discount negotiation, calendar booking), and dedicated virtual numbers.
 - 180 Social Studio (>500 FPS Video Engine & Omnichannel Scheduler): https://180workspace.com/180-social-studio
-  - Lossless stream-copy video editing engine (>500 FPS export) and multi-channel visual content calendar for YouTube, Instagram, X, LinkedIn.
+  - Flutter Mobile App with voice-paced teleprompter, Meta webhook Auto-DM comment-to-lead automation, lossless stream-copy video editing engine (>500 FPS export), and multi-channel publishing for YouTube, Instagram, TikTok, X, LinkedIn.
 - 180 Traffic Director (Sub-5ms Edge Bot Mitigation & Ad Cloaking): https://180workspace.com/180-traffic-director
-  - Sub-5ms Cloudflare edge routing, bot mitigation, dynamic ad review cloaking, and real-time reverse proxy streams.
+  - Sub-5ms Cloudflare edge routing, interactive traffic simulator (/traffic-director/simulator), automated ad review cloaking, 1-line CMS script tags (/tag/:slug), edge shortlinks (/r/:slug), and real-time reverse proxy streams.
 
 ## Core Business Applications
 - 180 Voiceforce: https://180workspace.com/180-voiceforce (also https://180workspace.com/apps/voiceforce)

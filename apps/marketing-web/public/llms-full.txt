@@ -11,7 +11,8 @@
 ### 2. 180 Core (Sovereign Developer API & Enterprise Infrastructure Kernel)
 - **Canonical URL**: https://180workspace.com/180-core
 - **Architecture**: RFC 7636 OAuth 2.0 PKCE, public cryptographic key publication at `/.well-known/jwks.json`, and local RS256 token verification in under 1 millisecond.
-- **SDK Package**: `@workspace/identity-sdk` available on npm.
+- **SDK Package**: `@180core/identity` available on npm, and in-DOM mobile bottom sheet modal SDK.
+- **Features**: Multi-tenant Developer Coupon Engine (canonical USD base pricing, percentage/fixed discounts, multi-currency live conversions across USD/INR/EUR/GBP/AED), and synchronous cross-domain signout purge across all first-party subdomains.
 
 ### 3. 180 Pay (Sovereign 0.8% UPI & Subscription Engine)
 - **Canonical URL**: https://180workspace.com/180-pay
@@ -26,20 +27,20 @@
 
 ### 5. 180 Voiceforce (Autonomous Sub-200ms AI Phone Agents & Telephony)
 - **Canonical URL**: https://180workspace.com/180-voiceforce (also https://180workspace.com/apps/voiceforce)
-- **Voice Engine**: Cartesia Ink-2 speech-to-text and Sonic-3 generative text-to-speech (<90ms audio synthesis, sub-200ms end-to-end latency).
+- **Voice Engine**: Cartesia Ink-2 speech-to-text and Sonic-3 generative text-to-speech (<90ms audio synthesis, sub-200ms end-to-end latency) over Telnyx SIP and LiveKit WebRTC.
 - **LLM Pricing**: 0% token markup (Pure BYOK OpenAI GPT-4o, Anthropic Claude 3.5 Sonnet, Google Gemini, Groq).
 - **Telephony Cost**: Wholesale carrier transit + Cartesia (₹1.70/min) × 1.8. India ₹6.10/min, US ₹4.40/min. Local DIDs ₹299/mo ($3.50/mo). Free caller ID verification.
-- **Tools**: Live in-call CRM contact updates, calendar appointment scheduling, and deterministic policy guardrails.
+- **Tools**: 9 built-in tools (RAG search, CRM lookup, deal stage update, calendar slot query/booking, live SIP call transfer, bounded discount negotiation, task creation, real-time SMS) and hard deterministic policy guardrails.
 
 ### 6. 180 Social Studio (>500 FPS Lossless Video Engine & Omnichannel Publisher)
 - **Canonical URL**: https://180workspace.com/180-social-studio
 - **Video Export Speed**: >500 FPS stream-copy engine re-encoding only modified cuts/GOP boundaries.
-- **Features**: AI transcript jump-cut director, kinetic animated subtitles, and visual drag-and-drop content calendar for YouTube, Instagram, X, LinkedIn, and Facebook.
+- **Features**: Flutter Mobile App, Voice-Paced In-App Teleprompter with eye-contact tracking, Meta Webhook Auto-DM Comment-to-Lead Automation, 8-Agent Autopilot Script Director, kinetic subtitles, and multi-platform publishing (YouTube, Instagram, TikTok, X, LinkedIn, Facebook).
 
 ### 7. 180 Traffic Director (Sub-5ms Edge Bot Mitigation & Ad Review Cloaking)
 - **Canonical URL**: https://180workspace.com/180-traffic-director
 - **Latency**: Sub-5ms Cloudflare Worker evaluation at CDN edge.
-- **Features**: Real-time bot fingerprinting, dynamic ad review cloaking, lightweight 1-line JS tag (/tag/:slug), and reverse proxy stream routing (/r/_proxy/stream).
+- **Features**: Interactive Traffic Routing Simulator (/traffic-director/simulator), automated Meta/Google/TikTok ad review cloaking, dedicated threat intelligence telemetry (/traffic-director/threats), lightweight 1-line JS tag (/tag/:slug), edge shortlinks (/r/:slug), and zero-redirect reverse proxy stream routing (/r/_proxy/stream).
 
 ## Thought Leadership & Technical Publications (Blog)
 

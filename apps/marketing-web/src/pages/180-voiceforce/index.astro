@@ -16,7 +16,7 @@ const pillars = [
     description: "Eliminate awkward pauses and robotic delays. Voiceforce streams generative audio via Cartesia with sub-90ms synthesis and sub-150ms semantic turn detection, creating fluid human conversations.",
     bullets: [
       "Natural conversational interruption and real-time barge-in support",
-      "Zero-latency streaming PCM WebSocket audio directly to PSTN",
+      "Zero-latency streaming PCM WebSocket audio via Telnyx SIP and LiveKit WebRTC",
       "Human-like breath, natural emotional inflection, and semantic pacing"
     ]
   },
@@ -31,12 +31,12 @@ const pillars = [
     ]
   },
   {
-    badge: "180 Work Graph Tools",
-    title: "Live Database Actions During the Phone Call",
-    description: "Voiceforce agents don't just speak—they execute real work. During the live call, the AI queries CRM contacts, checks calendar availability, schedules appointments, and files support tickets.",
+    badge: "9-Tool Voice Suite",
+    title: "9 Autonomous In-Call Tools & CRM Work Graph Sync",
+    description: "Voiceforce agents don't just speak—they execute real work during the live phone call. From RAG knowledge lookups and calendar booking to live SIP call transfers and discount negotiations.",
     bullets: [
-      "Live CRM contact lookup and deal stage progression in-call",
-      "Instant calendar availability check and invite dispatch",
+      "9 built-in tools: RAG search, CRM lookup, live transfer, discount bounds, calendar booking, task creation",
+      "Instant calendar invite & WhatsApp/SMS confirmation link dispatch in-call",
       "Automated post-call transcription, sentiment scoring, and action extraction"
     ]
   },
@@ -46,8 +46,8 @@ const pillars = [
     description: "Ensure your AI phone agents never promise unauthorized discounts, refunds, or illegal commitments. Define strict boundary guardrails enforced by our deterministic validation engine.",
     bullets: [
       "Hard rules intercept every tool execution before it triggers",
-      "Safety policy monitoring on live conversational utterances",
-      "Forensic decision inspector recording every agent thought"
+      "Strict price floor and max discount negotiation limits",
+      "Forensic decision inspector recording every agent thought and tool result"
     ]
   },
   {
@@ -75,8 +75,8 @@ const pillars = [
 const comparisonData = [
   { feature: "Speech Synthesis Engine", oneEighty: "Cartesia Sonic-3 (<90ms)", bland: "Custom/ElevenLabs (>400ms)", vapi: "Deepgram / Cartesia", retell: "Various Providers" },
   { feature: "LLM Token Markup", oneEighty: "0% (Pure BYOK)", bland: "200%+ Markup", vapi: "Marked Up", retell: "Marked Up" },
-  { feature: "Live Database Tool Calls", oneEighty: "Native Work Graph Sync", bland: "External Webhooks", vapi: "External Webhooks", retell: "External Webhooks" },
-  { feature: "Deterministic Guardrails", oneEighty: "Built-in Policy Engine", bland: "Prompt Instructions Only", vapi: "Basic Validation", retell: "Prompt Based" },
+  { feature: "In-Call Autonomous Tools", oneEighty: "9 Native Tools + Live Transfer", bland: "External Webhooks", vapi: "External Webhooks", retell: "External Webhooks" },
+  { feature: "Deterministic Guardrails", oneEighty: "Hard Policy & Discount Bounds", bland: "Prompt Instructions Only", vapi: "Basic Validation", retell: "Prompt Based" },
   { feature: "Free Caller ID Verification", oneEighty: "Included (60s OTP)", bland: "Complex SIP Trunk", vapi: "Custom Setup", retell: "Paid DIDs Only" },
   { feature: "Dedicated Virtual DID Cost", oneEighty: "₹299/mo ($3.50/mo)", bland: "$15.00+/mo", vapi: "$5.00-$10.00/mo", retell: "$10.00/mo" },
   { feature: "End-to-End Latency", oneEighty: "Sub-200ms Real-Time", bland: "450ms - 800ms", vapi: "300ms - 500ms", retell: "400ms - 600ms" }
@@ -85,27 +85,27 @@ const comparisonData = [
 const faqs = [
   {
     question: "What is 180 Voiceforce?",
-    answer: "180 Voiceforce is an autonomous enterprise AI phone platform featuring sub-200ms real-time conversational voice synthesis powered by Cartesia Sonic-3, 0% token markup with Bring Your Own Key (BYOK) LLMs, and live database actions connected to the 180 Work Graph CRM."
+    answer: "180 Voiceforce is an autonomous enterprise AI phone platform featuring sub-200ms real-time conversational voice synthesis powered by Cartesia Sonic-3, 0% token markup with Bring Your Own Key (BYOK) LLMs, and 9 built-in voice intelligence tools connected to the 180 Work Graph CRM."
+  },
+  {
+    question: "What are the 9 autonomous in-call tools Voiceforce agents can execute?",
+    answer: "Voiceforce agents can execute: (1) RAG Knowledge Search over uploaded documentation; (2) CRM Contact Lookup for past history; (3) CRM Lead/Deal Stage Update; (4) Calendar Availability Checks; (5) Instant Appointment Booking; (6) Live SIP Call Transfer to human reps; (7) Bounded Discount Negotiation; (8) Automated Task Creation for team members; and (9) Real-time SMS/WhatsApp dispatch while on the call."
   },
   {
     question: "How fast is Voiceforce compared to traditional AI voice bots?",
-    answer: "Traditional voice bots have an awkward 500ms to 1200ms response lag. Voiceforce combines Cartesia Ink-2 speech-to-text with Sonic-3 text-to-speech to stream audio in under 200 milliseconds, allowing natural conversational interruption, barge-in, and human pacing."
+    answer: "Traditional voice bots have an awkward 500ms to 1200ms response lag. Voiceforce combines Cartesia Ink-2 speech-to-text with Sonic-3 text-to-speech over Telnyx SIP and LiveKit WebRTC to stream audio in under 200 milliseconds, allowing natural conversational interruption, barge-in, and human pacing."
   },
   {
     question: "How does Bring Your Own Key (BYOK) save money?",
     answer: "Other voice AI platforms charge heavy markups on LLM tokens (often 2x to 4x what OpenAI or Groq charges). Voiceforce charges $0.00 for LLM intelligence tokens—you plug in your existing API key and pay your provider directly at wholesale API rates."
   },
   {
-    question: "Can Voiceforce agents perform real actions during the call?",
-    answer: "Yes. Voiceforce agents have native access to 180 Work Graph tools. During the live conversation, the agent can check customer CRM history, update deal stages, book calendar appointments, and trigger post-call SMS confirmations in real time."
+    question: "How does Voiceforce prevent AI hallucinations and unauthorized commitments?",
+    answer: "Voiceforce incorporates hard deterministic policy guardrails. These guardrails intercept every tool execution before it fires and validate conversational boundaries—enforcing strict minimum price floors on discount negotiation and preventing deviations from approved company policy."
   },
   {
     question: "How do outbound Caller IDs and phone numbers work?",
     answer: "You can either verify your existing mobile or business phone number for free via a 60-second OTP to dial out with your own trusted Caller ID, or rent dedicated local numbers across 60+ countries starting at just ₹299 ($3.50) per month."
-  },
-  {
-    question: "How does Voiceforce prevent AI hallucinations during calls?",
-    answer: "Voiceforce incorporates hard deterministic policy guardrails. These guardrails intercept every tool execution before it fires and validate conversational boundaries, ensuring the agent cannot offer unauthorized discounts, promise illegal terms, or deviate from approved policy."
   }
 ];
 ---

@@ -12,7 +12,7 @@ const pillars = [
   {
     badge: ">500 FPS Export",
     title: "Lossless Smart Stream-Copy Video Engine",
-    description: "Export untouched video segments at raw disk I/O speeds without generational quality loss. Only modified transition GOP boundaries are re-encoded.",
+    description: "Export full-resolution video segments at raw NVMe disk throughput without generational quality loss. Untouched keyframe GOP packets are stream-copied directly, re-encoding only active transition cuts.",
     bullets: [
       "Stream-copy untouched keyframe GOP packets directly",
       "500+ FPS export throughput on standard NVMe SSDs",
@@ -20,53 +20,53 @@ const pillars = [
     ]
   },
   {
-    badge: "AI Creative Director",
-    title: "Autonomous Video Editing & Caption Generation",
-    description: "Deterministic telemetry extraction feeds compact JSON ASTs into LLM directors, generating viral jump-cuts, highlight reels, and dynamic animated subtitles.",
+    badge: "Mobile Teleprompter",
+    title: "Native Mobile Studio with Smart Teleprompter",
+    description: "Record camera-ready videos directly from your smartphone. The built-in Flutter mobile teleprompter automatically matches scrolling speed to your speaking voice with AI eye-contact correction.",
     bullets: [
-      "Automated transcript silence detection and jump-cut pacing",
-      "Rule-based QA Critic scoring retention, zoom, and text visibility",
+      "Voice-paced scrolling automatically pauses when you pause",
+      "Front-facing 4K recording with eye-contact tracking",
+      "Instant sync to desktop timeline with zero cable transfers"
+    ]
+  },
+  {
+    badge: "Auto-DM Funnel",
+    title: "Viral Comment-to-Lead Auto-DM Automation",
+    description: "Convert social engagement into paying customers automatically. When viewers comment keywords on your Instagram Reels or X posts, Social Studio immediately DMs them the link and captures the lead into 180 CRM.",
+    bullets: [
+      "Official Meta Graph API webhook listeners with zero ban risk",
+      "Instant customized DM delivery with dynamic tracking links",
+      "Direct lead creation in 180 CRM with campaign attribution"
+    ]
+  },
+  {
+    badge: "8-Agent Autopilot",
+    title: "AI Script Director & Retention Architecture",
+    description: "Multi-model creative kernel (Claude, GPT, Gemini) analyzes trending hooks and structures high-retention video scripts complete with scene breakdowns and automated Pexels/Unsplash B-roll sourcing.",
+    bullets: [
+      "Hook scoring engine targeting sub-3s retention thresholds",
+      "Automated scene-by-scene B-roll suggestions and stock matching",
       "100% offline fallback mode with built-in heuristic director"
     ]
   },
   {
-    badge: "Universal Calendar",
-    title: "Visual Multi-Channel Content Calendar",
-    description: "Plan, draft, and schedule all your marketing content across social channels in an intuitive drag-and-drop monthly, weekly, and daily calendar view.",
+    badge: "Omnichannel",
+    title: "Visual Multi-Network Publishing Calendar",
+    description: "Plan, draft, and schedule all your marketing content across social channels in an intuitive drag-and-drop calendar with real-time live preview mockups for every platform.",
     bullets: [
-      "Drag-and-drop post rescheduling across dates and times",
-      "Channel filtering (LinkedIn, Twitter/X, Instagram, YouTube, Facebook)",
-      "Color-coded campaign tags and content category grouping"
+      "Direct API publishing to YouTube (Shorts), Instagram, X, LinkedIn & Meta",
+      "Platform-specific character counters, hashtag helpers & aspect ratios",
+      "First-comment auto-posting for links and conversion calls-to-action"
     ]
   },
   {
-    badge: "Multi-Publishing",
-    title: "One-Click Multi-Network Distribution",
-    description: "Write your post once and customize captions, hashtags, and video aspect ratios for each platform with real-time live preview mockups.",
+    badge: "Client Approval",
+    title: "Agency Review Workflows & Brand Voice RAG",
+    description: "Prevent accidental social slip-ups. Draft posts require client or marketing director sign-off via shareable one-click approval links, while RAG memory enforces strict brand voice guidelines.",
     bullets: [
-      "Direct API publishing to LinkedIn, Twitter/X, Meta, and Instagram",
-      "Platform-specific character counters and hashtag helpers",
-      "First-comment auto-posting for links and extra hashtags"
-    ]
-  },
-  {
-    badge: "Approval Tiers",
-    title: "Content Review & Approval Workflows",
-    description: "Prevent accidental social slip-ups. Draft posts require client or marketing director review and sign-off before automated scheduling.",
-    bullets: [
-      "Draft, Pending Review, Scheduled, and Published states",
-      "In-line feedback comments directly on post drafts",
-      "External client approval links for agency social managers"
-    ]
-  },
-  {
-    badge: "Performance",
-    title: "Social Engagement & Audience Analytics",
-    description: "Track post impressions, engagement rates, click-throughs, and follower growth trends across all connected social channels in one dashboard.",
-    bullets: [
-      "Cross-platform impression and engagement comparisons",
-      "Top-performing post leaderboards to identify winning formats",
-      "Best time-to-post recommendations based on historical data"
+      "Draft, Pending Review, Scheduled, and Published state machine",
+      "External client approval links for agency social managers",
+      "Brand voice vector memory ensuring consistent copy tone"
     ]
   }
 ];
@@ -74,27 +74,27 @@ const pillars = [
 const playbookSteps = [
   {
     stepNumber: "01",
-    title: "Connect Social Channels & Import Assets",
-    description: "Connect your LinkedIn company page, Twitter/X, YouTube, and Instagram accounts. Import raw 4K footage or graphics directly from 180 Cloud Drive.",
-    actionSnippet: "Social Studio -> Settings -> Connect Accounts"
+    title: "Generate Viral Scripts with AI Director",
+    description: "Enter your topic or product link. The 8-Agent Director researches trending angles, writes a high-hook script, and generates scene-by-scene visual cues.",
+    actionSnippet: "AI Director -> Hook Generator -> 60s Reel Script"
   },
   {
     stepNumber: "02",
-    title: "Auto-Edit Videos with AI Director",
-    description: "Load footage into the timeline. The AI Director trims dead air, generates animated kinetic subtitles, and optimizes aspect ratios for Reels and Shorts.",
-    actionSnippet: "Render Engine: >500 FPS Lossless Stream Copy"
+    title: "Record with Voice-Paced Mobile Teleprompter",
+    description: "Open the 180 Social Studio mobile app on your phone. Read from the smart teleprompter that scrolls at your natural cadence while recording in 4K.",
+    actionSnippet: "Mobile App -> In-App Teleprompter -> Auto-Scroll"
   },
   {
     stepNumber: "03",
-    title: "Schedule on the Visual Content Calendar",
-    description: "Drag rendered media onto your publishing calendar. Customize platform captions, first-comment links, and scheduled publish times.",
-    actionSnippet: "Multi-Network Distribution -> Auto-Format"
+    title: "Auto-Cut & Caption at >500 FPS",
+    description: "Import footage into the timeline. The stream-copy engine cuts dead air, burns animated kinetic subtitles, and renders final video at raw SSD read/write speeds.",
+    actionSnippet: "Render Engine: >500 FPS Lossless Stream Copy"
   },
   {
     stepNumber: "04",
-    title: "Automated Publishing & Work Graph Tracking",
-    description: "The Work Graph background queue automatically publishes each post and tracks audience impressions and lead attribution in 180 CRM.",
-    actionSnippet: "Published via BullMQ Workers • Sync to CRM"
+    title: "Schedule & Launch Auto-DM Lead Capture",
+    description: "Schedule across YouTube, Instagram, X, and LinkedIn. Turn on Auto-DM so anyone commenting on your video receives your link and is logged in 180 CRM.",
+    actionSnippet: "Auto-DM: Comment 'GUIDE' -> Instant DM + CRM Contact"
   }
 ];
 
@@ -102,56 +102,56 @@ const synergies = [
   {
     sourceApp: "180 Social Studio",
     targetApp: "180 CRM & Sales",
-    badge: "Lead Attribution",
-    description: "Social post clicks and campaign UTMs feed directly into CRM lead timelines when prospective clients interact."
+    badge: "Auto-DM Leads",
+    description: "Viewers who comment on social reels automatically receive DM links and are instantly added to your CRM pipeline as qualified leads."
   },
   {
     sourceApp: "180 Social Studio",
-    targetApp: "Workspace Tools",
-    badge: "Cloud Storage",
-    description: "Direct zero-egress integration with Cloud Drive for high-resolution video b-roll and marketing asset libraries."
+    targetApp: "180 Traffic Director",
+    badge: "Ad Shielding",
+    description: "Bio links and social campaign URLs run through Traffic Director edge routing to mitigate competitor bots and preserve click quality."
   },
   {
     sourceApp: "180 Social Studio",
-    targetApp: "Voiceforce",
-    badge: "Audio Sync",
-    description: "Incorporate autonomous voice clone audio tracks directly into video timeline sequences."
+    targetApp: "Workspace Cloud Drive",
+    badge: "Zero-Egress Assets",
+    description: "Direct asset pipeline with 180 Cloud Drive for high-resolution video b-roll, logos, and creator media libraries."
   }
 ];
 
 const faqs = [
   {
-    question: "What is 180 Social Studio?",
-    answer: "180 Social Studio is an all-in-one creative suite combining an ultra-fast autonomous video editor engine (>500 FPS stream-copy) with a unified multi-channel social media scheduler and analytics dashboard."
+    question: "What makes 180 Social Studio different from traditional video editors?",
+    answer: "Traditional editors (Premiere, CapCut) re-encode every single pixel upon export, causing long rendering times and generational compression artifacts. 180 Social Studio utilizes a smart stream-copy engine that copies untouched keyframe GOP packets directly from disk, re-encoding only modified cut boundaries to deliver export speeds exceeding 500 FPS."
   },
   {
-    question: "Which social media platforms does 180 Social Studio support?",
-    answer: "Social Studio natively supports direct publishing and scheduling to LinkedIn (personal profiles and company pages), Twitter/X, YouTube (Shorts and long-form), Facebook Pages, and Instagram."
+    question: "Is there a dedicated mobile app for recording and scripting?",
+    answer: "Yes! 180 Social Studio includes a native Flutter mobile app for Android and iOS. It features a smart voice-paced teleprompter that tracks your speech in real time, camera recording with eye-contact correction, and instant cloud sync to your desktop timeline."
   },
   {
-    question: "How does the >500 FPS stream-copy video engine work?",
-    answer: "Unlike traditional video editors that re-encode every single frame from scratch, our stream-copy engine extracts untouched keyframe GOP packets directly from disk, re-encoding only modified cuts and transitions for extreme export speeds."
+    question: "How does the Auto-DM comment automation work?",
+    answer: "Social Studio integrates directly with official Meta and X webhooks. When a user comments a designated trigger keyword (e.g., 'WORKFLOW' or 'SCALE') on your Reel or post, our background workers immediately dispatch a private direct message containing your resource link and log the prospect into 180 CRM."
   },
   {
-    question: "Can agencies invite clients to approve social posts?",
-    answer: "Yes. Social Studio includes dedicated client approval links where external clients can review post mockups, leave feedback comments, and approve drafts with one click without needing full workspace access."
+    question: "Which social media networks can I publish to directly?",
+    answer: "180 Social Studio supports native multi-channel scheduling and direct API publishing to YouTube (Shorts & long-form), Instagram (Reels & Feed), Twitter/X, LinkedIn (Profiles & Company Pages), and Facebook Pages."
   },
   {
-    question: "Is video editing performed locally or in the cloud?",
-    answer: "Video editing executes local-first with hardware acceleration via NVENC, Apple VideoToolbox, and WebGPU shaders, eliminating long cloud upload delays for raw 4K and 8K footage."
+    question: "Can agencies invite clients to review and approve posts?",
+    answer: "Yes. Social Studio provides secure, branded client approval portals. External clients can review pixel-perfect post previews, leave timestamped feedback, and approve drafts with a single click without requiring full workspace access."
   }
 ];
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
-  { name: 'Apps', url: '/apps' },
+  { name: 'Products', url: '/apps' },
   { name: '180 Social Studio', url: '/180-social-studio' }
 ];
 ---
 
 <Layout 
-  title="180 Social Studio — Autonomous Video Editor & Omnichannel Scheduler | 180workspace"
-  description="High-speed >500 FPS video editing engine and universal multi-network social media publisher integrated on the 180 Work Graph."
+  title="180 Social Studio — Autonomous AI Video Editor, Mobile Teleprompter & Omnichannel Publisher"
+  description="All-in-one creator engine: >500 FPS lossless video editor, voice-paced mobile teleprompter, Auto-DM comment automation, and multi-network social scheduling."
   breadcrumbs={breadcrumbs}
   faqs={faqs}
   applicationCategory="MultimediaApplication"
@@ -159,9 +159,9 @@ const breadcrumbs = [
   <main class="w-full relative">
     
     <AppHero 
-      title="Create, edit, and publish social media at"
-      highlightText="unprecedented speed."
-      description="Autonomous video editing with >500 FPS stream-copy rendering combined with unified multi-channel scheduling for YouTube, Instagram, X, and LinkedIn."
+      title="Autonomous AI Video Studio, Mobile Teleprompter &"
+      highlightText="Omnichannel Publisher."
+      description="Record with smart voice-paced teleprompter, edit at >500 FPS with lossless stream-copy rendering, and convert viral comments into CRM leads with Auto-DM automation."
       breadcrumbs={breadcrumbs}
     />
 

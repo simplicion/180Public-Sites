@@ -5,6 +5,7 @@ interface Props {
   subheadline?: string;
   ctaText?: string;
   ctaLink?: string;
+  clientId?: string;
 }
 
 const saasUrl = import.meta.env.PUBLIC_SAAS_URL || 'https://app.180workspace.com';
@@ -63,6 +64,7 @@ const displayCtaText = ctaText || (isCoreWorkspace
           class="btn-primary w-full sm:w-auto shadow-xl shadow-indigo-600/25"
           data-180-identity-login="true"
           data-redirect-url={ctaLink}
+          data-client-id={clientId}
           data-target-app={appName}
         >
           <span>{displayCtaText}</span>

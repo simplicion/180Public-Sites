@@ -280,22 +280,26 @@ app.<span class="text-sky-300">post</span>(<span class="text-emerald-400">'/api/
 
                 {/* Flutter Tab */}
                 <div id="tab-flutter" class="code-tab-content hidden">
-                  <pre class="text-xs sm:text-[13px] leading-relaxed font-mono"><code><span class="text-purple-400">import</span> <span class="text-emerald-400">'package:url_launcher/url_launcher.dart'</span>;
-
-<span class="text-purple-400">class</span> <span class="text-sky-300">OneEightyIntegrationService</span> {'{'}
-  <span class="text-slate-500">/// 1-Click checkout in pure Dart with standard url_launcher</span>
-  <span class="text-purple-400">static</span> Future&lt;bool&gt; <span class="text-sky-300">launchCheckout</span>({'{'}
-    <span class="text-purple-400">required</span> String orderId,
-    <span class="text-purple-400">required</span> num amountInRupees, <span class="text-slate-500">// Whole units (e.g. 499)</span>
-    <span class="text-purple-400">required</span> String title,
-    <span class="text-purple-400">required</span> String returnUrl,
-  {'}'}) <span class="text-purple-400">async</span> {'{'}
-    <span class="text-purple-400">final</span> uri = Uri.<span class="text-sky-300">parse</span>(
-      <span class="text-emerald-400">'https://auth.180workspace.com/checkout?amount=$amountInRupees&currency=INR&title=${'{'}Uri.encodeComponent(title){'}'}&order_id=$orderId&return_url=${'{'}Uri.encodeComponent(returnUrl){'}'}'</span>
+                  <pre class="text-xs sm:text-[13px] leading-relaxed font-mono"><code><span class="text-slate-500">// 1. In-App WebView Bridge with OneEightyMobileChannel & OneEightyPaymentChannel</span>
+<span class="text-purple-400">InAppWebView</span>(
+  <span class="text-slate-400">initialUrlRequest:</span> URLRequest(url: WebUri(<span class="text-emerald-400">'https://profile.180core.cloud/auth/login?client_id=$clientId&redirect_uri=$redirectUri'</span>)),
+  <span class="text-slate-400">onWebViewCreated:</span> (controller) {'{'}
+    controller.<span class="text-sky-300">addJavaScriptHandler</span>(
+      <span class="text-slate-400">handlerName:</span> <span class="text-emerald-400">'OneEightyMobileChannel'</span>,
+      <span class="text-slate-400">callback:</span> (args) =&gt; <span class="text-sky-300">handleAuth</span>(jsonDecode(args[0])),
     );
-    <span class="text-purple-400">return</span> <span class="text-purple-400">await</span> <span class="text-sky-300">launchUrl</span>(uri, mode: LaunchMode.inAppBrowserView);
-  {'}'}
-{'}'}</code></pre>
+    controller.<span class="text-sky-300">addJavaScriptHandler</span>(
+      <span class="text-slate-400">handlerName:</span> <span class="text-emerald-400">'OneEightyPaymentChannel'</span>,
+      <span class="text-slate-400">callback:</span> (args) =&gt; <span class="text-sky-300">handlePayment</span>(jsonDecode(args[0])),
+    );
+  {'}'},
+)
+
+<span class="text-slate-500">// 2. Or launch Sovereign Checkout via url_launcher:</span>
+<span class="text-purple-400">final</span> uri = Uri.<span class="text-sky-300">parse</span>(
+  <span class="text-emerald-400">'https://profile.180core.cloud/checkout?amount=499&currency=INR&order_id=ord_12345&return_url=myapp://payment/callback'</span>
+);
+<span class="text-purple-400">await</span> <span class="text-sky-300">launchUrl</span>(uri, mode: LaunchMode.inAppBrowserView);</code></pre>
                 </div>
 
                 {/* Python Tab */}

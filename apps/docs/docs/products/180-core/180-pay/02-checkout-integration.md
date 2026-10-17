@@ -28,7 +28,7 @@ Creating a checkout session on your server prevents client-side price tampering 
 ### Canonical Endpoint
 - **URL**: `POST https://api.180core.cloud/api/v1/pay/checkout-session`
 - *Alias (Backward Compatible)*: `POST https://api.180core.cloud/api/v1/checkout/sessions`
-- **Hosted Checkout Destination**: `https://auth.180workspace.com/checkout?sessionId={sessionId}`
+- **Hosted Checkout Destination**: `https://profile.180core.cloud/checkout?sessionId={sessionId}`
 
 ### Authentication
 Authenticate with either:
@@ -77,7 +77,7 @@ Content-Type: application/json
 {
   "success": true,
   "sessionId": "cs_08ba67aa9755_9a1b8c7d",
-  "checkoutUrl": "https://auth.180workspace.com/checkout?sessionId=cs_08ba67aa9755_9a1b8c7d",
+  "checkoutUrl": "https://profile.180core.cloud/checkout?sessionId=cs_08ba67aa9755_9a1b8c7d",
   "amount": 499,
   "currency": "INR",
   "status": "PENDING"
@@ -226,14 +226,96 @@ export function CheckoutButton() {
 
 ## 4. Flutter 3.24+ / Dart 3.5+ Mobile Integration
 
-Mobile apps can launch the hosted checkout using Flutter's official `url_launcher` package:
+Mobile applications can integrate 180 Pay Sovereign Checkout using either In-App WebViews with direct JavaScript bridges or external Custom Tabs with custom URI schemes.
+
+### A. In-App WebView with JavaScript Bridge (`OneEightyPaymentChannel`) — Recommended
+
+This pattern provides a seamless, zero-redirect experience where payment confirmation is communicated directly to Flutter without leaving the view:
+
+```dart
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+
+class OneEightyPaymentWebView extends StatelessWidget {
+  final String sessionId; // Created via POST /api/v1/pay/checkout-session
+
+  const OneEightyPaymentWebView({super.key, required this.sessionId});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('180 Sovereign Checkout')),
+      body: InAppWebView(
+        initialUrlRequest: URLRequest(
+          url: WebUri("https://profile.180core.cloud/checkout/$sessionId"),
+        ),
+        onWebViewCreated: (controller) {
+          // Listen for 180 Pay capture events
+          controller.addJavaScriptHandler(
+            handlerName: 'OneEightyPaymentChannel',
+            callback: (args) {
+              final data = jsonDecode(args[0]);
+              if (data['type'] == '180_PAYMENT_SUCCESS') {
+                // Return transaction data to your Flutter state
+                Navigator.pop(context, {
+                  'status': 'success',
+                  'transactionId': data['transactionId'],
+                  'amount': data['amount'],
+                });
+              }
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+```
+
+### B. Custom URI Scheme Redirection (`myapp://payment/callback`)
+
+When 180 Pay completes payment in a mobile webview or custom tab, it redirects back to your registered custom URI scheme with full transaction parameters:
+```text
+myapp://payment/callback?status=success&session_id=cs_08ba67aa9755_9a1b8c7d&amount=499&order_id=ord_12345
+```
+
+#### Android Configuration (`AndroidManifest.xml`)
+```xml
+<activity android:name=".MainActivity" android:exported="true">
+  <intent-filter>
+    <action android:name="android.intent.action.VIEW" />
+    <category android:name="android.intent.category.DEFAULT" />
+    <category android:name="android.intent.category.BROWSABLE" />
+    <data android:scheme="myapp" android:host="payment" />
+  </intent-filter>
+</activity>
+```
+
+#### iOS Configuration (`Info.plist`)
+```xml
+<key>CFBundleURLTypes</key>
+<array>
+  <dict>
+    <key>CFBundleURLSchemes</key>
+    <array>
+      <string>myapp</string>
+    </array>
+  </dict>
+</array>
+```
+
+#### Register in Console
+Register `myapp://payment/callback` as an **Allowed Redirect URI** in the [180 Developer Console](https://developer.180core.cloud).
+
+### C. Lightweight `url_launcher` Fallback
 
 ```dart
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OneEightyPayService {
-  static const String hostedCheckoutUrl = 'https://auth.180workspace.com/checkout';
+  static const String hostedCheckoutUrl = 'https://profile.180core.cloud/checkout';
 
   /// Launches the 180 Pay Sovereign Checkout in an in-app browser view
   static Future<bool> launchCheckout({
@@ -256,10 +338,7 @@ class OneEightyPayService {
     final uri = Uri.parse(hostedCheckoutUrl).replace(queryParameters: queryParams);
 
     if (await canLaunchUrl(uri)) {
-      return await launchUrl(
-        uri,
-        mode: LaunchMode.inAppBrowserView, // Prevents external app switching
-      );
+      return await launchUrl(uri, mode: LaunchMode.inAppBrowserView);
     } else {
       throw Exception('Could not launch 180 Pay checkout: $uri');
     }

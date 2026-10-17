@@ -41,11 +41,64 @@ sequenceDiagram
 
 | Domain | Role & Purpose | Canonical Endpoints |
 | :--- | :--- | :--- |
-| **`auth.180workspace.com`**<br/>*(Mirror: `profile.180core.cloud`)* | **Hosted User Interfaces**<br/>(Universal SSO, 1-Click Sovereign Checkout) | `GET /auth/login`<br/>`GET /checkout`<br/>`GET /sdk/v1/180-core-sdk.js` |
+| **`profile.180core.cloud`** | **Hosted User Interfaces & CDN SDK**<br/>(Universal SSO, WhatsApp 1-Tap OTP, 1-Click Sovereign Checkout) | `GET /auth/login`<br/>`GET /checkout`<br/>`GET /sdk/v1/180-core-sdk.js`<br/>`GET /.well-known/openid-configuration` |
 | **`api.180core.cloud`** | **Core Engine REST APIs**<br/>(RFC 6749 Code Exchange, OIDC Profile & JWKS) | `POST /api/oauth/token`<br/>`GET /api/oauth/userinfo`<br/>`GET /certs/jwks.json` |
 | **`developer.180core.cloud`** | **Developer Management Console** | Client IDs, Secrets, Allowed Origins |
 
 ---
+
+
+
+:::tip Universal Parameter Normalization
+180 Core's OAuth engine seamlessly accepts both RFC 6749 `snake_case` and JavaScript/Dart `camelCase`:
+- `client_id` ↔ `clientId`
+- `redirect_uri` ↔ `redirectUri`
+- `response_type` ↔ `responseType`
+- `code_challenge` ↔ `codeChallenge`
+- `state`
+:::
+
+## 💡 The "Zero Custom Screen" Mandate (Zero UI Requirement)
+
+**Is any custom screen required? NO.**
+
+Developers do **NOT** build or maintain:
+- ❌ Login or sign-in screens
+- ❌ User registration or sign-up forms
+- ❌ WhatsApp 1-Tap OTP or SMS verification popups
+- ❌ Biometric Passkey / WebAuthn enrollment modals
+- ❌ Forgot password or account recovery flows
+- ❌ 2-Factor Authentication (2FA) screens
+- ❌ OAuth 2.0 Consent dialogs
+
+### How It Integrates (3 Pre-Built Options):
+1. **In-DOM Bottom Sheet / Glass Modal (Web)**: With 1 line (`OneEighty.signIn({ uxMode: 'bottom_sheet' })` or `OneEightyIdentity.openBottomSheet({ clientId: '...' })`), an adaptive sheet slides up on mobile or an ultra-sleek glass modal opens on desktop. The user never leaves the developer's app.
+2. **Drop-in Web Component**: `<one-eighty-auth-button>` (HTML) or `<OneEightyButton />` (React) renders an animated, responsive button that triggers the full flow.
+3. **Native Mobile (Flutter / React Native / iOS / Android)**: Launch `https://profile.180core.cloud/auth/login?client_id=...` in an In-App WebView or Custom Tab. Once authenticated, 180 Identity redirects to the custom URI scheme (e.g. `myapp://oauth/callback?code=...`) or communicates via the `OneEightyMobileChannel` bridge.
+
+### 📱 Mobile & Cross-Platform (Flutter / React Native) Setup
+- **Custom URI Scheme Registration**:
+  - Android (`AndroidManifest.xml`): `<data android:scheme="myapp" android:host="oauth" />`
+  - iOS (`Info.plist`): Add `myapp` under `CFBundleURLSchemes`
+  - Console: Add `myapp://oauth/callback` under Allowed Redirect URIs in [https://developer.180core.cloud](https://developer.180core.cloud)
+- **Flutter In-App WebView Bridge**:
+```dart
+InAppWebView(
+  initialUrlRequest: URLRequest(url: WebUri("https://profile.180core.cloud/auth/login?client_id=$clientId&redirect_uri=$redirectUri")),
+  onWebViewCreated: (controller) {
+    controller.addJavaScriptHandler(
+      handlerName: 'OneEightyMobileChannel',
+      callback: (args) {
+        final data = jsonDecode(args[0]);
+        if (data['type'] == '180_IDENTITY_SUCCESS') {
+          // Handle authentication code/token
+        }
+      },
+    );
+  },
+)
+```
+- **Flutter Web Path Routing**: RFC 6749 Section 3.1.2 strictly prohibits fragment identifiers (`#`) in OAuth redirect URIs. Ensure Flutter Web apps invoke `usePathUrlStrategy()` from `package:flutter_web_plugins/url_strategy.dart` so redirect URLs are clean (e.g. `http://localhost:3000/auth/callback`).
 
 ## 🚀 The New Reality: Integrated in 60 Seconds
 

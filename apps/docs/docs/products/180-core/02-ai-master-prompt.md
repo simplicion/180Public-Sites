@@ -20,8 +20,8 @@ Unlike legacy gateways (Stripe/Razorpay) that require smallest currency units (e
 :::tip Dual-Domain Ecosystem Directory
 Prevent 404s and routing confusion by strictly separating user-facing hosted interfaces from server-to-server APIs:
 - **Hosted User Interfaces (Checkout & SSO)**:
-  - `https://auth.180workspace.com/checkout` (1-Click Sovereign Checkout)
-  - `https://auth.180workspace.com/auth/login` (Hosted Universal SSO)
+  - `https://profile.180core.cloud/checkout` (1-Click Sovereign Checkout)
+  - `https://profile.180core.cloud/auth/login` (Hosted Universal SSO)
   - *Alternative mirror*: `https://profile.180core.cloud`
 - **Core Engine REST APIs (Server-to-Server)**:
   - `https://api.180core.cloud/api/v1/pay/checkout-session` (Signed Checkout Session creation)
@@ -44,23 +44,32 @@ Follow these strict, modern integration specifications with zero friction, zero 
 - CLIENT_SECRET: "YOUR_CLIENT_SECRET"
 - WEBHOOK_SECRET: "YOUR_WEBHOOK_SECRET"
 - CORE_API_URL: "https://api.180core.cloud"
-- HOSTED_AUTH_URL: "https://auth.180workspace.com/auth/login" (Mirror: "https://profile.180core.cloud")
-- HOSTED_CHECKOUT_URL: "https://auth.180workspace.com/checkout"
+- HOSTED_AUTH_URL: "https://profile.180core.cloud/auth/login" (Mirror: "https://profile.180core.cloud")
+- HOSTED_CHECKOUT_URL: "https://profile.180core.cloud/checkout"
 - JWKS_KEYRING_URL: "https://api.180core.cloud/certs/jwks.json"
 - DEVELOPER_CONSOLE_URL: "https://developer.180core.cloud"
 
 ---
 
-### 5 Critical Integration Principles to Enforce:
-1. **Currency Units Standard**: 180 Pay universally operates on WHOLE CURRENCY UNITS (`amount: 499` for ₹499 INR, or `amount: 49.00` for $49.00 USD). Never pass paise or cents (`49900`) as the primary amount.
-2. **Dual-Domain Ecosystem Separation**:
-   - User-facing checkout and login: `https://auth.180workspace.com` (e.g. `/checkout`, `/auth/login`).
+### 7 Critical Integration Principles to Enforce:
+1. **The "Zero Custom Screen" Mandate**: NEVER build or design custom screens for login, user registration, WhatsApp OTP popups, biometric passkey modals, password recovery, 2FA, OAuth consent, payment method selectors, credit card forms, UPI QR displays, coupon calculation, or receipt generation. All flows are 100% pre-built and hosted via in-DOM bottom sheets (`OneEighty.signIn({ uxMode: 'bottom_sheet' })`, `OneEightyPay.checkout({ amount: 499, currency: 'INR' })`), drop-in components (`<one-eighty-auth-button>`, `<one-eighty-pay-button>`), or hosted mobile WebViews.
+2. **Currency Units Standard**: 180 Pay universally operates on WHOLE CURRENCY UNITS (`amount: 499` for ₹499 INR, or `amount: 49.00` for $49.00 USD). Never pass paise or cents (`49900`) as the primary amount.
+3. **Universal Parameter Normalization**: 180 Core's backend and SDK support seamless bidirectional mapping:
+   - `client_id` ↔ `clientId`
+   - `redirect_uri` ↔ `redirectUri`
+   - `return_url` ↔ `returnUrl`
+   - `cancel_url` ↔ `cancelUrl`
+   - `order_id` ↔ `orderId`
+   - `session_id` ↔ `sessionId`
+   - `coupon_code` ↔ `couponCode` / `coupon`
+4. **Dual-Domain Ecosystem Separation**:
+   - User-facing checkout and login: `https://profile.180core.cloud` (e.g. `/checkout`, `/auth/login`).
    - Server-to-server REST endpoints: `https://api.180core.cloud` (e.g. `/api/v1/pay/checkout-session`, `/api/oauth/token`, `/api/oauth/userinfo`, `/certs/jwks.json`).
-3. **Two Checkout Initiation Patterns**:
+5. **Two Checkout Initiation Patterns**:
    - Pattern A (Server-Side Signed Session - Recommended for Web & Mobile Backends): Backend calls `POST https://api.180core.cloud/api/v1/pay/checkout-session` with secret key, receives `{ sessionId, checkoutUrl }`, and directs client to `checkoutUrl`.
    - Pattern B (In-DOM Client Bottom Sheet - Direct Web SPA): Trigger `OneEightyPay.openBottomSheet({ amount, currency, title, orderId, onSuccess })` to eliminate popup blockers.
-4. **RFC 8252 Dynamic Loopback Compatibility**: 180 Identity dynamically supports local development across any port on `localhost`, `127.0.0.1`, `10.0.2.2` (Android emulator), and `::1` without redirect URI mismatch errors.
-5. **Universal OIDC Claims Normalization**: The `/api/oauth/userinfo` response returns normalized standard claims (`sub`, `name`, `preferred_username`, `email`, `phone_number`, `picture`) alongside legacy aliases (`phone`, `phoneNumber`, `avatarUrl`) and nested `user: { ... }` so database schemas (Prisma, Drizzle, TypeORM) never crash.
+6. **RFC 8252 Dynamic Loopback Compatibility**: 180 Identity dynamically supports local development across any port on `localhost`, `127.0.0.1`, `10.0.2.2` (Android emulator), and `::1` without redirect URI mismatch errors.
+7. **Universal OIDC Claims Normalization**: The `/api/oauth/userinfo` response returns normalized standard claims (`sub`, `name`, `preferred_username`, `email`, `phone_number`, `picture`) alongside legacy aliases (`phone`, `phoneNumber`, `avatarUrl`) and nested `user: { ... }` so database schemas (Prisma, Drizzle, TypeORM) never crash.
 
 ---
 
@@ -70,7 +79,7 @@ Add the following to your `.env` (or `.env.local` / `.env.production`) file:
 # Public Client Configuration
 NEXT_PUBLIC_180_CLIENT_ID=YOUR_CLIENT_ID
 NEXT_PUBLIC_180_CORE_URL=https://api.180core.cloud
-NEXT_PUBLIC_180_AUTH_URL=https://auth.180workspace.com
+NEXT_PUBLIC_180_AUTH_URL=https://profile.180core.cloud
 
 # Server-Only Confidential Secrets (NEVER expose to client bundles)
 ONE_EIGHTY_CLIENT_SECRET=YOUR_CLIENT_SECRET
@@ -178,7 +187,7 @@ export async function createCheckoutSession(orderId: string, userEmail: string) 
   });
 
   const { sessionId, checkoutUrl } = await res.json();
-  // 2. Direct client to checkoutUrl (e.g. https://auth.180workspace.com/checkout?sessionId=...)
+  // 2. Direct client to checkoutUrl (e.g. https://profile.180core.cloud/checkout?sessionId=...)
   return { sessionId, checkoutUrl };
 }
 ```
@@ -360,13 +369,51 @@ async def handle_180_webhook(request: Request):
 ---
 
 ### Step 5: Flutter 3.24+ / Dart 3.5+ Mobile Integration
+
+#### A. In-App WebView with JavaScript Channels (`OneEightyMobileChannel` & `OneEightyPaymentChannel`):
+```dart
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+
+InAppWebView(
+  initialUrlRequest: URLRequest(url: WebUri("https://profile.180core.cloud/auth/login?client_id=$clientId&redirect_uri=$redirectUri")),
+  onWebViewCreated: (controller) {
+    controller.addJavaScriptHandler(
+      handlerName: 'OneEightyMobileChannel',
+      callback: (args) {
+        final data = jsonDecode(args[0]);
+        if (data['type'] == '180_IDENTITY_SUCCESS') {
+          // Handle authentication code/token
+        }
+      },
+    );
+    controller.addJavaScriptHandler(
+      handlerName: 'OneEightyPaymentChannel',
+      callback: (args) {
+        final data = jsonDecode(args[0]);
+        if (data['type'] == '180_PAYMENT_SUCCESS') {
+          // Handle payment confirmation
+        }
+      },
+    );
+  },
+)
+```
+
+#### B. Custom URI Scheme Registration:
+- Android (`AndroidManifest.xml`): `<data android:scheme="myapp" android:host="oauth" />` & `<data android:scheme="myapp" android:host="payment" />`
+- iOS (`Info.plist`): Add `myapp` under `CFBundleURLSchemes`
+- Developer Console: Register `myapp://oauth/callback` and `myapp://payment/callback` at `https://developer.180core.cloud`
+
+#### C. Lightweight `url_launcher` Fallback Service:
 ```dart
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OneEightyIntegrationService {
-  static const String hostedAuthUrl = 'https://auth.180workspace.com/auth/login';
-  static const String hostedCheckoutUrl = 'https://auth.180workspace.com/checkout';
+  static const String hostedAuthUrl = 'https://profile.180core.cloud/auth/login';
+  static const String hostedCheckoutUrl = 'https://profile.180core.cloud/checkout';
 
   /// Launch Universal 180 Identity SSO
   static Future<bool> launchHostedLogin({

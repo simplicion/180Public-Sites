@@ -467,7 +467,7 @@ curl -X POST https://api.180core.cloud/api/v1/pay/checkout-session \\
   -H "Authorization: Bearer 180_sec_key_live_9281ab" \\
   -H "Content-Type: application/json" \\
   -d '{
-    "amount": 49900,
+    "amount": 499,
     "currency": "INR",
     "customer": {
       "whatsapp": "+919876543210"
@@ -478,19 +478,85 @@ curl -X POST https://api.180core.cloud/api/v1/pay/checkout-session \\
 
           {/* Dart Snippet */}
           <pre id="snippet-dart" class="code-snippet hidden font-mono text-xs sm:text-sm text-zinc-300 leading-relaxed">
-<code>{`// Flutter Mobile SDK Integration
-import 'package:one_eighty_core/one_eighty_core.dart';
-
-final session = await OneEightyAuth.signInWithWhatsApp(
-  context: context,
-  clientId: 'app_mobile_flutter_prod',
-);
-
-if (session.isAuthenticated) {
-  print('Welcome @\${session.user.username}!');
-  // Token stored securely in Android Keystore / iOS Keychain
-}`}</code>
+<code>{`// 1. Flutter Mobile In-App WebView Bridge
+InAppWebView(
+  initialUrlRequest: URLRequest(url: WebUri("https://profile.180core.cloud/auth/login?client_id=$clientId&redirect_uri=$redirectUri")),
+  onWebViewCreated: (controller) {
+    controller.addJavaScriptHandler(
+      handlerName: 'OneEightyMobileChannel',
+      callback: (args) {
+        final data = jsonDecode(args[0]);
+        if (data['type'] == '180_IDENTITY_SUCCESS') {
+          // Authentication code / token captured
+        }
+      },
+    );
+    controller.addJavaScriptHandler(
+      handlerName: 'OneEightyPaymentChannel',
+      callback: (args) {
+        final data = jsonDecode(args[0]);
+        if (data['type'] == '180_PAYMENT_SUCCESS') {
+          // Payment captured with zero custom UI
+        }
+      },
+    );
+  },
+)`}</code>
           </pre>
+        </div>
+      </div>
+    </section>
+
+    {/* The Zero Custom Screen Mandate Section */}
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <div class="rounded-3xl border border-indigo-500/20 bg-gradient-to-br from-slate-900 via-slate-950 to-indigo-950/40 p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden">
+        <div class="absolute -top-24 -right-24 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-3xl mb-10">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-semibold mb-4">
+            <span class="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></span>
+            Zero Custom Screen Guarantee
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-white">
+            Do You Need to Build Custom Screens? <span class="text-indigo-400">NO.</span>
+          </h2>
+          <p class="mt-3 text-sm sm:text-base text-slate-300">
+            A core selling point and technical invariant of the 180 platform is that developers NEVER need to build, style, or maintain authentication or payment screens.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Identity Pillar */}
+          <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 space-y-4">
+            <div class="flex items-center gap-2 text-sm font-bold text-teal-400">
+              <span class="w-2.5 h-2.5 rounded-full bg-teal-400"></span>
+              <span>180 Identity (Zero Custom Auth Screens)</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Developers do NOT build login forms, user sign-up screens, WhatsApp OTP or SMS modals, biometric passkey enrollment popups, 2FA screens, password reset flows, or OAuth consent dialogs.
+            </p>
+            <div class="text-xs font-mono text-teal-300 bg-black/40 p-3 rounded-xl border border-white/5 space-y-1">
+              <div>• Web: <code>OneEighty.signIn({'{'} uxMode: 'bottom_sheet' {'}'})</code></div>
+              <div>• Drop-in: <code>&lt;one-eighty-auth-button&gt;</code></div>
+              <div>• Mobile: <code>OneEightyMobileChannel</code> WebView bridge</div>
+            </div>
+          </div>
+
+          {/* Pay Pillar */}
+          <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 space-y-4">
+            <div class="flex items-center gap-2 text-sm font-bold text-emerald-400">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+              <span>180 Pay (Zero Custom Payment Screens)</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Developers do NOT build payment method selectors, card inputs, UPI QR codes, coupon calculation logic, World Bank PPP currency converters, 3DS OTP screens, or fulfillment receipts.
+            </p>
+            <div class="text-xs font-mono text-emerald-300 bg-black/40 p-3 rounded-xl border border-white/5 space-y-1">
+              <div>• Web: <code>OneEightyPay.checkout({'{'} amount: 499, currency: 'INR' {'}'})</code></div>
+              <div>• Hosted: <code>profile.180core.cloud/checkout/:sessionId</code></div>
+              <div>• Mobile: <code>OneEightyPaymentChannel</code> WebView bridge</div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

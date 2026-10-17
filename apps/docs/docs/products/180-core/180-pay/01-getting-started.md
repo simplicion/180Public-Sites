@@ -20,6 +20,37 @@ Unlike legacy gateways (Stripe, Razorpay, Cashfree) that mandate amounts in smal
 *Safety Net*: If you are migrating existing Stripe/Razorpay code and pass `amountInPaise: 49900` or `amount_in_cents: 4990`, 180 Pay backend automatically detects the legacy parameter, safely converts it to whole units (499), and logs a diagnostic warning.
 :::
 
+:::tip Universal Parameter Normalization
+180 Core's payment engine universally accepts both snake_case and camelCase parameters:
+- `order_id` ↔ `orderId`
+- `return_url` ↔ `returnUrl`
+- `cancel_url` ↔ `cancelUrl`
+- `session_id` ↔ `sessionId`
+- `coupon_code` ↔ `couponCode` / `coupon`
+- `client_id` ↔ `clientId`
+:::
+
+---
+
+## 💡 The "Zero Custom Screen" Mandate (Zero UI Requirement)
+
+**Is any custom payment screen required? NO.**
+
+Developers do **NOT** build, style, or maintain:
+- ❌ Payment method selector screens
+- ❌ Credit / Debit card input forms
+- ❌ UPI QR codes or Intent triggers
+- ❌ Coupon code validation & discount math
+- ❌ World Bank PPP purchasing power parity currency conversion logic
+- ❌ 3D Secure OTP verification screens
+- ❌ Receipt generation & fulfillment screens
+
+### How It Integrates (4 Pre-Built Options):
+1. **Adaptive Bottom Sheet / Modal (Web)**: Call `OneEightyPay.checkout({ amount: 499, currency: 'INR' })`. The bottom sheet slides up in under 45ms, handles method selection (UPI, Cards, Netbanking, Prepaid Wallet, PPP Discounts), and resolves securely.
+2. **Hosted Checkout Screen (Mobile WebViews)**: Open `https://profile.180core.cloud/checkout/:sessionId`. On payment capture, 180 Pay posts to `OneEightyPaymentChannel` and redirects back to the mobile custom scheme (`myapp://payment/callback?status=success&session_id=...&amount=499`) with full transaction query parameters.
+3. **Shareable Payment Links (`/pay/l/:slug`)**: Completely zero-code. Generate a link in your console and share it anywhere.
+4. **Drop-in Component**: `<one-eighty-pay-button amount="499" currency="INR" title="Upgrade Now"></one-eighty-pay-button>`.
+
 ---
 
 ## 🌐 Authoritative Dual-Domain Ecosystem Directory
@@ -28,7 +59,7 @@ To prevent 404s, CORS rejections, and routing confusion, 180 Core strictly segme
 
 | Domain | Role & Purpose | Canonical Endpoints |
 | :--- | :--- | :--- |
-| **`auth.180workspace.com`**<br/>*(Mirror: `profile.180core.cloud`)* | **Hosted User Interfaces**<br/>(1-Click Sovereign Checkout, Universal SSO, Customer Portal) | `GET /checkout?clientId=...`<br/>`GET /checkout?sessionId=...`<br/>`GET /auth/login`<br/>`GET /sdk/v1/180-core-sdk.js` |
+| **`profile.180core.cloud`** | **Hosted User Interfaces & CDN SDK**<br/>(1-Click Sovereign Checkout, Universal SSO, Customer Portal) | `GET /checkout?clientId=...`<br/>`GET /checkout?sessionId=...`<br/>`GET /auth/login`<br/>`GET /sdk/v1/180-core-sdk.js` |
 | **`api.180core.cloud`** | **Core Engine REST APIs**<br/>(Server-to-Server Session Creation, Code Exchange & JWKS) | `POST /api/v1/pay/checkout-session`<br/>`POST /api/oauth/token`<br/>`GET /api/oauth/userinfo`<br/>`GET /certs/jwks.json` |
 | **`developer.180core.cloud`** | **Developer Management Console** | API Keys, Webhook URL Config, Allowed Origins |
 
@@ -45,7 +76,7 @@ graph TD
         A2 -->|2. POST /api/v1/pay/checkout-session| A3[180 Core API Engine]
         A3 -->|3. Signed sessionId + checkoutUrl| A2
         A2 -->|4. Return checkoutUrl| A1
-        A1 -->|5. Open Hosted Checkout URL| A4[auth.180workspace.com/checkout]
+        A1 -->|5. Open Hosted Checkout URL| A4[profile.180core.cloud/checkout]
     end
 
     subgraph Pattern B: In-DOM Client Bottom Sheet (Fastest SPA)

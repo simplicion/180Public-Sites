@@ -100,6 +100,10 @@ const faqs = [
     answer: "Instead of redirecting users away to an external hosted login page (like Auth0 or Okta), the 180 Identity client SDK mounts an adaptive bottom sheet on mobile screens and a glass modal on desktop. Users sign in and return to their flow in seconds with zero page reloads and zero browser popup blocker interference."
   },
   {
+    question: "Do I need to build any custom login or registration screens?",
+    answer: "No. Developers never need to build login screens, registration forms, WhatsApp OTP popups, biometric enrollment modals, 2FA prompts, password reset flows, or OAuth consent dialogs. 180 Identity provides 100% pre-built, hosted flows via in-DOM bottom sheets, drop-in web components (<one-eighty-auth-button>), or Flutter/React Native In-App WebViews with OneEightyMobileChannel."
+  },
+  {
     question: "How does backend token verification work with 180 Identity?",
     answer: "Your backend downloads and caches 180 Identity's public cryptographic keys from https://api.180core.cloud/certs/jwks.json. Using standard RS256 JWT libraries, your API verifies signatures locally in less than 1 millisecond without making an outbound network request on every request."
   }
@@ -252,6 +256,100 @@ console.<span class="text-sky-300">log</span>(user.name, user.email, user.phone_
 
 <span class="text-slate-500">// Or verify statelessly via RS256 JWKS:</span>
 <span class="text-slate-500">// https://api.180core.cloud/certs/jwks.json</span></code></pre>
+        </div>
+      </div>
+    </section>
+
+    {/* The Zero Custom Screen Guarantee Section */}
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="rounded-3xl border border-teal-500/20 bg-gradient-to-br from-slate-900 via-slate-950 to-teal-950/40 p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden">
+        <div class="absolute -top-24 -right-24 w-80 h-80 bg-teal-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-3xl mb-10">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-300 text-xs font-semibold mb-4">
+            <span class="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></span>
+            Zero Custom Screen Mandate
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-white">
+            Do You Need to Build Custom Screens? <span class="text-teal-400">NO.</span>
+          </h2>
+          <p class="mt-3 text-sm sm:text-base text-slate-300">
+            A core invariant of 180 Identity is that developers never spend engineering hours designing, styling, or debugging authentication screens.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* What Developers Do NOT Build */}
+          <div class="rounded-2xl border border-rose-500/20 bg-rose-950/10 p-6">
+            <h3 class="text-sm font-bold uppercase tracking-wider text-rose-400 flex items-center gap-2 mb-4">
+              <span>What You NEVER Have to Build</span>
+            </h3>
+            <ul class="space-y-2.5 text-xs sm:text-sm text-slate-300">
+              <li class="flex items-center gap-2.5">
+                <span class="text-rose-400 font-bold">❌</span>
+                <span>Login or sign-in screens</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <span class="text-rose-400 font-bold">❌</span>
+                <span>User registration or sign-up forms</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <span class="text-rose-400 font-bold">❌</span>
+                <span>WhatsApp 1-Tap OTP or SMS verification popups</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <span class="text-rose-400 font-bold">❌</span>
+                <span>Biometric Passkey / WebAuthn enrollment modals</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <span class="text-rose-400 font-bold">❌</span>
+                <span>Forgot password or account recovery flows</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <span class="text-rose-400 font-bold">❌</span>
+                <span>2-Factor Authentication (2FA) verification screens</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <span class="text-rose-400 font-bold">❌</span>
+                <span>OAuth 2.0 Consent & Authorization dialogs</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* How It Integrates */}
+          <div class="rounded-2xl border border-teal-500/20 bg-teal-950/10 p-6 flex flex-col justify-between">
+            <div>
+              <h3 class="text-sm font-bold uppercase tracking-wider text-teal-400 flex items-center gap-2 mb-4">
+                <span>How It Integrates (3 Pre-Built Options)</span>
+              </h3>
+              <div class="space-y-4 text-xs sm:text-sm text-slate-300">
+                <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800">
+                  <div class="font-bold text-white flex items-center gap-2">
+                    <span class="text-teal-400 font-mono">1.</span> In-DOM Bottom Sheet / Glass Modal (Web)
+                  </div>
+                  <p class="text-xs text-slate-400 mt-1">
+                    With 1 line (<code class="text-teal-300">OneEighty.signIn({'{'} uxMode: 'bottom_sheet' {'}'})</code>), an adaptive sheet slides up on mobile or a sleek glass modal opens on desktop. User never leaves your app.
+                  </p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800">
+                  <div class="font-bold text-white flex items-center gap-2">
+                    <span class="text-teal-400 font-mono">2.</span> Drop-in Web Component
+                  </div>
+                  <p class="text-xs text-slate-400 mt-1">
+                    Include <code class="text-teal-300">&lt;one-eighty-auth-button&gt;</code> (HTML) or <code class="text-teal-300">&lt;OneEightyButton /&gt;</code> (React) for an immediate, branded, responsive login trigger.
+                  </p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800">
+                  <div class="font-bold text-white flex items-center gap-2">
+                    <span class="text-teal-400 font-mono">3.</span> Native Mobile (Flutter / React Native)
+                  </div>
+                  <p class="text-xs text-slate-400 mt-1">
+                    Launch <code class="text-teal-300">profile.180core.cloud/auth/login</code> in an In-App WebView with <code class="text-teal-300">OneEightyMobileChannel</code> bridge or deep-link redirect (<code class="text-teal-300">myapp://oauth/callback</code>).
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

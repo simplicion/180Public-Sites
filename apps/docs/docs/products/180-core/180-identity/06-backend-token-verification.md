@@ -23,7 +23,7 @@ sequenceDiagram
     participant Cloud as 180 Core Auth Server (api.180core.cloud)
 
     User->>App: Clicks "Sign in with 180"
-    App->>Cloud: Presents In-DOM Bottom Sheet (auth.180workspace.com)
+    App->>Cloud: Presents In-DOM Bottom Sheet (profile.180core.cloud)
     User->>Cloud: Authenticates (WhatsApp 1-Tap / Biometric Passkey)
     Cloud-->>App: postMessage({ code: "auth_code_..." })
     App->>Server: POST /auth/exchange { code }
@@ -86,8 +86,8 @@ Content-Type: application/json
     "phone_number": "+919876543210",
     "phone": "+919876543210",
     "phoneNumber": "+919876543210",
-    "picture": "https://auth.180workspace.com/avatars/user.png",
-    "avatarUrl": "https://auth.180workspace.com/avatars/user.png"
+    "picture": "https://profile.180core.cloud/avatars/user.png",
+    "avatarUrl": "https://profile.180core.cloud/avatars/user.png"
   }
 }
 ```
@@ -117,8 +117,8 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiIs...
   "phone": "+919876543210",
   "phoneNumber": "+919876543210",
   "phone_verified": true,
-  "picture": "https://auth.180workspace.com/avatars/user.png",
-  "avatarUrl": "https://auth.180workspace.com/avatars/user.png",
+  "picture": "https://profile.180core.cloud/avatars/user.png",
+  "avatarUrl": "https://profile.180core.cloud/avatars/user.png",
   "companyId": "comp_12345",
   "role": "OWNER",
   "user": {
@@ -148,7 +148,7 @@ In accordance with **RFC 8252 (OAuth 2.0 for Native and Local Apps)**:
 Verify RS256 JWT signatures statelessly in your microservices without querying 180 services on every request:
 
 - **JWKS Endpoint**: `https://api.180core.cloud/certs/jwks.json`
-- **OIDC Discovery**: `https://auth.180workspace.com/.well-known/openid-configuration`
+- **OIDC Discovery**: `https://api.180core.cloud/.well-known/openid-configuration`
 
 ### Node.js Example (Fastify 5.x / Express / Next.js with `jose`):
 

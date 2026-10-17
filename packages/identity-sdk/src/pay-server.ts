@@ -51,6 +51,78 @@ export interface AgentPurchaseSdkInput {
   metadata?: Record<string, any>;
 }
 
+export interface OneEightyPaymentCapturedData {
+  orderId?: string;
+  order_id?: string;
+  sessionId: string;
+  session_id?: string;
+  transactionId?: string;
+  transaction_id?: string;
+  amount: number;
+  currency: string;
+  customerEmail?: string;
+  customer_email?: string;
+  customerPhone?: string;
+  customer_phone?: string;
+  customerName?: string;
+  metadata?: Record<string, any>;
+  planCode?: string;
+  createdAt?: string;
+}
+
+export interface OneEightySubscriptionCreatedData {
+  subscriptionId: string;
+  planCode: string;
+  amount: number;
+  currency: string;
+  customerEmail: string;
+  currentPeriodEnd: string;
+  metadata?: Record<string, any>;
+}
+
+export interface OneEightySubscriptionRenewedData {
+  subscriptionId: string;
+  amount: number;
+  currency: string;
+  nextBillingDate: string;
+  transactionId?: string;
+}
+
+export interface OneEightySubscriptionCancelledData {
+  subscriptionId: string;
+  planCode?: string;
+  cancelReason?: string;
+  currentPeriodEnd: string;
+}
+
+export interface OneEightyCouponRedeemedData {
+  couponCode: string;
+  discountAmount: number;
+  sessionId: string;
+}
+
+export interface OneEightyUserRevokedData {
+  userId: string;
+  appId: string;
+  revokedAt: string;
+}
+
+export type OneEightyWebhookEventType =
+  | 'payment.captured'
+  | 'subscription.created'
+  | 'subscription.renewed'
+  | 'subscription.cancelled_by_customer'
+  | 'coupon.redeemed'
+  | 'identity.user.revoked'
+  | string;
+
+export interface OneEightyWebhookEvent<T = any> {
+  id?: string;
+  event: OneEightyWebhookEventType;
+  timestamp: number | string;
+  data: T;
+}
+
 /**
  * Sovereign 180 Pay Server Utilities & Webhook Verification
  */
@@ -66,7 +138,7 @@ export class Sovereign180Pay {
       return false;
     }
 
-    // Replay attack check
+    // Replay attack check (5-minute tolerance default)
     const currentTime = Math.floor(Date.now() / 1000);
     const parsedTimestamp = parseInt(timestamp, 10);
     if (isNaN(parsedTimestamp) || Math.abs(currentTime - parsedTimestamp) > toleranceSeconds) {
@@ -80,6 +152,58 @@ export class Sovereign180Pay {
     const bufB = Buffer.from(signature);
     if (bufA.length !== bufB.length) return false;
     return crypto.timingSafeEqual(bufA, bufB);
+  }
+}
+
+/**
+ * 1-line turnkey helper to verify and parse incoming 180 Pay Webhook events.
+ * Defends against replay attacks, timing leaks, buffer length mismatches, and payload tampering.
+ */
+export function constructWebhookEvent(
+  rawBody: string,
+  signature: string | string[] | undefined,
+  secret: string,
+  timestamp: string | string[] | undefined,
+  toleranceSeconds: number = 300
+): OneEightyWebhookEvent {
+  const sig = Array.isArray(signature) ? signature[0] : signature;
+  const ts = Array.isArray(timestamp) ? timestamp[0] : timestamp;
+
+  if (!rawBody || typeof rawBody !== 'string') {
+    throw new Error('[180 Pay Webhook] rawBody must be a non-empty string. Ensure your server preserves raw body bytes before parsing.');
+  }
+  if (!sig) {
+    throw new Error('[180 Pay Webhook] Missing x-180-signature header.');
+  }
+  if (!ts) {
+    throw new Error('[180 Pay Webhook] Missing x-180-timestamp header.');
+  }
+  if (!secret) {
+    throw new Error('[180 Pay Webhook] Missing ONE_EIGHTY_WEBHOOK_SECRET.');
+  }
+
+  const isValid = Sovereign180Pay.verifyWebhookSignature({
+    rawBody,
+    signature: sig,
+    timestamp: ts,
+    secret,
+    toleranceSeconds,
+  });
+
+  if (!isValid) {
+    throw new Error('[180 Pay Webhook] Invalid webhook signature or timestamp expired (replay attack defense).');
+  }
+
+  try {
+    const parsed = JSON.parse(rawBody);
+    return {
+      id: parsed.id,
+      event: parsed.event || parsed.type,
+      timestamp: parsed.timestamp || ts,
+      data: parsed.data || parsed,
+    };
+  } catch (err: any) {
+    throw new Error(`[180 Pay Webhook] Failed to parse webhook JSON payload: ${err.message}`);
   }
 }
 

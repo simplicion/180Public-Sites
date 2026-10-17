@@ -16,9 +16,27 @@ const breadcrumbs = [
 const apiEndpoints = [
   {
     method: "POST",
-    path: "/api/v1/identity/auth/login",
-    desc: "Authenticate user and receive JWT bearer token and refresh tokens.",
-    tag: "Auth"
+    path: "/api/v1/pay/checkout-session",
+    desc: "Create signed 180 Pay checkout session with whole currency units for instant sovereign settlement.",
+    tag: "Pay"
+  },
+  {
+    method: "POST",
+    path: "/api/oauth/token",
+    desc: "RFC 6749 authorization code exchange for access token, refresh token, and user profile.",
+    tag: "Identity"
+  },
+  {
+    method: "GET",
+    path: "/api/oauth/userinfo",
+    desc: "Fetch OIDC Core 1.0 standardized user profile with universally normalized claims.",
+    tag: "Identity"
+  },
+  {
+    method: "GET",
+    path: "/certs/jwks.json",
+    desc: "Public RS256 JWKS Keyring for local stateless token validation in <1ms without network calls.",
+    tag: "Security"
   },
   {
     method: "GET",
@@ -40,51 +58,39 @@ const apiEndpoints = [
   },
   {
     method: "POST",
-    path: "/api/v1/finance/invoices",
-    desc: "Generate custom invoices and receive hosted Stripe payment links.",
-    tag: "Finance"
-  },
-  {
-    method: "POST",
     path: "/api/v1/voiceforce/calls/dispatch",
     desc: "Programmatically trigger autonomous AI phone calls with custom agent prompts.",
     tag: "Voice"
-  },
-  {
-    method: "POST",
-    path: "/api/v1/ai/meetings/process",
-    desc: "Upload meeting transcripts or audio for autonomous task extraction.",
-    tag: "AI"
   }
 ];
 
 const sdkFeatures = [
   {
     iconSvg: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>',
-    title: "Work Graph Event Triggers",
-    description: "Every API mutation triggers real-time Work Graph events across all 16 connected apps automatically."
+    title: "1-Click Checkout & SSO",
+    description: "Launch non-blocking in-DOM bottom sheets for auth and checkout with zero popup blocker interference."
   },
   {
     iconSvg: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>',
-    title: "HMAC-SHA256 Webhooks",
-    description: "Outbound webhook payloads are signed with HMAC-SHA256 for tamper-proof verification."
+    title: "Turnkey HMAC Webhooks",
+    description: "Verify incoming webhooks in 1 line with constructWebhookEvent and automatic 5-minute replay defense."
   },
   {
     iconSvg: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/>',
-    title: "Sub-50ms Global Latency",
-    description: "Endpoints route through Cloudflare Edge for sub-50ms response times worldwide."
+    title: "RFC 8252 Dynamic Ports",
+    description: "Auto-matches dynamic localhost ports (3000, 3005, 5173, 10.0.2.2) without redirect URI whitelisting hassles."
   },
   {
     iconSvg: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>',
-    title: "Tenant-Isolated by Default",
-    description: "Every request is scoped to your company tenant. Cross-tenant data access is impossible."
+    title: "Whole Currency Units",
+    description: "Universal amount=499 standard for ₹499 INR. Eliminates 100x pricing mistakes with auto-conversion safety net."
   }
 ];
 ---
 
 <Layout 
   title="Developer Portal & REST API Reference | 180workspace"
-  description="Explore the 180workspace REST API, real-time webhooks, SDKs, and custom domain integrations to extend your business operating system."
+  description="Explore the 180 Core REST API, 180 Pay checkout sessions, 180 Identity SSO, real-time webhooks, SDKs, and custom domain integrations."
   breadcrumbs={breadcrumbs}
 >
   <main class="w-full relative">
@@ -101,15 +107,15 @@ const sdkFeatures = [
       <div class="container mx-auto px-4 max-w-5xl text-center relative z-10">
         <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/80 dark:bg-white/5 backdrop-blur-xl border border-slate-200 dark:border-white/10 shadow-sm mb-8">
           <span class="flex h-2 w-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse"></span>
-          <span class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Platform REST API v1.0 -- Live</span>
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">180 Core APIs & SDKs — Live</span>
         </div>
 
         <h1 class="display-h1 text-slate-950 dark:text-white mb-8">
-          Build on the <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-violet-600 to-pink-600 dark:from-indigo-400 dark:via-violet-400 dark:to-pink-400">180 Work Graph.</span>
+          Build on the <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-violet-600 to-pink-600 dark:from-indigo-400 dark:via-violet-400 dark:to-pink-400">180 Sovereign Ecosystem.</span>
         </h1>
 
         <p class="body-lead text-slate-600 dark:text-slate-400 max-w-3xl mx-auto mb-12">
-          Programmatically manage CRM pipelines, provision project sprints, trigger edge traffic evaluation, and automate invoice payments with our clean REST API and real-time Webhooks.
+          Integrate universal 1-click sovereign checkout with 180 Pay, seamless WhatsApp OTP and passkey authentication with 180 Identity, and real-time HMAC-SHA256 webhooks in under 5 lines of code.
         </p>
 
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -123,8 +129,8 @@ const sdkFeatures = [
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
             <span>Launch Developer Console</span>
           </a>
-          <a href="/180-core" class="btn-secondary w-full sm:w-auto">
-            <span>Explore 180 Core</span>
+          <a href="https://docs.180workspace.com/docs/products/180-core/ai-master-prompt" target="_blank" class="btn-secondary w-full sm:w-auto">
+            <span>1-Click AI Master Prompt</span>
           </a>
           <a href="#endpoints" class="btn-secondary w-full sm:w-auto">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
@@ -135,20 +141,20 @@ const sdkFeatures = [
         {/* Metrics bar */}
         <div class="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl mx-auto">
           <div class="text-center">
-            <div class="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white">6</div>
-            <div class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1">API Modules</div>
+            <div class="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white">3 Lines</div>
+            <div class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1">SDK Integration</div>
           </div>
           <div class="text-center">
-            <div class="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white">&lt;50ms</div>
-            <div class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1">Avg Latency</div>
+            <div class="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white">&lt;45ms</div>
+            <div class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1">In-DOM Sheet</div>
           </div>
           <div class="text-center">
-            <div class="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white">99.99%</div>
-            <div class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1">Uptime SLA</div>
+            <div class="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white">0.8%</div>
+            <div class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1">UPI Settlement</div>
           </div>
           <div class="text-center">
-            <div class="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white">REST</div>
-            <div class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1">JSON Standard</div>
+            <div class="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white">100%</div>
+            <div class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1">OIDC Standard</div>
           </div>
         </div>
       </div>
@@ -171,7 +177,7 @@ const sdkFeatures = [
       </div>
     </section>
 
-    {/* Interactive Code Section */}
+    {/* Interactive Code Section with Multi-Language Tabs */}
     <section class="py-20 md:py-28 bg-slate-50/70 dark:bg-black border-y border-slate-200/80 dark:border-white/10 relative overflow-hidden">
       <div class="absolute top-1/2 left-0 w-[400px] h-[400px] bg-indigo-500/5 blur-[120px] rounded-full pointer-events-none"></div>
 
@@ -179,64 +185,142 @@ const sdkFeatures = [
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           
           <div class="lg:col-span-5">
-            <div class="text-eyebrow text-indigo-600 dark:text-indigo-400 mb-3">Developer Experience</div>
+            <div class="text-eyebrow text-indigo-600 dark:text-indigo-400 mb-3">Turnkey Architecture</div>
             <h2 class="section-h2 text-slate-950 dark:text-white text-3xl sm:text-4xl mb-5">
-              Simple REST endpoints. Instant Work Graph execution.
+              3 to 5 lines of code. Zero integration friction.
             </h2>
             <p class="body-standard text-slate-600 dark:text-slate-400 mb-8">
-              Every API call is secured with Bearer token authentication and strictly isolated to your company tenant. Creating a deal programmatically triggers the same powerful Work Graph events as the web app.
+              We engineered all the complexity into our sovereign cloud so you can initiate signed sessions, launch adaptive bottom sheets, and verify HMAC webhooks with zero math and zero RangeErrors.
             </p>
             <ul class="space-y-4">
               <li class="flex items-start gap-3">
                 <div class="w-6 h-6 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
                 </div>
-                <span class="text-sm text-slate-700 dark:text-slate-300 font-medium">Standard JSON request and response payloads</span>
+                <span class="text-sm text-slate-700 dark:text-slate-300 font-medium">Whole currency units: amount=499 for ₹499 INR</span>
               </li>
               <li class="flex items-start gap-3">
                 <div class="w-6 h-6 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
                 </div>
-                <span class="text-sm text-slate-700 dark:text-slate-300 font-medium">HMAC-SHA256 signature verification on outbound Webhooks</span>
+                <span class="text-sm text-slate-700 dark:text-slate-300 font-medium">RFC 8252 dynamic loopback ports auto-accepted</span>
               </li>
               <li class="flex items-start gap-3">
                 <div class="w-6 h-6 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
                 </div>
-                <span class="text-sm text-slate-700 dark:text-slate-300 font-medium">Sub-50ms endpoint latency across global Cloudflare Edge</span>
+                <span class="text-sm text-slate-700 dark:text-slate-300 font-medium">Turnkey constructWebhookEvent with 5m replay defense</span>
               </li>
             </ul>
           </div>
 
           <div class="lg:col-span-7">
-            <div class="rounded-3xl border border-slate-700/80 bg-slate-950 shadow-2xl shadow-indigo-950/30 overflow-hidden">
-              {/* Terminal Chrome */}
-              <div class="flex items-center justify-between px-5 py-3.5 border-b border-slate-800 bg-slate-900/60">
+            <div class="rounded-3xl border border-slate-700/80 bg-slate-950 shadow-2xl shadow-indigo-950/30 overflow-hidden" id="code-tabs">
+              {/* Terminal Chrome & Language Switcher */}
+              <div class="flex flex-wrap items-center justify-between px-5 py-3.5 border-b border-slate-800 bg-slate-900/60 gap-2">
                 <div class="flex items-center gap-2.5">
                   <span class="w-3 h-3 rounded-full bg-rose-500/80"></span>
                   <span class="w-3 h-3 rounded-full bg-amber-500/80"></span>
                   <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
-                  <span class="ml-3 text-xs font-mono text-slate-400">CreateDeal.ts</span>
+                  <span class="ml-3 text-xs font-mono text-slate-400 font-bold" id="current-file-label">Fastify5_Webhook.ts</span>
                 </div>
-                <span class="text-[10px] bg-indigo-950/80 border border-indigo-800/60 px-2.5 py-1 rounded-lg text-indigo-300 font-bold font-mono">POST /api/v1/crm-and-sales/deals</span>
+                <div class="flex items-center gap-1.5 text-[11px] font-mono">
+                  <button type="button" class="tab-btn px-2.5 py-1 rounded-md bg-indigo-600 text-white font-bold cursor-pointer" data-tab="fastify">Fastify</button>
+                  <button type="button" class="tab-btn px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 cursor-pointer" data-tab="node">Express</button>
+                  <button type="button" class="tab-btn px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 cursor-pointer" data-tab="flutter">Flutter</button>
+                  <button type="button" class="tab-btn px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 cursor-pointer" data-tab="python">Python</button>
+                </div>
               </div>
-              {/* Code Content */}
-              <div class="p-5 sm:p-6 overflow-x-auto">
-                <pre class="text-xs sm:text-[13px] leading-relaxed font-mono"><code><span class="text-purple-400">import</span> <span class="text-slate-300">{'{'}</span> <span class="text-sky-300">WorkspaceClient</span> <span class="text-slate-300">{'}'}</span> <span class="text-purple-400">from</span> <span class="text-emerald-400">'@180workspace/sdk'</span><span class="text-slate-500">;</span>
 
-<span class="text-purple-400">const</span> <span class="text-sky-300">client</span> <span class="text-slate-400">=</span> <span class="text-purple-400">new</span> <span class="text-amber-300">WorkspaceClient</span><span class="text-slate-300">({'{'}</span>
-  <span class="text-sky-300">apiKey</span><span class="text-slate-400">:</span> <span class="text-slate-300">process.env.</span><span class="text-amber-200">WORKSPACE_API_KEY</span>
-<span class="text-slate-300">{'}'})</span><span class="text-slate-500">;</span>
+              {/* Code Snippets Container */}
+              <div class="p-5 sm:p-6 overflow-x-auto min-h-[260px]">
+                {/* Fastify Tab */}
+                <div id="tab-fastify" class="code-tab-content block">
+                  <pre class="text-xs sm:text-[13px] leading-relaxed font-mono"><code><span class="text-purple-400">import</span> Fastify <span class="text-purple-400">from</span> <span class="text-emerald-400">'fastify'</span>;
+<span class="text-purple-400">import</span> rawBody <span class="text-purple-400">from</span> <span class="text-emerald-400">'@fastify/raw-body'</span>;
+<span class="text-purple-400">import</span> {'{'} <span class="text-sky-300">constructWebhookEvent</span> {'}'} <span class="text-purple-400">from</span> <span class="text-emerald-400">'@workspace/identity-sdk'</span>;
 
-<span class="text-slate-600">// Create a new deal and trigger Work Graph execution</span>
-<span class="text-purple-400">const</span> <span class="text-sky-300">deal</span> <span class="text-slate-400">=</span> <span class="text-purple-400">await</span> <span class="text-slate-300">client.crm.</span><span class="text-amber-300">createDeal</span><span class="text-slate-300">({'{'}</span>
-  <span class="text-sky-300">title</span><span class="text-slate-400">:</span> <span class="text-emerald-400">'Enterprise Cloud Migration'</span><span class="text-slate-500">,</span>
-  <span class="text-sky-300">amount</span><span class="text-slate-400">:</span> <span class="text-amber-300">45000</span><span class="text-slate-500">,</span>
-  <span class="text-sky-300">stage</span><span class="text-slate-400">:</span> <span class="text-emerald-400">'PROPOSAL_SENT'</span><span class="text-slate-500">,</span>
-  <span class="text-sky-300">contactEmail</span><span class="text-slate-400">:</span> <span class="text-emerald-400">'cto@acmecorp.com'</span>
-<span class="text-slate-300">{'}'})</span><span class="text-slate-500">;</span>
+<span class="text-purple-400">const</span> app = <span class="text-sky-300">Fastify</span>();
+<span class="text-purple-400">await</span> app.<span class="text-sky-300">register</span>(rawBody, {'{'} field: <span class="text-emerald-400">'rawBody'</span>, runFirst: <span class="text-amber-300">true</span> {'}'});
 
-<span class="text-slate-300">console.</span><span class="text-amber-300">log</span><span class="text-slate-300">(</span><span class="text-emerald-400">'Deal created with ID:'</span><span class="text-slate-500">,</span> <span class="text-slate-300">deal.id</span><span class="text-slate-300">)</span><span class="text-slate-500">;</span></code></pre>
+app.<span class="text-sky-300">post</span>(<span class="text-emerald-400">'/api/webhooks/180-pay'</span>, {'{'} config: {'{'} rawBody: <span class="text-amber-300">true</span> {'}'} {'}'}, <span class="text-purple-400">async</span> (req, reply) =&gt; {'{'}
+  <span class="text-purple-400">const</span> event = <span class="text-sky-300">constructWebhookEvent</span>(
+    (req <span class="text-purple-400">as</span> any).rawBody,
+    req.headers[<span class="text-emerald-400">'x-180-signature'</span>] <span class="text-purple-400">as</span> string,
+    process.env.ONE_EIGHTY_WEBHOOK_SECRET!,
+    req.headers[<span class="text-emerald-400">'x-180-timestamp'</span>] <span class="text-purple-400">as</span> string
+  );
+  <span class="text-purple-400">if</span> (event.event === <span class="text-emerald-400">'payment.captured'</span>) {'{'}
+    <span class="text-purple-400">await</span> <span class="text-sky-300">fulfillOrder</span>(event.data.orderId);
+  {'}'}
+  <span class="text-purple-400">return</span> reply.<span class="text-sky-300">send</span>({'{'} received: <span class="text-amber-300">true</span> {'}'});
+{'}'});</code></pre>
+                </div>
+
+                {/* Express Tab */}
+                <div id="tab-node" class="code-tab-content hidden">
+                  <pre class="text-xs sm:text-[13px] leading-relaxed font-mono"><code><span class="text-purple-400">const</span> express = <span class="text-sky-300">require</span>(<span class="text-emerald-400">'express'</span>);
+<span class="text-purple-400">const</span> {'{'} <span class="text-sky-300">constructWebhookEvent</span> {'}'} = <span class="text-sky-300">require</span>(<span class="text-emerald-400">'@workspace/identity-sdk'</span>);
+<span class="text-purple-400">const</span> app = <span class="text-sky-300">express</span>();
+
+<span class="text-slate-500">// Preserve raw bytes specifically on webhook endpoint before express.json()</span>
+app.<span class="text-sky-300">post</span>(<span class="text-emerald-400">'/api/webhooks/180-pay'</span>, express.<span class="text-sky-300">raw</span>({'{'} type: <span class="text-emerald-400">'*/*'</span> {'}'}), (req, res) =&gt; {'{'}
+  <span class="text-purple-400">const</span> event = <span class="text-sky-300">constructWebhookEvent</span>(
+    req.body.<span class="text-sky-300">toString</span>(<span class="text-emerald-400">'utf8'</span>),
+    req.headers[<span class="text-emerald-400">'x-180-signature'</span>],
+    process.env.ONE_EIGHTY_WEBHOOK_SECRET,
+    req.headers[<span class="text-emerald-400">'x-180-timestamp'</span>]
+  );
+  <span class="text-purple-400">if</span> (event.event === <span class="text-emerald-400">'payment.captured'</span>) {'{'}
+    <span class="text-sky-300">fulfillOrder</span>(event.data.orderId);
+  {'}'}
+  res.<span class="text-sky-300">json</span>({'{'} received: <span class="text-amber-300">true</span> {'}'});
+{'}'});</code></pre>
+                </div>
+
+                {/* Flutter Tab */}
+                <div id="tab-flutter" class="code-tab-content hidden">
+                  <pre class="text-xs sm:text-[13px] leading-relaxed font-mono"><code><span class="text-purple-400">import</span> <span class="text-emerald-400">'package:url_launcher/url_launcher.dart'</span>;
+
+<span class="text-purple-400">class</span> <span class="text-sky-300">OneEightyIntegrationService</span> {'{'}
+  <span class="text-slate-500">/// 1-Click checkout in pure Dart with standard url_launcher</span>
+  <span class="text-purple-400">static</span> Future&lt;bool&gt; <span class="text-sky-300">launchCheckout</span>({'{'}
+    <span class="text-purple-400">required</span> String orderId,
+    <span class="text-purple-400">required</span> num amountInRupees, <span class="text-slate-500">// Whole units (e.g. 499)</span>
+    <span class="text-purple-400">required</span> String title,
+    <span class="text-purple-400">required</span> String returnUrl,
+  {'}'}) <span class="text-purple-400">async</span> {'{'}
+    <span class="text-purple-400">final</span> uri = Uri.<span class="text-sky-300">parse</span>(
+      <span class="text-emerald-400">'https://auth.180workspace.com/checkout?amount=$amountInRupees&currency=INR&title=${'{'}Uri.encodeComponent(title){'}'}&order_id=$orderId&return_url=${'{'}Uri.encodeComponent(returnUrl){'}'}'</span>
+    );
+    <span class="text-purple-400">return</span> <span class="text-purple-400">await</span> <span class="text-sky-300">launchUrl</span>(uri, mode: LaunchMode.inAppBrowserView);
+  {'}'}
+{'}'}</code></pre>
+                </div>
+
+                {/* Python Tab */}
+                <div id="tab-python" class="code-tab-content hidden">
+                  <pre class="text-xs sm:text-[13px] leading-relaxed font-mono"><code><span class="text-purple-400">import</span> hmac, hashlib, time
+<span class="text-purple-400">from</span> fastapi <span class="text-purple-400">import</span> FastAPI, Request, HTTPException
+
+app = <span class="text-sky-300">FastAPI</span>()
+SECRET = <span class="text-emerald-400">"whsec_live_..."</span>
+
+<span class="text-purple-400">@app.post</span>(<span class="text-emerald-400">"/api/webhooks/180-pay"</span>)
+<span class="text-purple-400">async def</span> <span class="text-sky-300">handle_webhook</span>(request: Request):
+    raw_body = <span class="text-purple-400">await</span> request.<span class="text-sky-300">body</span>()
+    ts = request.headers.<span class="text-sky-300">get</span>(<span class="text-emerald-400">"x-180-timestamp"</span>)
+    sig = request.headers.<span class="text-sky-300">get</span>(<span class="text-emerald-400">"x-180-signature"</span>)
+
+    <span class="text-slate-500"># 5-min replay defense</span>
+    <span class="text-purple-400">if</span> <span class="text-sky-300">abs</span>(<span class="text-sky-300">int</span>(time.<span class="text-sky-300">time</span>()) - <span class="text-sky-300">int</span>(ts)) &gt; <span class="text-amber-300">300</span>:
+        <span class="text-purple-400">raise</span> <span class="text-sky-300">HTTPException</span>(status_code=<span class="text-amber-300">401</span>, detail=<span class="text-emerald-400">"Expired"</span>)
+
+    expected = hmac.<span class="text-sky-300">new</span>(SECRET.<span class="text-sky-300">encode</span>(), f"{'{'}ts{'}'}.{'{'}raw_body.decode(){'}'}".<span class="text-sky-300">encode</span>(), hashlib.sha256).<span class="text-sky-300">hexdigest</span>()
+    <span class="text-purple-400">if not</span> hmac.<span class="text-sky-300">compare_digest</span>(sig, expected):
+        <span class="text-purple-400">raise</span> <span class="text-sky-300">HTTPException</span>(status_code=<span class="text-amber-300">401</span>, detail=<span class="text-emerald-400">"Invalid signature"</span>)
+    <span class="text-purple-400">return</span> {'{'} <span class="text-emerald-400">"received"</span>: <span class="text-amber-300">True</span> {'}'}</code></pre>
+                </div>
               </div>
             </div>
           </div>
@@ -251,7 +335,7 @@ const sdkFeatures = [
         <SectionHeader 
           badge="REST API v1 Reference"
           title="Core API Endpoints"
-          subtitle="Standard HTTP endpoints available across all platform modules."
+          subtitle="Authoritative server-to-server endpoints available across 180 Core."
         />
 
         <div class="space-y-3">
@@ -296,7 +380,41 @@ const sdkFeatures = [
       appName="180 Core" 
       headline="Start building with the 180 Core APIs & SDKs today."
       subheadline="Create your developer account, generate API keys, integrate universal WhatsApp OTP login, and build sovereign apps in minutes."
+      clientId="180-developers"
     />
 
   </main>
+
+  <script is:inline>
+    // Tab switcher logic for code playground
+    document.querySelectorAll('.tab-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const tab = btn.getAttribute('data-tab');
+        document.querySelectorAll('.tab-btn').forEach((b) => {
+          b.classList.remove('bg-indigo-600', 'text-white', 'font-bold');
+          b.classList.add('bg-slate-800', 'text-slate-300');
+        });
+        btn.classList.remove('bg-slate-800', 'text-slate-300');
+        btn.classList.add('bg-indigo-600', 'text-white', 'font-bold');
+
+        document.querySelectorAll('.code-tab-content').forEach((c) => c.classList.add('hidden'));
+        document.querySelectorAll('.code-tab-content').forEach((c) => c.classList.remove('block'));
+
+        const target = document.getElementById(`tab-${tab}`);
+        if (target) {
+          target.classList.remove('hidden');
+          target.classList.add('block');
+        }
+
+        const labels = {
+          fastify: 'Fastify5_Webhook.ts',
+          node: 'Express_Webhook.js',
+          flutter: 'OneEightyService.dart',
+          python: 'FastAPI_Webhook.py',
+        };
+        const labelEl = document.getElementById('current-file-label');
+        if (labelEl && labels[tab]) labelEl.textContent = labels[tab];
+      });
+    });
+  </script>
 </Layout>

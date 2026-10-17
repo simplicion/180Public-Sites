@@ -33,86 +33,82 @@ const pillars = [
   {
     badge: "<45ms In-DOM Modal",
     title: "Adaptive Mobile Bottom Sheet Client SDK",
-    description: "Keep visitors inside your product experience. Our 12KB lightweight SDK (@180core/identity) renders an adaptive bottom sheet on mobile screens and a frosted glass modal on desktop with zero jarring redirects.",
+    description: "Keep visitors inside your product experience. Our 12KB lightweight SDK (@workspace/identity-sdk) renders an adaptive bottom sheet on mobile screens and a frosted glass modal on desktop with zero jarring redirects or popup blocker rejections.",
     bullets: [
-      "Zero external full-page redirects or clunky iframes",
-      "Works out of the box with data-180-identity-login attribute",
+      "Zero external full-page redirects or clunky popups",
+      "Slide-up touch sheet with swipe-down dismissal",
       "First-class SDK bindings for React, Next.js, Vue, Node.js & Flutter"
     ]
   },
   {
-    badge: "RFC 7636 PKCE",
-    title: "OAuth 2.0 PKCE & Universal Profile Federation",
-    description: "Standardized enterprise security. Implement Authorization Code Flow with Proof Key for Code Exchange (PKCE) for Single Page Applications (SPAs) and mobile apps, securing tokens against interception attacks.",
+    badge: "RFC 8252 Loopback",
+    title: "Dynamic Localhost Port Matching",
+    description: "Never debug 'redirect_uri mismatch' errors again. In accordance with RFC 8252, 180 Identity automatically matches any dynamic port on localhost, 127.0.0.1, 10.0.2.2 (Android), or ::1 during local development without manual console whitelisting.",
     bullets: [
-      "Cryptographically secure RFC 7636 PKCE token exchange",
-      "Single sign-on (SSO) across your ecosystem apps and subdomains",
-      "Strict companyId multi-tenant isolation and session revocation"
+      "Auto-accepts localhost:3000, 3005, 5173, 8080 and dynamic dev ports",
+      "Seamless Android emulator (10.0.2.2) and iOS simulator loopbacks",
+      "100% compliant with OAuth 2.0 Native Apps specification (RFC 8252)"
+    ]
+  },
+  {
+    badge: "OIDC Normalization",
+    title: "Universal OIDC Claims & Zero DB Crashes",
+    description: "Calling /userinfo returns normalized standard claims (sub, name, preferred_username, email, phone_number, picture) alongside legacy aliases. Your Prisma, Drizzle, or TypeORM database models never crash from inconsistent keys.",
+    bullets: [
+      "OpenID Connect Core 1.0 standard claim schema",
+      "Both standard keys and legacy aliases provided simultaneously",
+      "Turnkey 1-line server exchange: const { user } = await exchangeAuthCode(code)"
     ]
   },
   {
     badge: "Sub-Millisecond Verification",
     title: "Local RS256 JWKS Cryptographic Verification",
-    description: "Your API backends verify access tokens locally using public cryptographic keys cached from /.well-known/jwks.json. Zero external HTTP roundtrips per user request, guaranteeing sub-millisecond API execution and zero vendor downtime risk.",
+    description: "Your API backends verify access tokens locally using public cryptographic keys cached from /certs/jwks.json. Zero external HTTP roundtrips per user request, guaranteeing sub-millisecond API execution and zero vendor downtime risk.",
     bullets: [
       "Local RS256 asymmetric signature verification in <1ms",
       "Standard JWT payload compatible with any backend language",
       "Rotatable key pairs with zero application downtime"
-    ]
-  },
-  {
-    badge: "Zero Per-Seat Taxes",
-    title: "Predictable Growth Without User Taxes",
-    description: "Legacy auth platforms penalize you as your Monthly Active Users (MAUs) grow, charging $0.05 to $0.15 per user plus telecom markups. 180 Identity provides flat, sovereign pricing with zero arbitrary MAU paywalls.",
-    bullets: [
-      "No MAU tier penalties as your customer base scales",
-      "Zero vendor lock-in: full export of user profiles and hashes",
-      "Native synchronization with 180 Work Graph CRM contacts"
     ]
   }
 ];
 
 const comparisonData = [
   { feature: "WhatsApp One-Tap OTP", oneEighty: "Native (99.2% in 2s)", auth0: "Custom Twilio Addon", clerk: "Limited / Beta", firebase: "SMS Only" },
+  { feature: "Localhost Port Flexibility", oneEighty: "RFC 8252 (Dynamic Any Port)", auth0: "Strict URL Whitelist", clerk: "Strict URL Whitelist", firebase: "Strict URL Whitelist" },
   { feature: "Per-SMS Telecom Surcharges", oneEighty: "$0.00 (Flat WhatsApp)", auth0: "$0.05-$0.08 per SMS", clerk: "$0.05-$0.08 per SMS", firebase: "High Carrier Fees" },
   { feature: "Mobile Checkout / Login UX", oneEighty: "<45ms Bottom Sheet", auth0: "Hosted Page Redirect", clerk: "Iframe Modal", firebase: "FirebaseUI Iframe" },
   { feature: "Biometric Passkeys (WebAuthn)", oneEighty: "Included Native", auth0: "Enterprise Tier ($$$)", clerk: "Included", firebase: "Custom Code" },
   { feature: "Backend JWKS Verification", oneEighty: "<1ms Local RS256", auth0: "Rate-Limited JWKS", clerk: "Remote Middleware", firebase: "Google Admin SDK" },
-  { feature: "Sovereign Self-Hosting", oneEighty: "Supported", auth0: "None (SaaS Lock-in)", clerk: "None (SaaS Lock-in)", firebase: "GCP Only" },
-  { feature: "Direct 180 Work Graph Sync", oneEighty: "Instant 0ms Lag", auth0: "Requires Webhooks", clerk: "Requires Webhooks", firebase: "Requires Cloud Functions" }
+  { feature: "Integration Lines of Code", oneEighty: "3-5 Clean Lines", auth0: "60-100 Lines", clerk: "30-50 Lines", firebase: "40-80 Lines" }
 ];
 
 const faqs = [
   {
     question: "What is 180 Identity?",
-    answer: "180 Identity is an enterprise authentication and user identity platform featuring universal WhatsApp OTP delivery, biometric WebAuthn passkeys, RFC 7636 OAuth 2.0 PKCE, and a native in-DOM adaptive bottom-sheet modal SDK designed to eliminate SMS delivery failures and user abandonment."
+    answer: "180 Identity is an enterprise authentication and user identity platform featuring universal WhatsApp OTP delivery, biometric WebAuthn passkeys, RFC 7636 OAuth 2.0 PKCE, RFC 8252 dynamic loopback ports, and a native in-DOM adaptive bottom-sheet modal SDK designed to eliminate SMS delivery failures and user abandonment."
   },
   {
     question: "Why is WhatsApp OTP superior to standard carrier SMS OTP?",
     answer: "Carrier SMS messages suffer an average failure rate of 15% to 28% due to international telecom routing hops, carrier spam filters, and network congestion. In contrast, WhatsApp OTP achieves a 99.2% delivery success rate within 2 seconds with official verified business branding and zero carrier markups."
   },
   {
+    question: "How does RFC 8252 dynamic loopback port matching work for developers?",
+    answer: "When building applications locally, your development server may dynamically switch from port 3000 to 3005 or 5173. Standard OAuth servers reject these redirects with strict URI errors. 180 Identity complies with RFC 8252 section 7.3, allowing any port on loopback interfaces (localhost, 127.0.0.1, 10.0.2.2) to authenticate seamlessly without manual whitelisting."
+  },
+  {
     question: "How does the in-DOM bottom-sheet login modal work?",
-    answer: "Instead of redirecting users away to an external hosted login page (like Auth0 or Okta), the 180 Identity client SDK mounts an adaptive bottom sheet on mobile screens and a glass modal on desktop. Users sign in and return to their flow in seconds with zero page reloads."
+    answer: "Instead of redirecting users away to an external hosted login page (like Auth0 or Okta), the 180 Identity client SDK mounts an adaptive bottom sheet on mobile screens and a glass modal on desktop. Users sign in and return to their flow in seconds with zero page reloads and zero browser popup blocker interference."
   },
   {
     question: "How does backend token verification work with 180 Identity?",
-    answer: "Your backend downloads and caches 180 Identity's public cryptographic keys from `/.well-known/jwks.json`. Using standard RS256 JWT libraries, your API verifies signatures locally in less than 1 millisecond without making an outbound network request on every request."
-  },
-  {
-    question: "Can 180 Identity be integrated with existing Next.js, React, or Node.js apps?",
-    answer: "Yes. 180 Identity ships with the `@180core/identity` package and standard OAuth 2.0 endpoints. You can integrate login into React, Next.js, Vue, Node.js, Python FastAPI, Go, or native mobile apps in under 10 lines of code."
-  },
-  {
-    question: "Is 180 Identity compliant with global privacy and security standards?",
-    answer: "Yes. 180 Identity is engineered with AES-256 encryption at rest, TLS 1.3 transport security, strict tenant isolation (companyId), SOC-2 Type II readiness, and GDPR compliance with end-to-end user data portability."
+    answer: "Your backend downloads and caches 180 Identity's public cryptographic keys from https://api.180core.cloud/certs/jwks.json. Using standard RS256 JWT libraries, your API verifies signatures locally in less than 1 millisecond without making an outbound network request on every request."
   }
 ];
 ---
 
 <Layout
   title="180 Identity — WhatsApp OTP Authentication & Biometric Passkey SSO | 180workspace"
-  description="Deliver 99.2% login deliverability in under 2s with WhatsApp OTP, biometric WebAuthn passkeys, RFC 7636 OAuth PKCE, and in-DOM bottom sheet modal SDK."
+  description="Deliver 99.2% login deliverability in under 2s with WhatsApp OTP, biometric WebAuthn passkeys, RFC 8252 dynamic loopback ports, and in-DOM bottom sheet modal SDK."
   breadcrumbs={breadcrumbs}
   faqs={faqs}
   applicationCategory="SecurityApplication"
@@ -135,7 +131,7 @@ const faqs = [
         <span class="w-2 h-2 rounded-full bg-teal-500 dark:bg-teal-400 animate-pulse"></span>
         <span class="font-medium">Sovereign Identity Infrastructure</span>
         <span class="text-slate-300 dark:text-zinc-600">/</span>
-        <span class="text-teal-600 dark:text-teal-400 font-mono text-[11px] font-semibold">99.2% Delivery in &lt;2s</span>
+        <span class="text-teal-600 dark:text-teal-400 font-mono text-[11px] font-semibold">99.2% Delivery in &lt;2s • RFC 8252 Dynamic Ports</span>
       </div>
 
       {/* Main Headline */}
@@ -148,7 +144,7 @@ const faqs = [
 
       {/* AEO BLUF Lead Description */}
       <p class="max-w-3xl mx-auto text-base sm:text-lg text-slate-600 dark:text-zinc-400 leading-relaxed font-normal aeo-answer">
-        180 Identity delivers 99.2% login deliverability in under 2 seconds via verified WhatsApp Business OTP, biometric WebAuthn passkeys, RFC 7636 OAuth 2.0 PKCE, and an adaptive in-DOM bottom-sheet authentication modal with zero per-SMS carrier surcharges.
+        180 Identity delivers 99.2% login deliverability in under 2 seconds via verified WhatsApp Business OTP, biometric WebAuthn passkeys, RFC 7636 OAuth 2.0 PKCE, RFC 8252 dynamic loopback ports, and an adaptive in-DOM bottom-sheet authentication modal with zero per-SMS carrier surcharges.
       </p>
 
       {/* Hero Action CTAs */}
@@ -194,8 +190,68 @@ const faqs = [
           <div class="text-xs text-slate-500 dark:text-zinc-400 font-medium mt-1">Local RS256 Verification</div>
         </div>
         <div class="p-4 rounded-2xl bg-white/70 dark:bg-zinc-900/60 border border-slate-200/80 dark:border-white/10 backdrop-blur-xl">
-          <div class="text-2xl sm:text-3xl font-black text-indigo-600 dark:text-indigo-400">$0.00</div>
-          <div class="text-xs text-slate-500 dark:text-zinc-400 font-medium mt-1">SMS Telecom Surcharges</div>
+          <div class="text-2xl sm:text-3xl font-black text-indigo-600 dark:text-indigo-400">3 Lines</div>
+          <div class="text-xs text-slate-500 dark:text-zinc-400 font-medium mt-1">Full SDK Integration</div>
+        </div>
+      </div>
+    </section>
+
+    {/* Integration Code Playground Section */}
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <span class="text-xs font-bold uppercase tracking-wider text-teal-600 dark:text-teal-400">Takes 60 Seconds</span>
+        <h2 class="text-3xl sm:text-4xl font-black text-slate-950 dark:text-white mt-2">
+          From Install to Verified User in 4 Lines
+        </h2>
+        <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400">
+          Mount a zero-popup-blocker bottom sheet in the frontend, and exchange the code on your backend in a single line.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Frontend Code Card */}
+        <div class="rounded-3xl border border-slate-800 bg-slate-950 p-6 overflow-hidden shadow-2xl">
+          <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-teal-500"></span>
+              <span class="text-xs font-mono font-bold text-slate-300">Frontend: React / Vanilla / Vue</span>
+            </div>
+            <span class="text-[10px] font-mono font-bold bg-teal-950 text-teal-300 px-2 py-0.5 rounded border border-teal-800">@workspace/identity-sdk</span>
+          </div>
+          <pre class="mt-4 text-xs font-mono text-slate-300 leading-relaxed overflow-x-auto"><code><span class="text-purple-400">import</span> {'{'} <span class="text-sky-300">OneEightyIdentity</span> {'}'} <span class="text-purple-400">from</span> <span class="text-emerald-400">'@workspace/identity-sdk'</span>;
+
+<span class="text-slate-500">// 1. Opens non-blocking in-DOM slide-up sheet (No popup blockers!)</span>
+<span class="text-sky-300">OneEightyIdentity</span>.<span class="text-sky-300">openBottomSheet</span>({'{'}
+  <span class="text-slate-400">clientId:</span> <span class="text-emerald-400">'YOUR_CLIENT_ID'</span>,
+  <span class="text-sky-300">onSuccess:</span> <span class="text-purple-400">async</span> ({'{'} <span class="text-slate-300">code</span> {'}'}) =&gt; {'{'}
+    <span class="text-purple-400">await</span> <span class="text-sky-300">fetch</span>(<span class="text-emerald-400">'/api/auth/exchange'</span>, {'{'}
+      <span class="text-slate-400">method:</span> <span class="text-emerald-400">'POST'</span>,
+      <span class="text-slate-400">body:</span> JSON.<span class="text-sky-300">stringify</span>({'{'} code {'}'})
+    {'}'});
+    window.location.href = <span class="text-emerald-400">'/dashboard'</span>;
+  {'}'}
+{'}'});</code></pre>
+        </div>
+
+        {/* Backend Code Card */}
+        <div class="rounded-3xl border border-slate-800 bg-slate-950 p-6 overflow-hidden shadow-2xl">
+          <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-indigo-500"></span>
+              <span class="text-xs font-mono font-bold text-slate-300">Backend: 1-Line Code Exchange</span>
+            </div>
+            <span class="text-[10px] font-mono font-bold bg-indigo-950 text-indigo-300 px-2 py-0.5 rounded border border-indigo-800">Node.js / Next.js / Express</span>
+          </div>
+          <pre class="mt-4 text-xs font-mono text-slate-300 leading-relaxed overflow-x-auto"><code><span class="text-purple-400">import</span> {'{'} <span class="text-sky-300">exchangeAuthCode</span> {'}'} <span class="text-purple-400">from</span> <span class="text-emerald-400">'@workspace/identity-sdk'</span>;
+
+<span class="text-slate-500">// 2. Exchange code for normalized profile in 1 line:</span>
+<span class="text-purple-400">const</span> {'{'} <span class="text-sky-300">user</span>, <span class="text-sky-300">tokens</span> {'}'} = <span class="text-purple-400">await</span> <span class="text-sky-300">exchangeAuthCode</span>(code);
+
+<span class="text-slate-500">// Standard OIDC claims ready for your database:</span>
+console.<span class="text-sky-300">log</span>(user.name, user.email, user.phone_number);
+
+<span class="text-slate-500">// Or verify statelessly via RS256 JWKS:</span>
+<span class="text-slate-500">// https://api.180core.cloud/certs/jwks.json</span></code></pre>
         </div>
       </div>
     </section>

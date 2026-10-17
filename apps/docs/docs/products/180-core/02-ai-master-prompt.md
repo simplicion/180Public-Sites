@@ -3,15 +3,31 @@ id: ai-master-prompt
 title: Master AI Integration Prompt
 sidebar_label: 1-Click AI Master Prompt
 sidebar_position: 2
-description: Copy-paste master AI integration prompt to automatically integrate 180 Identity and 180 Pay using ChatGPT, Claude, Cursor, or Antigravity into any independent application.
+description: Copy-paste master AI integration prompt to automatically integrate 180 Identity and 180 Pay using ChatGPT, Claude, Cursor, or Antigravity into any independent application with zero friction and zero 404s.
 ---
 
 # 🤖 Master AI Integration Prompt
 
-Integrate **180 Identity** and **180 Pay** into any independent application in under 2 minutes. Copy the master prompt below, replace the bracketed placeholders (`YOUR_CLIENT_ID`, `YOUR_CLIENT_SECRET`, `YOUR_WEBHOOK_SECRET`) with your credentials from the [180 Developer Console](https://developer.180core.cloud), and paste it directly into **Cursor, Claude 3.5 Sonnet, ChatGPT, Antigravity, or GitHub Copilot**.
+Integrate **180 Identity** (Universal SSO, WhatsApp 1-Tap OTP, Biometric Passkeys) and **180 Pay** (Universal Sovereign 1-Click Checkout & Subscriptions) into any independent application in under 2 minutes.
 
-:::tip Zero-Friction In-DOM Bottom Sheet
-180 Core has simplified single-application integration. By using `uxMode: 'bottom_sheet'`, authentication renders directly inside your application's DOM via a responsive slide-up modal with zero browser popup blocker interference on mobile devices, automatic WhatsApp OTP verification, and instant redirection to your destination callback URL.
+Copy the master prompt below, replace the bracketed placeholders (`YOUR_CLIENT_ID`, `YOUR_CLIENT_SECRET`, `YOUR_WEBHOOK_SECRET`) with your credentials from the [180 Developer Console](https://developer.180core.cloud), and paste it directly into **Cursor, Claude 3.5 Sonnet, ChatGPT, Antigravity, or GitHub Copilot**.
+
+:::caution ⚠️ CRITICAL RULE #1: Currency Units (Strictly Whole Currency Units)
+Unlike legacy gateways (Stripe/Razorpay) that require smallest currency units (e.g., paise `49900` for ₹499), **180 Pay universally operates on whole currency units** (`amount=499` for ₹499 INR, or `amount=49.00` for $49.00 USD).  
+**Warning:** Passing `49900` without unit flags will produce a ₹49,900 order! While 180 Pay backend includes an intelligent auto-conversion safety fallback if you pass `amountInPaise` or `amount_in_cents`, you should always pass whole units directly.
+:::
+
+:::tip Dual-Domain Ecosystem Directory
+Prevent 404s and routing confusion by strictly separating user-facing hosted interfaces from server-to-server APIs:
+- **Hosted User Interfaces (Checkout & SSO)**:
+  - `https://auth.180workspace.com/checkout` (1-Click Sovereign Checkout)
+  - `https://auth.180workspace.com/auth/login` (Hosted Universal SSO)
+  - *Alternative mirror*: `https://profile.180core.cloud`
+- **Core Engine REST APIs (Server-to-Server)**:
+  - `https://api.180core.cloud/api/v1/pay/checkout-session` (Signed Checkout Session creation)
+  - `https://api.180core.cloud/api/oauth/token` (RFC 6749 Auth Code exchange)
+  - `https://api.180core.cloud/api/oauth/userinfo` (OIDC Standard Claims profile)
+  - `https://api.180core.cloud/certs/jwks.json` (RS256 Public JWKS Key Set)
 :::
 
 ---
@@ -21,345 +37,362 @@ Integrate **180 Identity** and **180 Pay** into any independent application in u
 ```markdown
 You are an expert senior full-stack engineer integrating 180 Core (180 Identity & 180 Pay) into my independent application.
 
-Follow these strict, modern integration specifications:
+Follow these strict, modern integration specifications with zero friction, zero 404s, and zero schema regressions:
 
 ### Application Credentials & Canonical Endpoints:
 - CLIENT_ID: "YOUR_CLIENT_ID"
 - CLIENT_SECRET: "YOUR_CLIENT_SECRET"
 - WEBHOOK_SECRET: "YOUR_WEBHOOK_SECRET"
 - CORE_API_URL: "https://api.180core.cloud"
-- IDENTITY_AUTH_URL: "https://profile.180core.cloud"
+- HOSTED_AUTH_URL: "https://auth.180workspace.com/auth/login" (Mirror: "https://profile.180core.cloud")
+- HOSTED_CHECKOUT_URL: "https://auth.180workspace.com/checkout"
 - JWKS_KEYRING_URL: "https://api.180core.cloud/certs/jwks.json"
 - DEVELOPER_CONSOLE_URL: "https://developer.180core.cloud"
 
 ---
 
-### Integration Architecture Rules:
-1. **In-DOM Bottom Sheet UX**: Always default to `uxMode: 'bottom_sheet'`. Do NOT rely on popup windows (`window.open`), which get blocked by Safari iOS, Chrome Mobile, and privacy browsers.
-2. **Stateless Security**: Tokens are RS256 JWTs signed by 180 Sovereign Cloud. Verify them statelessly using the public JWKS Keyring (`https://api.180core.cloud/certs/jwks.json`) or perform RFC 6749 authorization code exchange on the backend.
-3. **Decoupled Architecture**: Never expose `CLIENT_SECRET` or `WEBHOOK_SECRET` in client-side bundles.
-4. **Automatic Post-Auth Redirect**: Upon successful authentication, close the sheet and smoothly navigate the user to their target callback URL (or dashboard).
+### 5 Critical Integration Principles to Enforce:
+1. **Currency Units Standard**: 180 Pay universally operates on WHOLE CURRENCY UNITS (`amount: 499` for ₹499 INR, or `amount: 49.00` for $49.00 USD). Never pass paise or cents (`49900`) as the primary amount.
+2. **Dual-Domain Ecosystem Separation**:
+   - User-facing checkout and login: `https://auth.180workspace.com` (e.g. `/checkout`, `/auth/login`).
+   - Server-to-server REST endpoints: `https://api.180core.cloud` (e.g. `/api/v1/pay/checkout-session`, `/api/oauth/token`, `/api/oauth/userinfo`, `/certs/jwks.json`).
+3. **Two Checkout Initiation Patterns**:
+   - Pattern A (Server-Side Signed Session - Recommended for Web & Mobile Backends): Backend calls `POST https://api.180core.cloud/api/v1/pay/checkout-session` with secret key, receives `{ sessionId, checkoutUrl }`, and directs client to `checkoutUrl`.
+   - Pattern B (In-DOM Client Bottom Sheet - Direct Web SPA): Trigger `OneEightyPay.openBottomSheet({ amount, currency, title, orderId, onSuccess })` to eliminate popup blockers.
+4. **RFC 8252 Dynamic Loopback Compatibility**: 180 Identity dynamically supports local development across any port on `localhost`, `127.0.0.1`, `10.0.2.2` (Android emulator), and `::1` without redirect URI mismatch errors.
+5. **Universal OIDC Claims Normalization**: The `/api/oauth/userinfo` response returns normalized standard claims (`sub`, `name`, `preferred_username`, `email`, `phone_number`, `picture`) alongside legacy aliases (`phone`, `phoneNumber`, `avatarUrl`) and nested `user: { ... }` so database schemas (Prisma, Drizzle, TypeORM) never crash.
 
 ---
 
-### Step 1: Environment Configuration
-Add the following variables to my `.env` (or `.env.local` / `.env.production`) file:
+### Step 1: Environment Variables
+Add the following to your `.env` (or `.env.local` / `.env.production`) file:
 ```env
 # Public Client Configuration
 NEXT_PUBLIC_180_CLIENT_ID=YOUR_CLIENT_ID
 NEXT_PUBLIC_180_CORE_URL=https://api.180core.cloud
-NEXT_PUBLIC_180_AUTH_URL=https://profile.180core.cloud
+NEXT_PUBLIC_180_AUTH_URL=https://auth.180workspace.com
 
-# Server-Only Confidential Secrets
+# Server-Only Confidential Secrets (NEVER expose to client bundles)
 ONE_EIGHTY_CLIENT_SECRET=YOUR_CLIENT_SECRET
 ONE_EIGHTY_WEBHOOK_SECRET=YOUR_WEBHOOK_SECRET
 ```
 
 ---
 
-### Step 2: Client-Side Integration (Choose NPM Package, CDN Script, or Web Component)
+### Step 2: 180 Identity Integration (Client & Server in 3 Lines)
 
-#### Option 2A: Official NPM SDK (`@workspace/identity-sdk`)
-```bash
-npm install @workspace/identity-sdk
-```
-
+#### Frontend (React / Next.js / Vite SPA):
 ```tsx
 'use client';
 
-import React, { useState } from 'react';
-import { OneEightyAuth } from '@workspace/identity-sdk';
+import React from 'react';
+import { OneEightyIdentity } from '@workspace/identity-sdk';
 
-export function LoginButton({ redirectUrl = '/dashboard' }: { redirectUrl?: string }) {
-  const [loading, setLoading] = useState(false);
-
+export function LoginButton() {
   const handleLogin = () => {
-    setLoading(true);
-    OneEightyAuth.openBottomSheet({
+    // 1. Opens non-blocking in-DOM slide-up sheet (zero popup blockers!)
+    OneEightyIdentity.openBottomSheet({
       clientId: process.env.NEXT_PUBLIC_180_CLIENT_ID!,
-      redirectUri: `${window.location.origin}/api/auth/callback`,
-      scope: 'openid identity:read identity:email identity:phone',
-      uxMode: 'bottom_sheet',
-      onSuccess: async (data: { code: string; token?: string }) => {
-        // Exchange code with backend
+      onSuccess: async ({ code }) => {
+        // 2. Send code to your backend exchange route
         const res = await fetch('/api/auth/exchange', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ code: data.code }),
+          body: JSON.stringify({ code }),
         });
-        const result = await res.json();
-        if (result.success) {
-          window.location.href = redirectUrl;
-        } else {
-          setLoading(false);
-          alert('Login verification failed: ' + result.error);
-        }
+        if (res.ok) window.location.href = '/dashboard';
       },
-      onError: (err: any) => {
-        console.error('180 Identity login failed:', err);
-        setLoading(false);
-      },
-      onCancel: () => {
-        setLoading(false);
-      }
     });
   };
 
   return (
-    <button
-      onClick={handleLogin}
-      disabled={loading}
-      className="px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm transition-all flex items-center gap-2 shadow-xl shadow-indigo-600/25 active:scale-[0.98]"
-    >
-      <span>{loading ? 'Opening 180 Identity...' : 'Sign in with 180 Profile'}</span>
+    <button onClick={handleLogin} className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm shadow-md">
+      Sign in with 180
     </button>
   );
 }
 ```
 
-#### Option 2B: Pure HTML / CDN Script Tag (< 10 lines of code)
-```html
-<!-- Include official CDN script -->
-<script src="https://profile.180core.cloud/sdk/v1/180-core-sdk.js" async></script>
-
-<!-- Add button with delegated data attribute or click handler -->
-<button id="180-login-btn">Sign in with 180</button>
-
-<script>
-  document.getElementById('180-login-btn').addEventListener('click', function () {
-    window.OneEightyAuth.openBottomSheet({
-      clientId: 'YOUR_CLIENT_ID',
-      uxMode: 'bottom_sheet',
-      scope: 'openid identity:read identity:email',
-      onSuccess: function (data) {
-        // Automatically redirects or invokes custom handler
-        window.location.href = '/dashboard';
-      }
-    });
-  });
-</script>
-```
-
-#### Option 2C: Declarative Web Component
+#### Vanilla HTML / Script Tag:
 ```html
 <script src="https://profile.180core.cloud/sdk/v1/180-core-sdk.js" async></script>
-
-<one-eighty-login-sheet 
-  client-id="YOUR_CLIENT_ID" 
-  button-text="Sign in with 180" 
-  redirect-url="/dashboard">
-</one-eighty-login-sheet>
+<button onclick="window.OneEightyAuth.openBottomSheet({ clientId: 'YOUR_CLIENT_ID', onSuccess: (res) => sendCode(res.code) })">
+  Sign in with 180
+</button>
 ```
 
----
-
-### Step 3: Backend Token Exchange (Next.js / Node.js Express / Python FastAPI)
-
-#### 3A: Next.js App Router (`app/api/auth/exchange/route.ts`)
-```ts
+#### Backend Token Exchange (1-Line Server Exchange):
+```typescript
+// app/api/auth/exchange/route.ts (Next.js App Router) or Express/Fastify handler
 import { NextResponse } from 'next/server';
+import { exchangeAuthCode } from '@workspace/identity-sdk';
 
 export async function POST(req: Request) {
-  try {
-    const { code } = await req.json();
-    if (!code) {
-      return NextResponse.json({ success: false, error: 'Missing code' }, { status: 400 });
-    }
-
-    const tokenRes = await fetch(`${process.env.NEXT_PUBLIC_180_CORE_URL || 'https://api.180core.cloud'}/api/oauth/token`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        grant_type: 'authorization_code',
-        code,
-        client_id: process.env.NEXT_PUBLIC_180_CLIENT_ID,
-        client_secret: process.env.ONE_EIGHTY_CLIENT_SECRET,
-        redirect_uri: `${new URL(req.url).origin}/api/auth/callback`,
-      }),
-    });
-
-    const tokenData = await tokenRes.json();
-    if (!tokenRes.ok || !tokenData.access_token) {
-      return NextResponse.json({ success: false, error: tokenData.error || 'Token exchange failed' }, { status: 400 });
-    }
-
-    // Fetch verified user profile
-    const userRes = await fetch(`${process.env.NEXT_PUBLIC_180_CORE_URL || 'https://api.180core.cloud'}/api/oauth/userinfo`, {
-      headers: { Authorization: `Bearer ${tokenData.access_token}` },
-    });
-    const user = await userRes.json();
-
-    // Create secure HTTP-only session cookie
-    const response = NextResponse.json({ success: true, user });
-    response.cookies.set({
-      name: '180_session',
-      value: tokenData.access_token,
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      path: '/',
-      maxAge: 60 * 60 * 24 * 7, // 7 days
-    });
-
-    return response;
-  } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
-  }
-}
-```
-
-#### 3B: Python FastAPI Backend (`backend/auth.py`)
-```python
-from fastapi import APIRouter, HTTPException, Response
-from pydantic import BaseModel
-import httpx
-import os
-
-router = APIRouter(prefix="/api/auth")
-
-CORE_URL = os.getenv("NEXT_PUBLIC_180_CORE_URL", "https://api.180core.cloud")
-CLIENT_ID = os.getenv("NEXT_PUBLIC_180_CLIENT_ID")
-CLIENT_SECRET = os.getenv("ONE_EIGHTY_CLIENT_SECRET")
-
-class ExchangeRequest(BaseModel):
-    code: str
-
-@router.post("/exchange")
-async def exchange_token(payload: ExchangeRequest, response: Response):
-    async with httpx.AsyncClient() as client:
-        token_res = await client.post(
-            f"{CORE_URL}/api/oauth/token",
-            json={
-                "grant_type": "authorization_code",
-                "code": payload.code,
-                "client_id": CLIENT_ID,
-                "client_secret": CLIENT_SECRET,
-            }
-        )
-        if token_res.status_code != 200:
-            raise HTTPException(status_code=400, detail="Token exchange failed")
-        
-        token_data = token_res.json()
-        access_token = token_data["access_token"]
-        
-        user_res = await client.get(
-            f"{CORE_URL}/api/oauth/userinfo",
-            headers={"Authorization": f"Bearer {access_token}"}
-        )
-        user_data = user_res.json()
-        
-        response.set_cookie(
-            key="180_session",
-            value=access_token,
-            httponly=True,
-            secure=True,
-            samesite="lax",
-            max_age=604800
-        )
-        return {"success": True, "user": user_data}
-```
-
----
-
-### Step 4: Stateless RS256 JWKS Verification (Zero Backend Network Round-Trip)
-For microservices and edge workers, verify incoming Bearer tokens instantly using the public JWKS Keyring without making database calls:
-
-```ts
-import { createRemoteJWKSet, jwtVerify } from 'jose';
-
-const JWKS = createRemoteJWKSet(
-  new URL('https://api.180core.cloud/certs/jwks.json')
-);
-
-export async function verify180BearerToken(token: string) {
-  const { payload } = await jwtVerify(token, JWKS, {
-    issuer: 'https://profile.180core.cloud',
-    audience: process.env.NEXT_PUBLIC_180_CLIENT_ID,
+  const { code } = await req.json();
+  
+  // 1-line exchange retrieves OIDC normalized profile & tokens:
+  const { user, tokens } = await exchangeAuthCode(code, {
+    clientId: process.env.NEXT_PUBLIC_180_CLIENT_ID,
+    clientSecret: process.env.ONE_EIGHTY_CLIENT_SECRET,
   });
-  return payload; // { sub: "usr_...", email: "...", phone: "..." }
+
+  console.log('Logged in user:', user.name, user.email, user.phone_number);
+
+  // Set HTTP-only session cookie
+  const response = NextResponse.json({ success: true, user });
+  response.cookies.set('session', tokens.access_token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    maxAge: 60 * 60 * 24 * 7,
+  });
+  return response;
 }
 ```
 
 ---
 
-### Step 5: 1-Click Payments via 180 Pay Drawer
-```tsx
-'use client';
+### Step 3: 180 Pay Integration (Two Bulletproof Patterns)
 
+#### Pattern A: Server-Side Signed Checkout Session (Recommended for Web & Mobile)
+```typescript
+// 1. Backend creates signed session
+// Endpoint: POST https://api.180core.cloud/api/v1/pay/checkout-session
+export async function createCheckoutSession(orderId: string, userEmail: string) {
+  const res = await fetch('https://api.180core.cloud/api/v1/pay/checkout-session', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${process.env.ONE_EIGHTY_CLIENT_SECRET}`
+    },
+    body: JSON.stringify({
+      client_id: process.env.NEXT_PUBLIC_180_CLIENT_ID,
+      amount: 499, // WHOLE UNITS: ₹499 INR or $49.00 USD (DO NOT pass 49900)
+      currency: 'INR',
+      title: 'Annual Pro Subscription',
+      order_id: orderId,
+      return_url: 'https://yourapp.com/checkout/success',
+      cancel_url: 'https://yourapp.com/checkout/cancel',
+      metadata: { customerEmail: userEmail }
+    })
+  });
+
+  const { sessionId, checkoutUrl } = await res.json();
+  // 2. Direct client to checkoutUrl (e.g. https://auth.180workspace.com/checkout?sessionId=...)
+  return { sessionId, checkoutUrl };
+}
+```
+
+#### Pattern B: Direct Frontend In-DOM Bottom Sheet
+```tsx
 import { OneEightyPay } from '@workspace/identity-sdk';
 
-export function PricingUpgradeButton({ planCode = 'pro_plan', amount = 499 }) {
-  const handleUpgrade = () => {
+export function CheckoutButton() {
+  const handleCheckout = () => {
     OneEightyPay.openBottomSheet({
-      amount,
-      currency: 'INR',
-      title: 'Pro Plan Upgrade',
-      description: 'Instant sovereign checkout via 180 Pay',
-      planCode,
-      onSuccess: (res: any) => {
-        alert('Payment confirmed! Transaction ID: ' + (res.transactionId || res.sessionId));
-        window.location.reload();
+      amount: 499,         // Whole currency units
+      currency: 'INR',     // Any ISO currency (USD, EUR, INR, GBP, etc.)
+      title: 'Annual Pro Subscription',
+      orderId: 'ord_' + Date.now(),
+      onSuccess: (res) => {
+        console.log('Payment captured! Transaction ID:', res.transactionId);
+        window.location.href = '/dashboard?upgraded=true';
       },
-      onCancel: () => console.log('Payment modal dismissed'),
     });
   };
 
-  return (
-    <button onClick={handleUpgrade} className="px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold">
-      Upgrade Plan (₹{amount})
-    </button>
-  );
+  return <button onClick={handleCheckout}>Upgrade to Pro (₹499)</button>;
 }
 ```
 
 ---
 
-### Step 6: HMAC SHA-256 Webhook Verification Route (`app/api/webhooks/180-pay/route.ts`)
-```ts
+### Step 4: Cryptographic HMAC-SHA256 Webhook Verification Protocol
+
+Every authentic webhook from 180 Pay includes:
+- `x-180-signature`: HMAC-SHA256 of `${timestamp}.${rawBody}`
+- `x-180-timestamp`: Unix epoch seconds of dispatch
+- `x-180-event`: Event type (`payment.captured`, `subscription.created`, etc.)
+
+#### 4A: Next.js App Router (`app/api/webhooks/180-pay/route.ts`)
+```typescript
 import { NextResponse } from 'next/server';
-import crypto from 'crypto';
+import { constructWebhookEvent } from '@workspace/identity-sdk';
 
 export async function POST(req: Request) {
   try {
+    // 1. Read raw body as text before any JSON parser runs
     const rawBody = await req.text();
     const signature = req.headers.get('x-180-signature');
     const timestamp = req.headers.get('x-180-timestamp');
-    const webhookSecret = process.env.ONE_EIGHTY_WEBHOOK_SECRET;
 
-    if (!signature || !timestamp || !webhookSecret) {
-      return NextResponse.json({ error: 'Missing security headers' }, { status: 400 });
-    }
+    // 2. Turnkey 1-line verification (handles 5-min replay defense + raw bytes HMAC-SHA256)
+    const event = constructWebhookEvent(
+      rawBody,
+      signature,
+      process.env.ONE_EIGHTY_WEBHOOK_SECRET!,
+      timestamp
+    );
 
-    // 1. Replay attack defense (< 5 mins)
-    const currentTime = Math.floor(Date.now() / 1000);
-    const parsedTimestamp = parseInt(timestamp, 10);
-    if (Math.abs(currentTime - parsedTimestamp) > 300) {
-      return NextResponse.json({ error: 'Timestamp expired' }, { status: 401 });
-    }
-
-    // 2. Compute expected HMAC-SHA256 signature
-    const signPayload = `${timestamp}.${rawBody}`;
-    const expectedSignature = crypto
-      .createHmac('sha256', webhookSecret)
-      .update(signPayload)
-      .digest('hex');
-
-    // 3. Constant-time comparison
-    const bufA = Buffer.from(signature);
-    const bufB = Buffer.from(expectedSignature);
-    if (bufA.length !== bufB.length || !crypto.timingSafeEqual(bufA, bufB)) {
-      return NextResponse.json({ error: 'Invalid HMAC signature' }, { status: 401 });
-    }
-
-    // 4. Handle events & fulfill user entitlement
-    const event = JSON.parse(rawBody);
-    if (event.event === 'payment.captured' || event.event === 'subscription.created') {
-      console.log('Fulfilling purchase for:', event.data.customerEmail);
+    // 3. Fulfill user entitlement idempotently
+    if (event.event === 'payment.captured') {
+      const { orderId, amount, currency, customerEmail } = event.data;
+      console.log(`Payment captured for order ${orderId}: ${currency} ${amount}`);
+      // await fulfillOrder(orderId);
     }
 
     return NextResponse.json({ received: true });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    console.error('Webhook verification error:', err.message);
+    return NextResponse.json({ error: err.message }, { status: 401 });
+  }
+}
+```
+
+#### 4B: Node.js Fastify 5.x Server
+```typescript
+import Fastify from 'fastify';
+import rawBody from '@fastify/raw-body';
+import { constructWebhookEvent } from '@workspace/identity-sdk';
+
+const fastify = Fastify();
+
+// CRITICAL: Fastify re-serializes JSON by default, altering byte order.
+// Register @fastify/raw-body to preserve unparsed buffer:
+await fastify.register(rawBody, {
+  field: 'rawBody',
+  global: false,
+  encoding: 'utf8',
+  runFirst: true,
+});
+
+fastify.post('/api/webhooks/180-pay', { config: { rawBody: true } }, async (req, reply) => {
+  try {
+    const event = constructWebhookEvent(
+      (req as any).rawBody,
+      req.headers['x-180-signature'] as string,
+      process.env.ONE_EIGHTY_WEBHOOK_SECRET!,
+      req.headers['x-180-timestamp'] as string
+    );
+
+    if (event.event === 'payment.captured') {
+      // Fulfill order in database
+    }
+    return reply.status(200).send({ received: true });
+  } catch (err: any) {
+    return reply.status(401).send({ error: err.message });
+  }
+});
+```
+
+#### 4C: Node.js Express Server
+```javascript
+const express = require('express');
+const { constructWebhookEvent } = require('@workspace/identity-sdk');
+const app = express();
+
+// CRITICAL: Mount raw body parser specifically on webhook route BEFORE express.json()
+app.post(
+  '/api/webhooks/180-pay',
+  express.raw({ type: '*/*' }),
+  (req, res) => {
+    try {
+      const rawBody = req.body.toString('utf8');
+      const event = constructWebhookEvent(
+        rawBody,
+        req.headers['x-180-signature'],
+        process.env.ONE_EIGHTY_WEBHOOK_SECRET,
+        req.headers['x-180-timestamp']
+      );
+
+      if (event.event === 'payment.captured') {
+        // Fulfill order
+      }
+      res.json({ received: true });
+    } catch (err) {
+      res.status(401).json({ error: err.message });
+    }
+  }
+);
+
+// Standard body parser for all other routes
+app.use(express.json());
+```
+
+#### 4D: Python FastAPI Backend
+```python
+import hmac
+import hashlib
+import time
+from fastapi import FastAPI, Request, HTTPException
+
+app = FastAPI()
+WEBHOOK_SECRET = "YOUR_WEBHOOK_SECRET"
+
+@app.post("/api/webhooks/180-pay")
+async def handle_180_webhook(request: Request):
+    raw_body = await request.body()
+    signature = request.headers.get("x-180-signature")
+    timestamp = request.headers.get("x-180-timestamp")
+
+    if not signature or not timestamp:
+        raise HTTPException(status_code=400, detail="Missing security headers")
+
+    # 1. Replay attack defense (< 300 seconds)
+    if abs(int(time.time()) - int(timestamp)) > 300:
+        raise HTTPException(status_code=401, detail="Webhook timestamp expired")
+
+    # 2. Compute canonical HMAC-SHA256 signature
+    sign_payload = f"{timestamp}.{raw_body.decode('utf-8')}".encode("utf-8")
+    expected_sig = hmac.new(WEBHOOK_SECRET.encode("utf-8"), sign_payload, hashlib.sha256).hexdigest()
+
+    # 3. Constant-time comparison
+    if not hmac.compare_digest(signature, expected_sig):
+        raise HTTPException(status_code=401, detail="Invalid HMAC signature")
+
+    payload = await request.json()
+    if payload.get("event") == "payment.captured":
+        print(f"Fulfilling order: {payload.get('data')}")
+
+    return {"received": True}
+```
+
+---
+
+### Step 5: Flutter 3.24+ / Dart 3.5+ Mobile Integration
+```dart
+import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+class OneEightyIntegrationService {
+  static const String hostedAuthUrl = 'https://auth.180workspace.com/auth/login';
+  static const String hostedCheckoutUrl = 'https://auth.180workspace.com/checkout';
+
+  /// Launch Universal 180 Identity SSO
+  static Future<bool> launchHostedLogin({
+    required String clientId,
+    required String redirectUri,
+    String scope = 'openid identity:read identity:email identity:phone',
+  }) async {
+    final uri = Uri.parse(
+      '$hostedAuthUrl?client_id=$clientId&redirect_uri=${Uri.encodeComponent(redirectUri)}&response_type=code&scope=${Uri.encodeComponent(scope)}&ux_mode=bottom_sheet',
+    );
+    return await launchUrl(uri, mode: LaunchMode.inAppBrowserView);
+  }
+
+  /// Launch 180 Pay Sovereign 1-Click Checkout
+  static Future<bool> launchCheckout({
+    required String orderId,
+    required num amountInRupees, // WHOLE UNITS (e.g. 499 for ₹499)
+    required String title,
+    required String returnUrl,
+    String currency = 'INR',
+    String? clientId,
+  }) async {
+    final uri = Uri.parse(
+      '$hostedCheckoutUrl?amount=$amountInRupees&currency=$currency&title=${Uri.encodeComponent(title)}&order_id=$orderId&return_url=${Uri.encodeComponent(returnUrl)}',
+    );
+    return await launchUrl(uri, mode: LaunchMode.inAppBrowserView);
   }
 }
 ```

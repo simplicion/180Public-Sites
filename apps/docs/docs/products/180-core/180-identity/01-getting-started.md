@@ -1,16 +1,16 @@
 ---
 id: getting-started
-title: 180 Identity Quickstart
+title: 180 Identity Quickstart & Architecture
 sidebar_label: Quickstart (< 25 lines)
 sidebar_position: 1
-description: Quickstart guide to integrating Universal Single Sign-On and WhatsApp 1-Tap authentication in fewer than 25 lines of code.
+description: Quickstart guide to integrating Universal Single Sign-On, WhatsApp 1-Tap authentication, RFC 8252 dynamic loopback ports, and OIDC standard claims.
 ---
 
-# 180 Identity Quickstart
+# 180 Identity Quickstart & Architecture
 
 > Looking for the public product overview, interactive login modal demo, and feature breakdown? Visit the [180 Identity WhatsApp OTP & Biometric Passkey Platform](https://180workspace.com/180-identity).
 
-Integrate universal, zero-friction authentication into any independent application in under 25 lines of code.
+Integrate universal, zero-friction authentication into any independent application in under 60 seconds with **3 lines of code**.
 
 ```mermaid
 sequenceDiagram
@@ -22,182 +22,122 @@ sequenceDiagram
     participant Identity as 180 Core Auth Server (api.180core.cloud)
 
     User->>App: Click "Sign in with 180"
-    App->>Sheet: OneEightyAuth.openBottomSheet(...)
-    Sheet->>User: 1-Tap WhatsApp OTP / Profile Credentials
+    App->>Sheet: OneEightyIdentity.openBottomSheet(...)
+    Sheet->>User: 1-Tap WhatsApp OTP / Biometric Passkey
     User->>Sheet: Confirm 1-Tap Code
     Sheet->>Identity: Authenticate & Generate Auth Code
     Identity-->>Sheet: postMessage({ code: "auth_code_..." })
-    Sheet-->>App: onSuccess({ code, redirectUrl })
+    Sheet-->>App: onSuccess({ code })
     App->>Backend: POST /api/auth/exchange { code }
-    Backend->>Identity: POST https://api.180core.cloud/api/oauth/token
+    Backend->>Identity: exchangeAuthCode(code) -> POST /api/oauth/token
     Identity-->>Backend: { access_token, id_token, user }
     Backend-->>App: Session Established (HTTP-only Cookie)
-    App->>App: Redirect to destination callback URL
+    App->>App: Smooth Navigation to Destination URL
 ```
 
 ---
 
-## 1. Prerequisites
+## 🌐 Authoritative Dual-Domain Ecosystem Directory
 
-1. Register your application in the [180 Developer Console](https://developer.180core.cloud).
-2. Note your **Client ID** (`180_client_...`) and **Client Secret** (`180_secret_...`).
-3. Add your Allowed Origins & Redirect URI in Developer Console Settings:
-   - For local development: `http://localhost:3000` or `http://localhost:5173`.
-   - For production: `https://yourapp.com`.
+| Domain | Role & Purpose | Canonical Endpoints |
+| :--- | :--- | :--- |
+| **`auth.180workspace.com`**<br/>*(Mirror: `profile.180core.cloud`)* | **Hosted User Interfaces**<br/>(Universal SSO, 1-Click Sovereign Checkout) | `GET /auth/login`<br/>`GET /checkout`<br/>`GET /sdk/v1/180-core-sdk.js` |
+| **`api.180core.cloud`** | **Core Engine REST APIs**<br/>(RFC 6749 Code Exchange, OIDC Profile & JWKS) | `POST /api/oauth/token`<br/>`GET /api/oauth/userinfo`<br/>`GET /certs/jwks.json` |
+| **`developer.180core.cloud`** | **Developer Management Console** | Client IDs, Secrets, Allowed Origins |
 
 ---
 
-## 2. Client-Side Integration
+## 🚀 The New Reality: Integrated in 60 Seconds
 
-You can integrate 180 Identity using the official npm package, a lightweight script tag, or a declarative Web Component.
+We engineered all OAuth complexity into the core platform so that third-party developers and AI coding agents only have to write 3 to 5 lines of intuitive code:
 
-### Option A: Next.js App Router & React (`@workspace/identity-sdk`)
-
-```bash
-npm install @workspace/identity-sdk
-```
+### 1. Client-Side (React / Next.js / Vite SPA)
 
 ```tsx
 'use client';
 
-import { OneEightyAuth } from '@workspace/identity-sdk';
+import { OneEightyIdentity } from '@workspace/identity-sdk';
 
 export function LoginButton({ redirectUrl = '/dashboard' }: { redirectUrl?: string }) {
   const handleLogin = () => {
-    OneEightyAuth.openBottomSheet({
-      clientId: process.env.NEXT_PUBLIC_180_CLIENT_ID || '180_client_...',
-      uxMode: 'bottom_sheet', // Responsive slide-up bottom sheet with zero popup blocker risk
-      scope: 'openid identity:read identity:email identity:phone',
-      onSuccess: async (data) => {
-        // Exchange authorization code for authenticated session
+    // 1. Opens non-blocking in-DOM slide-up sheet (zero popup blockers!)
+    OneEightyIdentity.openBottomSheet({
+      clientId: process.env.NEXT_PUBLIC_180_CLIENT_ID!,
+      onSuccess: async ({ code }) => {
+        // 2. Exchange code with your backend
         const res = await fetch('/api/auth/exchange', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ code: data.code }),
+          body: JSON.stringify({ code }),
         });
-        if (res.ok) {
-          window.location.href = redirectUrl;
-        }
+        if (res.ok) window.location.href = redirectUrl;
       },
-      onError: (err) => console.error('180 Login error:', err),
     });
   };
 
   return (
-    <button onClick={handleLogin} className="px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm shadow-xl shadow-indigo-600/25">
+    <button onClick={handleLogin} className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm shadow-md">
       Sign in with 180 Profile
     </button>
   );
 }
 ```
 
-:::tip Zero Popup Blocker Hassle
-Using `uxMode: 'bottom_sheet'` mounts an in-DOM iframe modal with smooth touch swipe dismiss, preventing Safari and Chrome Mobile from blocking popups.
-:::
-
----
-
-### Option B: Vanilla HTML / Single Script Tag (< 15 lines of code)
-
-```html
-<!-- 1. Include 180 Core SDK -->
-<script src="https://profile.180core.cloud/sdk/v1/180-core-sdk.js" async></script>
-
-<!-- 2. Login button -->
-<button id="180-login-btn">Sign in with 180</button>
-
-<script>
-  document.getElementById('180-login-btn').addEventListener('click', function () {
-    window.OneEightyAuth.openBottomSheet({
-      clientId: 'YOUR_CLIENT_ID',
-      uxMode: 'bottom_sheet',
-      scope: 'openid identity:read identity:email',
-      onSuccess: function (data) {
-        console.log('Authenticated! Authorization code:', data.code);
-        window.location.href = '/dashboard';
-      },
-      onError: function (err) {
-        console.error('Login error:', err.message);
-      }
-    });
-  });
-</script>
-```
-
----
-
-### Option C: Declarative Web Component
-
+*Vanilla HTML Alternative*:
 ```html
 <script src="https://profile.180core.cloud/sdk/v1/180-core-sdk.js" async></script>
-
-<one-eighty-login-sheet 
-  client-id="YOUR_CLIENT_ID" 
-  button-text="Sign in with 180" 
-  redirect-url="/dashboard">
-</one-eighty-login-sheet>
+<button onclick="window.OneEightyAuth.openBottomSheet({ clientId: 'YOUR_CLIENT_ID', onSuccess: ({ code }) => fetch('/api/auth/exchange', { method: 'POST', body: JSON.stringify({ code }) }) })">
+  Sign in with 180
+</button>
 ```
 
----
+### 2. Server-Side Token Exchange (1 Line)
 
-## 3. Server-Side Token Exchange (RFC 6749)
-
-When your frontend receives `data.code`, exchange it securely on your backend using your `CLIENT_SECRET`:
-
-```ts
-// Next.js Route Handler: app/api/auth/exchange/route.ts
+```typescript
+// app/api/auth/exchange/route.ts (Next.js App Router) or Express/Fastify
 import { NextResponse } from 'next/server';
+import { exchangeAuthCode } from '@workspace/identity-sdk';
 
 export async function POST(req: Request) {
   const { code } = await req.json();
 
-  // 1. Exchange code for access & ID token
-  const tokenResponse = await fetch('https://api.180core.cloud/api/oauth/token', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      grant_type: 'authorization_code',
-      code,
-      client_id: process.env.NEXT_PUBLIC_180_CLIENT_ID,
-      client_secret: process.env.ONE_EIGHTY_CLIENT_SECRET,
-      redirect_uri: `${new URL(req.url).origin}/api/auth/callback`,
-    }),
+  // Exchange code for user profile and tokens in 1 line:
+  const { user, tokens } = await exchangeAuthCode(code, {
+    clientId: process.env.NEXT_PUBLIC_180_CLIENT_ID,
+    clientSecret: process.env.ONE_EIGHTY_CLIENT_SECRET,
   });
 
-  if (!tokenResponse.ok) {
-    const errorBody = await tokenResponse.json();
-    return NextResponse.json({ error: 'Token exchange failed', details: errorBody }, { status: 400 });
-  }
+  console.log('Logged in user:', user.name, user.email, user.phone_number);
 
-  const { access_token, id_token, user } = await tokenResponse.json();
-
-  // 2. Fetch verified user profile
-  const userResponse = await fetch('https://api.180core.cloud/api/oauth/userinfo', {
-    headers: { Authorization: `Bearer ${access_token}` },
-  });
-  const verifiedUser = await userResponse.json();
-
-  // 3. Establish session cookie
-  const res = NextResponse.json({ success: true, user: verifiedUser });
-  res.cookies.set('session', access_token, { 
-    httpOnly: true, 
+  // Set secure HTTP-only session cookie
+  const response = NextResponse.json({ success: true, user });
+  response.cookies.set('session', tokens.access_token, {
+    httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
-    maxAge: 60 * 60 * 24 * 7 
+    maxAge: 60 * 60 * 24 * 7,
   });
-  return res;
+  return response;
 }
 ```
 
 ---
 
-## 4. Scopes Reference
+## 🛡️ Behind the Scenes: Why It's Robust
 
-| Scope | Description |
-| :--- | :--- |
-| `openid` | Standard OIDC subject identifier (`sub`). Mandatory. |
-| `identity:read` | Public profile information: name, avatar, bio. |
-| `identity:email` | Verified email address. |
-| `identity:phone` | Verified telephone number (WhatsApp / SMS verified). |
+### 1. RFC 8252 Dynamic Loopback Matching
+During local development, your dev server might jump from port `3000` to `3005` or `5173`. With 180 Identity, any loopback origin (`localhost`, `127.0.0.1`, `10.0.2.2` Android emulator, `::1`) is automatically matched under RFC 8252 recommendations. You never have to manually whitelist every dynamic localhost port in the console.
 
-Next, explore the [Backend Verification Guide](./backend-token-verification) for stateless RS256 JWKS verification or [SDK Reference](./sdk-reference).
+### 2. OIDC Core 1.0 Universal Normalization
+Calling `/api/oauth/userinfo` returns standard OpenID Connect claims:
+- Standard claims: `sub`, `name`, `preferred_username`, `email`, `phone_number`, `picture`
+- Legacy compatibility aliases: `phone`, `phoneNumber`, `username`, `avatarUrl`
+- Nested user object: `user: { ... }`
+
+No database schema (e.g., Prisma, Drizzle, TypeORM) ever crashes due to field naming discrepancies.
+
+### 3. Stateless RS256 Verification
+Microservices and edge workers can verify Bearer tokens locally in `<1ms` without database queries or outbound network roundtrips using the public JWKS Keyring:
+`https://api.180core.cloud/certs/jwks.json`.
+
+Explore the [Backend Verification Guide](./backend-token-verification) or the [SDK Reference](./sdk-reference) for NextAuth and Flutter examples.

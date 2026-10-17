@@ -98,3 +98,60 @@ export class TokenExchangeClient {
     return data;
   }
 }
+
+export interface ExchangeAuthCodeOptions {
+  tokenEndpoint?: string;
+  userInfoEndpoint?: string;
+  clientId?: string;
+  clientSecret?: string;
+  redirectUri?: string;
+  codeVerifier?: string;
+}
+
+/**
+ * 1-line turnkey helper to exchange authorization code for verified user profile and tokens.
+ */
+export async function exchangeAuthCode(
+  code: string,
+  options?: ExchangeAuthCodeOptions
+): Promise<{ user: any; tokens: TokenResponse }> {
+  const tokenEndpoint = options?.tokenEndpoint || 'https://api.180core.cloud/api/oauth/token';
+  const userInfoEndpoint = options?.userInfoEndpoint || 'https://api.180core.cloud/api/oauth/userinfo';
+  const clientId =
+    options?.clientId ||
+    (typeof process !== 'undefined' ? process.env.ONE_EIGHTY_CLIENT_ID || process.env.NEXT_PUBLIC_180_CLIENT_ID : '') ||
+    '';
+  const clientSecret =
+    options?.clientSecret ||
+    (typeof process !== 'undefined' ? process.env.ONE_EIGHTY_CLIENT_SECRET : '') ||
+    '';
+  const redirectUri = options?.redirectUri || '';
+
+  const tokens = await TokenExchangeClient.exchangeCode({
+    tokenEndpoint,
+    clientId,
+    clientSecret,
+    code,
+    redirectUri,
+    codeVerifier: options?.codeVerifier,
+  });
+
+  let user: any = null;
+  if (tokens.access_token) {
+    try {
+      const userRes = await fetch(userInfoEndpoint, {
+        headers: { Authorization: `Bearer ${tokens.access_token}` },
+      });
+      if (userRes.ok) {
+        user = await userRes.json();
+      }
+    } catch (e) {
+      // Fallback to token response user
+    }
+  }
+
+  return {
+    user: user || (tokens as any).user || null,
+    tokens,
+  };
+}
